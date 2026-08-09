@@ -41,12 +41,22 @@ kann die Markierung entfallen. Widerspricht sie, wird der Text geändert.
 - Empfehlung: die generierten Aufnahmen mittelfristig durch echte Fotos aus dem
   Unterricht ersetzen. Die Bildzuschnitte bleiben dabei gleich.
 
+## Thailändische Fassung
+
+Die thailändische Fassung liegt unter `/th` vollständig vor: Kurse, FAQ, Terminliste,
+Formular und Fußzeile. Sie folgt der Wortwahl aus dem eigenen Material der Schule
+(หลักสูตร, ใบประกาศนียบัตร, โรงเรียนสอนวิชาชีพ).
+
+**Sie ist noch nicht von einer muttersprachlichen Person geprüft.** Vor dem Livegang
+muss jemand mit Thai als Muttersprache mindestens folgende Stellen durchgehen:
+
+- alle Aussagen zu Zertifikaten, Anerkennung und Berufsausübung
+  (`src/i18n/ui.ts` → `trust.disclaimer`, `footer.legal`; `src/data/faq.ts`)
+- die Kursbeschreibungen und Lernziele in `src/data/programs.ts`
+- die Anrede und Tonalität im Formular (`src/i18n/ui.ts` → `form`)
+
 ## Noch nicht umgesetzt
 
-- **Thailändische Fassung.** Die Architektur ist vorbereitet (`lang`-Attribute,
-  Thai-Schriftschnitt, Sprachumschalter im Kopf), die Übersetzung fehlt. Sie muss von
-  einer muttersprachlichen Person geschrieben oder geprüft werden — insbesondere alle
-  Aussagen zu Zertifikaten und Anerkennung.
 - **Impressum und Datenschutzerklärung.** Die Links im Fuß sind Platzhalter.
 - **Anfrageziel.** `POST /api/anfrage` validiert und protokolliert, versendet aber noch
   nichts. Ziel-Postfach und WhatsApp-Anbindung fehlen.
