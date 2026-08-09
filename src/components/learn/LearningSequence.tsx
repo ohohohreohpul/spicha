@@ -1,41 +1,16 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-
-const STEPS = [
-  {
-    title: 'Den Körper und das Ziel verstehen',
-    text: 'Bevor Sie jemanden berühren, wissen Sie, welche Struktur unter Ihrer Hand liegt und was die Behandlung erreichen soll.',
-  },
-  {
-    title: 'Die Ausbilderin zeigt es',
-    text: 'Sie sehen den vollständigen Ablauf einmal ohne Unterbrechung — Tempo, Reihenfolge, Körperhaltung.',
-  },
-  {
-    title: 'Selbst üben',
-    text: 'Sie arbeiten paarweise. Jede Teilnehmerin behandelt und wird behandelt, weil Sie den Druck erst verstehen, wenn Sie ihn gespürt haben.',
-  },
-  {
-    title: 'Korrektur Hand auf Hand',
-    text: 'Die Ausbilderin legt ihre Hand auf Ihre und richtet Winkel, Druck und Richtung. Das ist der Teil, den kein Video ersetzt.',
-  },
-  {
-    title: 'Sicher anwenden',
-    text: 'Sie führen die Behandlung allein durch und benennen dabei Kontraindikationen und Grenzen.',
-  },
-  {
-    title: 'Prüfung und Zertifikat',
-    text: 'Theorie und Praxis werden abgenommen. Danach erhalten Sie das Zertifikat der Schule mit BfD-Siegel.',
-  },
-] as const;
+import type { UiDictionary } from '@/i18n/ui';
 
 /**
  * Illustrative sequence. No scroll hijacking: the page scrolls normally and
  * a sticky rail simply tracks which step is in view.
  */
-export function LearningSequence() {
+export function LearningSequence({ t }: { t: UiDictionary }) {
   const [active, setActive] = useState(0);
   const stepRefs = useRef<(HTMLLIElement | null)[]>([]);
+  const steps = t.learn.items;
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -53,7 +28,7 @@ export function LearningSequence() {
     return () => observer.disconnect();
   }, []);
 
-  const progress = ((active + 1) / STEPS.length) * 100;
+  const progress = ((active + 1) / steps.length) * 100;
 
   return (
     <div className="mt-12 grid gap-10 lg:grid-cols-[16rem_minmax(0,1fr)] lg:gap-20">
@@ -61,7 +36,9 @@ export function LearningSequence() {
         <p className="numeric font-display text-[clamp(3.5rem,2rem+6vw,7rem)] leading-none text-teal">
           {String(active + 1).padStart(2, '0')}
         </p>
-        <p className="numeric mt-1 text-sm text-ink-muted">von {STEPS.length} Schritten</p>
+        <p className="numeric mt-1 text-sm text-ink-muted">
+          {t.learn.of} {steps.length} {t.learn.steps}
+        </p>
 
         {/* Pressure path as a progress line. */}
         <div className="mt-6 h-px w-full bg-hairline">
@@ -71,13 +48,11 @@ export function LearningSequence() {
           />
         </div>
 
-        <p className="mt-6 max-w-[28ch] text-sm leading-relaxed text-ink-muted">
-          Jeder Kurstag folgt derselben Abfolge. Sie wissen immer, an welcher Stelle Sie stehen.
-        </p>
+        <p className="mt-6 max-w-[30ch] text-sm leading-relaxed text-ink-muted">{t.learn.note}</p>
       </div>
 
       <ol className="border-t border-ink/15">
-        {STEPS.map((step, index) => {
+        {steps.map((step, index) => {
           const isActive = index === active;
           return (
             <li

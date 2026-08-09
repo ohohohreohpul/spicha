@@ -1,3 +1,5 @@
+import type { LocalizedList, LocalizedText } from '@/i18n/config';
+
 export type BodyArea =
   | 'kopf-gesicht'
   | 'nacken-schulter'
@@ -24,23 +26,22 @@ export type AvailabilityStatus =
 export type Program = {
   readonly id: string;
   readonly slug: string;
-  readonly title: string;
-  readonly titleThai?: string;
-  readonly subtitle: string;
+  readonly title: LocalizedText;
+  readonly subtitle: LocalizedText;
   readonly category: ProgramCategory;
   readonly bodyAreas: readonly BodyArea[];
   readonly price: number;
-  readonly priceNote?: string;
+  readonly priceNote?: LocalizedText;
   readonly durationDays: number;
-  readonly durationLabel: string;
+  readonly durationLabel: LocalizedText;
   readonly languages: readonly Language[];
-  readonly audience: string;
-  readonly outcomes?: readonly string[];
-  readonly curriculum?: readonly string[];
-  readonly prerequisites: string;
-  readonly certificate: string;
-  readonly included?: readonly string[];
-  readonly faq?: readonly { readonly q: string; readonly a: string }[];
+  readonly audience: LocalizedText;
+  readonly outcomes?: LocalizedList;
+  readonly curriculum?: LocalizedList;
+  readonly prerequisites: LocalizedText;
+  readonly certificate: LocalizedText;
+  readonly included?: LocalizedList;
+  readonly faq?: readonly { readonly q: LocalizedText; readonly a: LocalizedText }[];
 };
 
 export type Session = {
@@ -55,12 +56,13 @@ export type Session = {
   readonly capacity: number;
   readonly placesRemaining: number;
   readonly status: AvailabilityStatus;
-  readonly note?: string;
+  readonly note?: LocalizedText;
   readonly updatedIso?: string;
 };
 
 /** Server-formatted session — all display strings are produced once, on the server. */
-export type SessionView = Session & {
+export type SessionView = Omit<Session, 'note'> & {
+  readonly note?: string;
   readonly programTitle: string;
   readonly programSlug: string;
   readonly category: ProgramCategory;

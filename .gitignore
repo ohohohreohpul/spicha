@@ -39,6 +39,3 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-# env example is safe to commit
-!.env.example

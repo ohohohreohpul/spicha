@@ -132,6 +132,30 @@
   }
 }
 
+/* ------------------------------------------------------------------ *
+ * Thai typography.
+ * Fraunces has no Thai cut, so headings on the Thai document use the
+ * Thai sans instead of a synthesised serif fallback. Thai also needs
+ * upright letterforms (no fake obliques), zero tracking, and enough
+ * leading for its ascenders and tone marks.
+ * These rules sit outside @layer so they win over Tailwind utilities.
+ * ------------------------------------------------------------------ */
+html[lang='th'] h1,
+html[lang='th'] h2,
+html[lang='th'] h3,
+html[lang='th'] .font-display {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.35;
+}
+
+html[lang='th'] .italic,
+html[lang='th'] h1 .italic,
+html[lang='th'] h2 .italic {
+  font-style: normal;
+}
+
 /* Grain — fixed, pointer-events-none, never inside a scrolling container. */
 .grain::after {
   content: '';

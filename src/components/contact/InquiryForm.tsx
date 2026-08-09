@@ -3,18 +3,13 @@
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { PROGRAMS } from '@/data/programs';
+import { SCHOOL } from '@/data/school';
+import type { Locale } from '@/i18n/config';
+import type { UiDictionary } from '@/i18n/ui';
 import type { SessionView } from '@/lib/types';
 
 type Status = 'idle' | 'sending' | 'sent' | 'error';
 type Errors = Partial<Record<'name' | 'contact' | 'program' | 'consent', string>>;
-
-const REASONS = [
-  'Platz für einen bestimmten Termin',
-  'Frage zu einem Kurs',
-  'Warteliste',
-  'Anderer Termin gewünscht',
-  'Schulung für mein Team',
-] as const;
 
 function readHashParams(): { kurs?: string; termin?: string } {
   if (typeof window === 'undefined') return {};
@@ -28,10 +23,18 @@ function readHashParams(): { kurs?: string; termin?: string } {
  * Programme-specific inquiry. The selected course and session travel with the
  * request, so nobody has to re-explain what they clicked on.
  */
-export function InquiryForm({ sessions }: { sessions: readonly SessionView[] }) {
+export function InquiryForm({
+  sessions,
+  t,
+  locale,
+}: {
+  sessions: readonly SessionView[];
+  t: UiDictionary;
+  locale: Locale;
+}) {
   const [programSlug, setProgramSlug] = useState('');
   const [sessionId, setSessionId] = useState('');
-  const [reason, setReason] = useState<string>(REASONS[0]);
+  const [reason, setReason] = useState<string>(t.form.reasons[0]);
   const [status, setStatus] = useState<Status>('idle');
   const [errors, setErrors] = useState<Errors>({});
 
@@ -61,14 +64,14 @@ export function InquiryForm({ sessions }: { sessions: readonly SessionView[] }) 
     const email = String(data.get('email') ?? '').trim();
     const phone = String(data.get('phone') ?? '').trim();
 
-    if (name.length < 2) nextErrors.name = 'Bitte geben Sie Ihren Namen an.';
+    if (name.length < 2) nextErrors.name = t.form.errors.name;
     if (!email && !phone) {
-      nextErrors.contact = 'Bitte hinterlassen Sie eine E-Mail-Adresse oder eine Telefonnummer.';
+      nextErrors.contact = t.form.errors.contact;
     } else if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
-      nextErrors.contact = 'Diese E-Mail-Adresse sieht nicht vollständig aus.';
+      nextErrors.contact = t.form.errors.email;
     }
-    if (!data.get('program')) nextErrors.program = 'Bitte wählen Sie einen Kurs.';
-    if (!data.get('consent')) nextErrors.consent = 'Ohne diese Zustimmung dürfen wir nicht antworten.';
+    if (!data.get('program')) nextErrors.program = t.form.errors.program;
+    if (!data.get('consent')) nextErrors.consent = t.form.errors.consent;
 
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) {
@@ -79,7 +82,7 @@ export function InquiryForm({ sessions }: { sessions: readonly SessionView[] }) 
     setStatus('sending');
     try {
       const response = await fetch('/api/anfrage', { method: 'POST', body: data });
-      if (!response.ok) throw new Error(`Antwort ${response.status}`);
+      if (!response.ok) throw new Error(`Response ${response.status}`);
       setStatus('sent');
       form.reset();
     } catch {
@@ -90,17 +93,14 @@ export function InquiryForm({ sessions }: { sessions: readonly SessionView[] }) 
   if (status === 'sent') {
     return (
       <div role="status" className="border-t-2 border-teal bg-paper p-8">
-        <h3 className="font-display text-2xl leading-tight">Ihre Anfrage ist angekommen.</h3>
-        <p className="mt-3 max-w-[48ch] leading-relaxed text-ink-muted">
-          Frau Nui meldet sich persönlich bei Ihnen — in der Regel innerhalb eines Werktages. Sie
-          erhalten die Bestätigung Ihres Platzes, den Zahlungsweg und die Stornobedingungen.
-        </p>
+        <h3 className="font-display text-2xl leading-tight">{t.form.sentTitle}</h3>
+        <p className="mt-3 max-w-[48ch] leading-relaxed text-ink-muted">{t.form.sentBody}</p>
         <button
           type="button"
           onClick={() => setStatus('idle')}
           className="mt-6 text-sm font-semibold text-teal underline decoration-teal/30 underline-offset-4"
         >
-          Weitere Anfrage stellen
+          {t.form.sentAgain}
         </button>
       </div>
     );
@@ -108,18 +108,12 @@ export function InquiryForm({ sessions }: { sessions: readonly SessionView[] }) 
 
   return (
     <form onSubmit={handleSubmit} noValidate className="border-t-2 border-ink bg-paper p-6 sm:p-8">
-      <h3 className="font-display text-2xl leading-tight">Platz anfragen</h3>
-      <p className="mt-2 max-w-[46ch] text-sm leading-relaxed text-ink-muted">
-        Eine Anfrage ist noch keine Buchung. Sie bekommen eine persönliche Antwort mit allen
-        Bedingungen, bevor irgendetwas verbindlich wird.
-      </p>
+      <h3 className="font-display text-2xl leading-tight">{t.form.title}</h3>
+      <p className="mt-2 max-w-[46ch] text-sm leading-relaxed text-ink-muted">{t.form.intro}</p>
 
       {Object.keys(errors).length > 0 ? (
-        <div
-          role="alert"
-          className="mt-6 border-l-2 border-pressure bg-pressure/5 px-4 py-3 text-sm"
-        >
-          <p className="font-semibold">Bitte prüfen Sie diese Angaben:</p>
+        <div role="alert" className="mt-6 border-l-2 border-pressure bg-pressure/5 px-4 py-3 text-sm">
+          <p className="font-semibold">{t.form.errorSummary}</p>
           <ul className="mt-1.5 list-disc space-y-1 pl-5 text-ink-muted">
             {Object.values(errors).map((message) => (
               <li key={message}>{message}</li>
@@ -129,7 +123,7 @@ export function InquiryForm({ sessions }: { sessions: readonly SessionView[] }) 
       ) : null}
 
       <div className="mt-7 grid gap-5 sm:grid-cols-2">
-        <Field label="Name" htmlFor="name" error={errors.name} required>
+        <Field label={t.form.name} htmlFor="name" error={errors.name} required>
           <input
             id="name"
             name="name"
@@ -140,7 +134,7 @@ export function InquiryForm({ sessions }: { sessions: readonly SessionView[] }) 
           />
         </Field>
 
-        <Field label="Telefon oder LINE" htmlFor="phone" hint="Optional, wenn Sie eine E-Mail angeben">
+        <Field label={t.form.phone} htmlFor="phone" hint={t.form.phoneHint}>
           <input
             id="phone"
             name="phone"
@@ -150,7 +144,7 @@ export function InquiryForm({ sessions }: { sessions: readonly SessionView[] }) 
           />
         </Field>
 
-        <Field label="E-Mail" htmlFor="email" error={errors.contact} className="sm:col-span-2">
+        <Field label={t.form.email} htmlFor="email" error={errors.contact} className="sm:col-span-2">
           <input
             id="email"
             name="email"
@@ -161,7 +155,7 @@ export function InquiryForm({ sessions }: { sessions: readonly SessionView[] }) 
           />
         </Field>
 
-        <Field label="Kurs" htmlFor="program" error={errors.program} required>
+        <Field label={t.form.course} htmlFor="program" error={errors.program} required>
           <select
             id="program"
             name="program"
@@ -173,16 +167,16 @@ export function InquiryForm({ sessions }: { sessions: readonly SessionView[] }) 
             aria-invalid={Boolean(errors.program)}
             className="min-h-11 w-full border border-hairline bg-porcelain px-4 text-sm"
           >
-            <option value="">Bitte wählen</option>
+            <option value="">{t.form.choose}</option>
             {PROGRAMS.map((program) => (
               <option key={program.slug} value={program.slug}>
-                {program.title}
+                {program.title[locale]}
               </option>
             ))}
           </select>
         </Field>
 
-        <Field label="Termin" htmlFor="session" hint="Sie können auch offen lassen">
+        <Field label={t.form.session} htmlFor="session" hint={t.form.sessionHint}>
           <select
             id="session"
             name="session"
@@ -190,7 +184,7 @@ export function InquiryForm({ sessions }: { sessions: readonly SessionView[] }) 
             onChange={(event) => setSessionId(event.target.value)}
             className="min-h-11 w-full border border-hairline bg-porcelain px-4 text-sm"
           >
-            <option value="">Kein bestimmter Termin</option>
+            <option value="">{t.form.noSession}</option>
             {sessionsForProgram.map((session) => (
               <option key={session.id} value={session.id}>
                 {session.dateLabel} — {session.programTitle}
@@ -199,9 +193,9 @@ export function InquiryForm({ sessions }: { sessions: readonly SessionView[] }) 
           </select>
         </Field>
 
-        <Field label="Anliegen" htmlFor="reason" className="sm:col-span-2">
+        <Field label={t.form.reason} htmlFor="reason" className="sm:col-span-2">
           <div className="flex flex-wrap gap-2">
-            {REASONS.map((item) => (
+            {t.form.reasons.map((item) => (
               <button
                 key={item}
                 type="button"
@@ -220,7 +214,7 @@ export function InquiryForm({ sessions }: { sessions: readonly SessionView[] }) 
           <input type="hidden" id="reason" name="reason" value={reason} readOnly />
         </Field>
 
-        <Field label="Nachricht" htmlFor="message" className="sm:col-span-2" hint="Optional">
+        <Field label={t.form.message} htmlFor="message" className="sm:col-span-2" hint={t.form.optional}>
           <textarea
             id="message"
             name="message"
@@ -229,11 +223,7 @@ export function InquiryForm({ sessions }: { sessions: readonly SessionView[] }) 
           />
         </Field>
 
-        <Field
-          label="Sprache für die Antwort"
-          htmlFor="language"
-          className="sm:col-span-2"
-        >
+        <Field label={t.form.replyLanguage} htmlFor="language" className="sm:col-span-2">
           <div className="flex gap-2">
             {['Deutsch', 'ไทย'].map((option) => (
               <label
@@ -244,7 +234,7 @@ export function InquiryForm({ sessions }: { sessions: readonly SessionView[] }) 
                   type="radio"
                   name="language"
                   value={option}
-                  defaultChecked={option === 'Deutsch'}
+                  defaultChecked={locale === 'th' ? option === 'ไทย' : option === 'Deutsch'}
                   className="accent-[var(--color-teal)]"
                 />
                 <span className={option === 'ไทย' ? 'thai' : undefined}>{option}</span>
@@ -267,21 +257,17 @@ export function InquiryForm({ sessions }: { sessions: readonly SessionView[] }) 
           aria-invalid={Boolean(errors.consent)}
           className="mt-1 h-4 w-4 shrink-0 accent-[var(--color-teal)]"
         />
-        <span className="text-ink-muted">
-          Ich bin damit einverstanden, dass die Kosmetikschule Picha meine Angaben speichert, um
-          meine Anfrage zu beantworten. Die Daten werden nicht weitergegeben.
-        </span>
+        <span className="text-ink-muted">{t.form.consent}</span>
       </label>
 
       {status === 'error' ? (
         <p role="alert" className="mt-5 border-l-2 border-pressure bg-pressure/5 px-4 py-3 text-sm">
-          Die Anfrage konnte gerade nicht gesendet werden. Bitte versuchen Sie es noch einmal oder
-          rufen Sie an: 0152 5524 8655.
+          {t.form.sendError} <span className="numeric">{SCHOOL.phone}</span>
         </p>
       ) : null}
 
       <Button type="submit" disabled={status === 'sending'} className="mt-7 w-full sm:w-auto">
-        {status === 'sending' ? 'Wird gesendet…' : 'Anfrage senden'}
+        {status === 'sending' ? t.form.sending : t.form.submit}
       </Button>
     </form>
   );

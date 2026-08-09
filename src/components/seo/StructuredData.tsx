@@ -1,32 +1,24 @@
 import { PROGRAMS } from '@/data/programs';
-import { RECOGNITION } from '@/data/school';
+import { RECOGNITION, SCHOOL } from '@/data/school';
 import { FAQS } from '@/data/faq';
+import type { Locale } from '@/i18n/config';
+import { SITE_URL } from '@/lib/metadata';
 import { getSchedule } from '@/lib/schedule';
-
-type SchoolFacts = {
-  readonly name: string;
-  readonly street: string;
-  readonly postalCode: string;
-  readonly city: string;
-  readonly region: string;
-  readonly phone: string;
-  readonly geo: { readonly lat: number; readonly lng: number };
-};
 
 /**
  * EducationalOrganization + Course + Event graph.
  * Every scheduled session links its Event back to the Course it belongs to.
  */
-export function StructuredData({ siteUrl, school }: { siteUrl: string; school: SchoolFacts }) {
-  const { sessions } = getSchedule();
-  const orgId = `${siteUrl}#organisation`;
+export function StructuredData({ locale }: { locale: Locale }) {
+  const { sessions } = getSchedule(locale);
+  const orgId = `${SITE_URL}#organisation`;
 
   const address = {
     '@type': 'PostalAddress',
-    streetAddress: school.street,
-    postalCode: school.postalCode,
-    addressLocality: school.city,
-    addressRegion: school.region,
+    streetAddress: SCHOOL.street,
+    postalCode: SCHOOL.postalCode,
+    addressLocality: SCHOOL.city,
+    addressRegion: SCHOOL.region,
     addressCountry: 'DE',
   };
 
@@ -34,20 +26,20 @@ export function StructuredData({ siteUrl, school }: { siteUrl: string; school: S
     {
       '@type': 'EducationalOrganization',
       '@id': orgId,
-      name: school.name,
-      url: siteUrl,
-      telephone: school.phone,
+      name: SCHOOL.name,
+      url: SITE_URL,
+      telephone: SCHOOL.phone,
       address,
-      geo: { '@type': 'GeoCoordinates', latitude: school.geo.lat, longitude: school.geo.lng },
+      geo: { '@type': 'GeoCoordinates', latitude: SCHOOL.geo.lat, longitude: SCHOOL.geo.lng },
       knowsLanguage: ['de', 'th'],
-      description: RECOGNITION.bfd,
+      description: RECOGNITION.bfd[locale],
       areaServed: ['Ahrensburg', 'Hamburg', 'Schleswig-Holstein'],
     },
     ...PROGRAMS.map((program) => ({
       '@type': 'Course',
-      '@id': `${siteUrl}/kurse/${program.slug}#course`,
-      name: program.title,
-      description: program.subtitle,
+      '@id': `${SITE_URL}/kurse/${program.slug}#course`,
+      name: program.title[locale],
+      description: program.subtitle[locale],
       inLanguage: program.languages.includes('th') ? ['de', 'th'] : ['de'],
       provider: { '@id': orgId },
       offers: {
@@ -63,16 +55,16 @@ export function StructuredData({ siteUrl, school }: { siteUrl: string; school: S
           courseMode: 'onsite',
           startDate: s.startIso,
           endDate: s.endIso,
-          location: { '@type': 'Place', name: school.name, address },
+          location: { '@type': 'Place', name: SCHOOL.name, address },
         })),
     })),
     {
       '@type': 'FAQPage',
-      '@id': `${siteUrl}#faq`,
+      '@id': `${SITE_URL}#faq`,
       mainEntity: FAQS.map((item) => ({
         '@type': 'Question',
-        name: item.q,
-        acceptedAnswer: { '@type': 'Answer', text: item.a },
+        name: item.q[locale],
+        acceptedAnswer: { '@type': 'Answer', text: item.a[locale] },
       })),
     },
   ];

@@ -4,17 +4,13 @@ import { useMemo, useState, useTransition } from 'react';
 import { ScheduleRow } from '@/components/schedule/ScheduleRow';
 import { ScheduleSkeleton } from '@/components/schedule/ScheduleSkeleton';
 import { BODY_AREAS } from '@/data/body-areas';
-import { CATEGORY_LABEL, PROGRAMS } from '@/data/programs';
+import { CATEGORY_LABEL, CATEGORY_ORDER, PROGRAMS } from '@/data/programs';
+import type { Locale } from '@/i18n/config';
+import type { UiDictionary } from '@/i18n/ui';
 import { isBookable } from '@/lib/schedule';
 import type { BodyArea, ProgramCategory, SchedulePayload, SessionView } from '@/lib/types';
 
 type View = 'naechste' | 'nach-kurs' | 'kalender';
-
-const VIEWS: readonly { id: View; label: string; hint: string }[] = [
-  { id: 'naechste', label: 'Nächste Termine', hint: 'Chronologisch, der nächste zuerst' },
-  { id: 'nach-kurs', label: 'Nach Kurs', hint: 'Erst den Kurs wählen, dann Termine vergleichen' },
-  { id: 'kalender', label: 'Nach Monat', hint: 'Nach Monaten gruppiert' },
-];
 
 type Filters = {
   readonly category: ProgramCategory | 'alle';
@@ -40,13 +36,25 @@ function applyFilters(sessions: readonly SessionView[], filters: Filters): Sessi
   });
 }
 
-function monthKey(session: SessionView): string {
-  const [datePart] = session.dateLabel.split(' – ');
-  const parts = datePart.split(' ');
-  return `${parts[1]} ${parts[2]}`;
+/** Groups by calendar month using the ISO start, not the localized label. */
+function monthKey(session: SessionView, locale: Locale): string {
+  const start = new Date(session.startIso);
+  return new Intl.DateTimeFormat(locale === 'de' ? 'de-DE' : 'th-TH-u-ca-gregory', {
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'Europe/Berlin',
+  }).format(start);
 }
 
-export function Schedule({ initial }: { initial: SchedulePayload }) {
+export function Schedule({
+  initial,
+  t,
+  locale,
+}: {
+  initial: SchedulePayload;
+  t: UiDictionary;
+  locale: Locale;
+}) {
   const [payload, setPayload] = useState(initial);
   const [view, setView] = useState<View>('naechste');
   const [filters, setFilters] = useState<Filters>(INITIAL_FILTERS);
@@ -55,7 +63,16 @@ export function Schedule({ initial }: { initial: SchedulePayload }) {
   const [pending, startTransition] = useTransition();
   const [loading, setLoading] = useState(false);
 
-  const filtered = useMemo(() => applyFilters(payload.sessions, filters), [payload.sessions, filters]);
+  const views: readonly { id: View; label: string; hint: string }[] = [
+    { id: 'naechste', label: t.schedule.views.next, hint: t.schedule.views.nextHint },
+    { id: 'nach-kurs', label: t.schedule.views.byProgram, hint: t.schedule.views.byProgramHint },
+    { id: 'kalender', label: t.schedule.views.byMonth, hint: t.schedule.views.byMonthHint },
+  ];
+
+  const filtered = useMemo(
+    () => applyFilters(payload.sessions, filters),
+    [payload.sessions, filters],
+  );
 
   const byProgram = useMemo(
     () => payload.sessions.filter((s) => s.programId === programId),
@@ -65,11 +82,11 @@ export function Schedule({ initial }: { initial: SchedulePayload }) {
   const byMonth = useMemo(() => {
     const groups = new Map<string, SessionView[]>();
     filtered.forEach((session) => {
-      const key = monthKey(session);
+      const key = monthKey(session, locale);
       groups.set(key, [...(groups.get(key) ?? []), session]);
     });
     return [...groups.entries()];
-  }, [filtered]);
+  }, [filtered, locale]);
 
   const activeFilterCount =
     (filters.category !== 'alle' ? 1 : 0) +
@@ -81,15 +98,13 @@ export function Schedule({ initial }: { initial: SchedulePayload }) {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch('/api/schedule', { cache: 'no-store' });
-      if (!response.ok) throw new Error(`Antwort ${response.status}`);
+      const response = await fetch(`/api/schedule?locale=${locale}`, { cache: 'no-store' });
+      if (!response.ok) throw new Error(`Response ${response.status}`);
       const next = (await response.json()) as SchedulePayload;
       startTransition(() => setPayload(next));
     } catch {
       // Keep showing the last confirmed schedule — never blank the section.
-      setError(
-        'Die Terminliste konnte gerade nicht aktualisiert werden. Sie sehen den zuletzt bestätigten Stand.',
-      );
+      setError(t.schedule.syncError);
     } finally {
       setLoading(false);
     }
@@ -102,12 +117,8 @@ export function Schedule({ initial }: { initial: SchedulePayload }) {
     <div className="mt-12">
       {/* View switch + sync stamp */}
       <div className="flex flex-wrap items-end justify-between gap-6 border-t border-ink/15 pt-6">
-        <div
-          role="tablist"
-          aria-label="Darstellung der Termine"
-          className="flex flex-wrap items-center gap-1"
-        >
-          {VIEWS.map((item) => {
+        <div role="tablist" aria-label={t.schedule.views.label} className="flex flex-wrap items-center gap-1">
+          {views.map((item) => {
             const isActive = view === item.id;
             return (
               <button
@@ -117,9 +128,7 @@ export function Schedule({ initial }: { initial: SchedulePayload }) {
                 type="button"
                 onClick={() => setView(item.id)}
                 className={`min-h-11 rounded-full px-5 text-sm font-semibold transition-colors duration-150 ${
-                  isActive
-                    ? 'bg-ink text-paper'
-                    : 'text-ink-muted hover:bg-porcelain-deep hover:text-ink'
+                  isActive ? 'bg-ink text-paper' : 'text-ink-muted hover:bg-porcelain-deep hover:text-ink'
                 }`}
               >
                 {item.label}
@@ -130,7 +139,8 @@ export function Schedule({ initial }: { initial: SchedulePayload }) {
 
         <div className="flex items-center gap-4">
           <p className="numeric text-xs text-ink-muted">
-            {payload.stale ? 'Zuletzt bestätigt' : 'Stand'} {payload.syncedAtLabel} Uhr
+            {payload.stale ? t.schedule.lastConfirmed : t.schedule.status} {payload.syncedAtLabel}{' '}
+            {t.nextCourse.clock}
           </p>
           <button
             type="button"
@@ -138,18 +148,18 @@ export function Schedule({ initial }: { initial: SchedulePayload }) {
             disabled={loading || pending}
             className="min-h-11 rounded-full border border-hairline px-4 text-xs font-semibold transition-colors duration-150 hover:border-teal hover:text-teal disabled:opacity-50"
           >
-            {loading ? 'Wird geladen…' : 'Aktualisieren'}
+            {loading ? t.schedule.loading : t.schedule.refresh}
           </button>
         </div>
       </div>
 
-      <p className="mt-3 text-sm text-ink-muted">{VIEWS.find((v) => v.id === view)?.hint}</p>
+      <p className="mt-3 text-sm text-ink-muted">{views.find((v) => v.id === view)?.hint}</p>
 
       {/* Controls */}
       {view === 'nach-kurs' ? (
         <div className="mt-6 flex flex-col gap-2">
           <label htmlFor="programm" className="text-sm font-semibold">
-            Kurs
+            {t.schedule.course}
           </label>
           <select
             id="programm"
@@ -159,19 +169,21 @@ export function Schedule({ initial }: { initial: SchedulePayload }) {
           >
             {PROGRAMS.map((program) => (
               <option key={program.id} value={program.id}>
-                {program.title} — {program.price} €
+                {program.title[locale]} — {program.price} €
               </option>
             ))}
           </select>
           {selectedProgram ? (
-            <p className="mt-1 max-w-[60ch] text-sm text-ink-muted">{selectedProgram.subtitle}</p>
+            <p className="mt-1 max-w-[60ch] text-sm text-ink-muted">
+              {selectedProgram.subtitle[locale]}
+            </p>
           ) : null}
         </div>
       ) : (
         <fieldset className="mt-6 flex flex-wrap items-end gap-x-6 gap-y-4">
-          <legend className="sr-only">Termine filtern</legend>
+          <legend className="sr-only">{t.schedule.filterLegend}</legend>
 
-          <Field label="Kursart">
+          <Field label={t.schedule.courseType}>
             <select
               value={filters.category}
               onChange={(event) =>
@@ -179,16 +191,16 @@ export function Schedule({ initial }: { initial: SchedulePayload }) {
               }
               className="min-h-11 rounded-full border border-hairline bg-paper px-4 text-sm"
             >
-              <option value="alle">Alle</option>
-              {(Object.keys(CATEGORY_LABEL) as ProgramCategory[]).map((key) => (
+              <option value="alle">{t.schedule.all}</option>
+              {CATEGORY_ORDER.map((key) => (
                 <option key={key} value={key}>
-                  {CATEGORY_LABEL[key]}
+                  {CATEGORY_LABEL[key][locale]}
                 </option>
               ))}
             </select>
           </Field>
 
-          <Field label="Körperbereich">
+          <Field label={t.schedule.bodyArea}>
             <select
               value={filters.bodyArea}
               onChange={(event) =>
@@ -196,16 +208,16 @@ export function Schedule({ initial }: { initial: SchedulePayload }) {
               }
               className="min-h-11 rounded-full border border-hairline bg-paper px-4 text-sm"
             >
-              <option value="alle">Alle</option>
+              <option value="alle">{t.schedule.all}</option>
               {BODY_AREAS.map((area) => (
                 <option key={area.id} value={area.id}>
-                  {area.label}
+                  {area.label[locale]}
                 </option>
               ))}
             </select>
           </Field>
 
-          <Field label="Sprache">
+          <Field label={t.schedule.language}>
             <select
               value={filters.language}
               onChange={(event) =>
@@ -213,9 +225,9 @@ export function Schedule({ initial }: { initial: SchedulePayload }) {
               }
               className="min-h-11 rounded-full border border-hairline bg-paper px-4 text-sm"
             >
-              <option value="alle">Alle</option>
-              <option value="de">Deutsch</option>
-              <option value="th">ไทย</option>
+              <option value="alle">{t.schedule.all}</option>
+              <option value="de">{locale === 'de' ? 'Deutsch' : 'ภาษาเยอรมัน'}</option>
+              <option value="th">{locale === 'de' ? 'ไทย' : 'ภาษาไทย'}</option>
             </select>
           </Field>
 
@@ -223,12 +235,10 @@ export function Schedule({ initial }: { initial: SchedulePayload }) {
             <input
               type="checkbox"
               checked={filters.onlyAvailable}
-              onChange={(event) =>
-                setFilters({ ...filters, onlyAvailable: event.target.checked })
-              }
+              onChange={(event) => setFilters({ ...filters, onlyAvailable: event.target.checked })}
               className="h-4 w-4 accent-[var(--color-teal)]"
             />
-            Nur Termine mit freien Plätzen
+            {t.schedule.onlyAvailable}
           </label>
 
           {activeFilterCount > 0 ? (
@@ -237,17 +247,14 @@ export function Schedule({ initial }: { initial: SchedulePayload }) {
               onClick={() => setFilters(INITIAL_FILTERS)}
               className="min-h-11 text-sm font-semibold text-teal underline decoration-teal/30 underline-offset-4"
             >
-              Filter zurücksetzen ({activeFilterCount})
+              {t.schedule.resetFilters} ({activeFilterCount})
             </button>
           ) : null}
         </fieldset>
       )}
 
       {error ? (
-        <p
-          role="status"
-          className="mt-6 border-l-2 border-pressure bg-pressure/5 px-4 py-3 text-sm text-ink"
-        >
+        <p role="status" className="mt-6 border-l-2 border-pressure bg-pressure/5 px-4 py-3 text-sm text-ink">
           {error}
         </p>
       ) : null}
@@ -255,32 +262,36 @@ export function Schedule({ initial }: { initial: SchedulePayload }) {
       {/* Results */}
       <div className="mt-8 border-t border-ink/15">
         {loading ? (
-          <ScheduleSkeleton />
+          <ScheduleSkeleton label={t.schedule.loadingSr} />
         ) : visible.length === 0 ? (
           <EmptyState
+            t={t}
             filtered={view !== 'nach-kurs' && activeFilterCount > 0}
             onReset={() => setFilters(INITIAL_FILTERS)}
           />
         ) : view === 'kalender' ? (
           byMonth.map(([month, sessions]) => (
             <section key={month} aria-label={month}>
-              <h3 className="sticky top-[var(--header-height)] z-10 bg-porcelain/95 py-3 text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-teal backdrop-blur-[2px]">
+              <h3 className="sticky top-[var(--header-height)] z-10 bg-porcelain-deep/95 py-3 text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-teal backdrop-blur-[2px]">
                 {month}
               </h3>
               {sessions.map((session) => (
-                <ScheduleRow key={session.id} session={session} />
+                <ScheduleRow key={session.id} session={session} t={t} locale={locale} />
               ))}
             </section>
           ))
         ) : (
-          visible.map((session) => <ScheduleRow key={session.id} session={session} />)
+          visible.map((session) => (
+            <ScheduleRow key={session.id} session={session} t={t} locale={locale} />
+          ))
         )}
       </div>
 
       {visible.length > 0 ? (
         <p className="numeric mt-5 text-sm text-ink-muted">
-          {visible.length} {visible.length === 1 ? 'Termin' : 'Termine'} · Alle Angaben ohne Gewähr,
-          Änderungen werden hier veröffentlicht.
+          {visible.length}{' '}
+          {visible.length === 1 ? t.schedule.countOne : t.schedule.countMany} ·{' '}
+          {t.schedule.countNote}
         </p>
       ) : null}
     </div>
@@ -296,22 +307,27 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   );
 }
 
-function EmptyState({ filtered, onReset }: { filtered: boolean; onReset: () => void }) {
+function EmptyState({
+  t,
+  filtered,
+  onReset,
+}: {
+  t: UiDictionary;
+  filtered: boolean;
+  onReset: () => void;
+}) {
   return (
     <div className="py-14">
       <h3 className="font-display text-2xl leading-tight">
-        {filtered ? 'Zu dieser Auswahl gibt es gerade keinen Termin.' : 'Zurzeit ist kein Termin veröffentlicht.'}
+        {filtered ? t.schedule.emptyFiltered : t.schedule.emptyAll}
       </h3>
-      <p className="mt-3 max-w-[52ch] leading-relaxed text-ink-muted">
-        Neue Termine erscheinen hier, sobald die Schulleitung sie freigibt. Fragen Sie nach dem
-        nächsten geplanten Kurs — Sie bekommen eine persönliche Antwort mit einem Datum.
-      </p>
+      <p className="mt-3 max-w-[52ch] leading-relaxed text-ink-muted">{t.schedule.emptyBody}</p>
       <div className="mt-6 flex flex-wrap gap-3">
         <a
           href="#anfrage"
           className="inline-flex min-h-11 items-center rounded-full bg-teal px-6 text-sm font-semibold text-paper transition-colors duration-150 hover:bg-teal-deep"
         >
-          Nach dem nächsten Termin fragen
+          {t.schedule.emptyCta}
         </a>
         {filtered ? (
           <button
@@ -319,7 +335,7 @@ function EmptyState({ filtered, onReset }: { filtered: boolean; onReset: () => v
             onClick={onReset}
             className="inline-flex min-h-11 items-center rounded-full border border-ink/20 px-6 text-sm font-semibold transition-colors duration-150 hover:border-teal hover:text-teal"
           >
-            Alle Termine zeigen
+            {t.schedule.showAll}
           </button>
         ) : null}
       </div>

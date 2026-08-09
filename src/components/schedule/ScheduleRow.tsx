@@ -1,4 +1,6 @@
 import { AvailabilityBadge } from '@/components/ui/Availability';
+import type { Locale } from '@/i18n/config';
+import { fill, type UiDictionary } from '@/i18n/ui';
 import { isBookable } from '@/lib/schedule';
 import type { SessionView } from '@/lib/types';
 
@@ -6,7 +8,15 @@ import type { SessionView } from '@/lib/types';
  * One session, presented as an editorial row rather than a boxed card:
  * date rail on the left, facts in the middle, action on the right.
  */
-export function ScheduleRow({ session }: { session: SessionView }) {
+export function ScheduleRow({
+  session,
+  t,
+  locale,
+}: {
+  session: SessionView;
+  t: UiDictionary;
+  locale: Locale;
+}) {
   const cancelled = session.status === 'abgesagt';
 
   return (
@@ -34,33 +44,35 @@ export function ScheduleRow({ session }: { session: SessionView }) {
           <AvailabilityBadge status={session.status} label={session.availabilityLabel} />
           {session.updatedIso ? (
             <span className="rounded-full border border-gold/40 px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-gold">
-              Aktualisiert
+              {t.schedule.updatedBadge}
             </span>
           ) : null}
         </div>
 
         <dl className="numeric mt-3 flex flex-wrap items-center gap-x-5 gap-y-1.5 text-sm text-ink-muted">
           <div className="flex gap-1.5">
-            <dt className="sr-only">Wochentag und Datum</dt>
+            <dt className="sr-only">{t.nextCourse.date}</dt>
             <dd>
               {session.weekdayLabel}, {session.dateLabel}
             </dd>
           </div>
           <span aria-hidden className="h-3 w-px bg-hairline" />
           <div>
-            <dt className="sr-only">Uhrzeit</dt>
-            <dd>{session.timeLabel}</dd>
+            <dt className="sr-only">{t.nextCourse.time}</dt>
+            <dd>
+              {session.timeLabel} {t.nextCourse.clock}
+            </dd>
           </div>
           <span aria-hidden className="h-3 w-px bg-hairline" />
           <div>
-            <dt className="sr-only">Unterrichtssprache</dt>
-            <dd className={session.languages.includes('th') ? 'thai' : undefined}>
+            <dt className="sr-only">{t.nextCourse.language}</dt>
+            <dd className={locale === 'de' && session.languages.includes('th') ? 'thai' : undefined}>
               {session.languageLabel}
             </dd>
           </div>
           <span aria-hidden className="h-3 w-px bg-hairline" />
           <div>
-            <dt className="sr-only">Gebühr</dt>
+            <dt className="sr-only">{t.nextCourse.price}</dt>
             <dd className="font-semibold text-ink">{session.priceLabel}</dd>
           </div>
         </dl>
@@ -75,20 +87,23 @@ export function ScheduleRow({ session }: { session: SessionView }) {
 
         {!cancelled && session.capacity > 0 ? (
           <p className="numeric mt-2 text-xs text-ink-muted">
-            {session.placesRemaining} von {session.capacity} Plätzen frei
+            {fill(t.schedule.placesOf, {
+              free: session.placesRemaining,
+              total: session.capacity,
+            })}
           </p>
         ) : null}
       </div>
 
       <div className="col-start-2 md:col-start-3 md:self-center">
         {cancelled ? (
-          <span className="text-sm text-ink-muted">Kein Platz buchbar</span>
+          <span className="text-sm text-ink-muted">{t.schedule.noSeat}</span>
         ) : (
           <a
             href={`#anfrage?kurs=${session.programSlug}&termin=${session.id}`}
             className="inline-flex min-h-11 items-center rounded-full border border-ink/20 px-5 text-sm font-semibold transition-colors duration-150 hover:border-teal hover:bg-teal hover:text-paper"
           >
-            {isBookable(session.status) ? 'Platz anfragen' : 'Auf die Warteliste'}
+            {isBookable(session.status) ? t.schedule.request : t.schedule.waitlist}
           </a>
         )}
       </div>

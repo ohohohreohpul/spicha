@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/i18n/config';
 import { getSchedule } from '@/lib/schedule';
 
 /**
@@ -7,17 +8,19 @@ import { getSchedule } from '@/lib/schedule';
  */
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+function readLocale(request: Request): Locale {
+  const raw = new URL(request.url).searchParams.get('locale');
+  return LOCALES.includes(raw as Locale) ? (raw as Locale) : DEFAULT_LOCALE;
+}
+
+export async function GET(request: Request) {
   try {
-    const payload = getSchedule();
+    const payload = getSchedule(readLocale(request));
     return NextResponse.json(payload, {
       headers: { 'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=600' },
     });
   } catch (error) {
     console.error('[schedule] failed to build payload', error);
-    return NextResponse.json(
-      { error: 'Terminliste momentan nicht verfügbar.' },
-      { status: 503 },
-    );
+    return NextResponse.json({ error: 'Schedule temporarily unavailable.' }, { status: 503 });
   }
 }

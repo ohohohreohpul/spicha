@@ -67,32 +67,3 @@ Bildfolge auf ein Standbild und alle Übergänge ab.
 ## Assets
 
 Herkunft und Rechte aller Bilder und Videos: [docs/ASSET-MANIFEST.md](docs/ASSET-MANIFEST.md).
-
-## Deployment auf Vercel
-
-Das Repository ist die App — kein Root-Verzeichnis einstellen, keine `vercel.json`
-nötig. Vercel erkennt Next.js 16 und baut mit Turbopack.
-
-1. In Vercel „Add New Project" → dieses Repository importieren.
-2. Framework `Next.js`, Build `next build`, Output automatisch. Nichts ändern.
-3. Environment Variable setzen, sobald die Domain feststeht:
-
-   | Name | Environment | Wert |
-   |---|---|---|
-   | `NEXT_PUBLIC_SITE_URL` | Production | `https://<endgültige-domain>` |
-
-   Für Preview-Deployments **nicht** setzen — dort wird automatisch die
-   Deployment-URL verwendet, damit Canonicals und JSON-LD nicht auf die
-   Produktionsdomain zeigen.
-4. Domain in den Projekteinstellungen verbinden.
-
-Sicherheits-Header (HSTS, `nosniff`, `X-Frame-Options`, Referrer-Policy,
-Permissions-Policy) kommen aus `next.config.ts` und gelten damit auch auf Vercel.
-
-Die Startseite wird statisch vorgerendert und alle fünf Minuten revalidiert
-(`export const revalidate = 300`), damit neue Termine ohne Deployment erscheinen.
-`/api/schedule` und `/api/anfrage` laufen dynamisch.
-
-**Vor dem öffentlichen Start:** [docs/CLIENT-VERIFY.md](docs/CLIENT-VERIFY.md)
-abarbeiten — insbesondere Impressum, Datenschutzerklärung und die Einwilligung für
-die Fotos.

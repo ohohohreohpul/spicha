@@ -1,50 +1,56 @@
 import { Reveal } from '@/components/ui/Reveal';
 import { RECOGNITION, SCHOOL } from '@/data/school';
+import { SECTION_IDS, type Locale } from '@/i18n/config';
+import type { UiDictionary } from '@/i18n/ui';
 
-const POINTS = [
-  {
-    label: 'Anerkennung',
-    value: RECOGNITION.bfdShort,
-    detail: 'Vom Bundesberufsverband der Fachkosmetiker/innen in Deutschland e.V.',
-    gold: true,
-  },
-  {
-    label: 'Lehrbefugnis',
-    value: 'Ausbildungsbefugnis Kosmetik und Wellness',
-    detail: 'Erteilt durch das Regierungspräsidium Darmstadt an Sunisa Picha, 2005.',
-    gold: true,
-  },
-  {
-    label: 'Unterricht',
-    value: 'Deutsch und ไทย',
-    detail: 'Sie dürfen in der Sprache fragen, in der Sie denken.',
-    gold: false,
-  },
-  {
-    label: 'Praxis',
-    value: 'Kleine Gruppen, Hand an Hand',
-    detail: 'Bei jedem Termin sehen Sie, wie viele Plätze noch frei sind.',
-    gold: false,
-  },
-  {
-    label: 'Anreise',
-    value: `${SCHOOL.city}, U1 ab Hamburg`,
-    detail: SCHOOL.travelFrom.join(' · '),
-    gold: false,
-  },
-] as const;
+export function TrustStrip({ t, locale }: { t: UiDictionary; locale: Locale }) {
+  const points = [
+    {
+      label: t.trust.recognition,
+      value: RECOGNITION.bfdShort[locale],
+      detail: RECOGNITION.bfdDetail[locale],
+      gold: true,
+    },
+    {
+      label: t.trust.licence,
+      value: t.trust.licenceValue,
+      detail: t.trust.licenceDetail,
+      gold: true,
+    },
+    {
+      label: t.trust.teaching,
+      value: t.trust.teachingValue,
+      detail: t.trust.teachingDetail,
+      gold: false,
+    },
+    {
+      label: t.trust.practice,
+      value: t.trust.practiceValue,
+      detail: t.trust.practiceDetail,
+      gold: false,
+    },
+    {
+      label: t.trust.travel,
+      value: t.trust.travelValue,
+      detail: SCHOOL.travelFrom.join(' · '),
+      gold: false,
+    },
+  ];
 
-export function TrustStrip() {
   return (
-    <section id="vertrauen" aria-labelledby="vertrauen-titel" className="bg-porcelain-deep">
+    <section
+      id={SECTION_IDS.trust}
+      aria-labelledby="vertrauen-titel"
+      className="bg-porcelain-deep"
+    >
       <div className="shell py-14 md:py-20">
         <h2 id="vertrauen-titel" className="sr-only">
-          Anerkennung und Rahmenbedingungen
+          {t.trust.srTitle}
         </h2>
 
         {/* Hairline-divided rows, not a card grid. */}
         <ul className="grid grid-cols-1 gap-px bg-hairline md:grid-cols-2 lg:grid-cols-5">
-          {POINTS.map((point, index) => (
+          {points.map((point, index) => (
             <li key={point.label} className="bg-porcelain-deep">
               <Reveal delay={index * 70} className="h-full">
                 <div className="flex h-full flex-col gap-2 px-0 py-6 md:px-6 md:first:pl-0 lg:px-5">
@@ -64,9 +70,7 @@ export function TrustStrip() {
         </ul>
 
         <p className="mt-8 max-w-[76ch] border-t border-hairline pt-5 text-xs leading-relaxed text-ink-muted">
-          Ein Zertifikat der Schule belegt die erfolgreiche Teilnahme an einem Kurs mit bestandener
-          Prüfung. Es ist kein staatlicher Berufsabschluss. Welche Tätigkeiten Sie damit anbieten
-          dürfen, richtet sich nach den gewerberechtlichen Vorgaben an Ihrem Standort.
+          {t.trust.disclaimer}
         </p>
       </div>
     </section>

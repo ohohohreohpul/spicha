@@ -1,69 +1,97 @@
+import type { LocalizedText } from '@/i18n/config';
 import type { BodyArea } from '@/lib/types';
 
 export type BodyAreaMeta = {
   readonly id: BodyArea;
-  readonly label: string;
-  readonly labelThai: string;
-  readonly complaint: string;
-  readonly description: string;
+  readonly label: LocalizedText;
+  readonly complaint: LocalizedText;
+  readonly description: LocalizedText;
 };
 
 export const BODY_AREAS: readonly BodyAreaMeta[] = [
   {
     id: 'kopf-gesicht',
-    label: 'Kopf und Gesicht',
-    labelThai: 'ศีรษะและใบหน้า',
-    complaint: 'Spannungskopfschmerz, müde Gesichtszüge, Lymphstau',
-    description:
-      'Feine Arbeit mit wenig Druck. Sie lernen Zugrichtungen der Gesichtsmuskulatur, Lymphwege und die Führung des Gua-Sha-Werkzeugs.',
+    label: { de: 'Kopf und Gesicht', th: 'ศีรษะและใบหน้า' },
+    complaint: {
+      de: 'Spannungskopfschmerz, müde Gesichtszüge, Lymphstau',
+      th: 'ปวดหัวจากความตึง ใบหน้าดูโทรม น้ำเหลืองคั่ง',
+    },
+    description: {
+      de: 'Feine Arbeit mit wenig Druck. Sie lernen Zugrichtungen der Gesichtsmuskulatur, Lymphwege und die Führung des Gua-Sha-Werkzeugs.',
+      th: 'งานละเอียดที่ใช้น้ำหนักเบา คุณจะได้เรียนทิศทางการดึงของกล้ามเนื้อใบหน้า เส้นทางน้ำเหลือง และการใช้แผ่นกัวซา',
+    },
   },
   {
     id: 'nacken-schulter',
-    label: 'Nacken und Schultern',
-    labelThai: 'คอและบ่า',
-    complaint: 'Bildschirmarbeit, Migräne, harter Schultergürtel',
-    description:
-      'Der meistgefragte Bereich in deutschen Studios. Hier arbeiten Sie mit Triggerpunkten, Druckrichtung und Behandlung im Sitzen.',
+    label: { de: 'Nacken und Schultern', th: 'คอและบ่า' },
+    complaint: {
+      de: 'Bildschirmarbeit, Migräne, harter Schultergürtel',
+      th: 'นั่งหน้าจอนาน ไมเกรน บ่าแข็งเป็นก้อน',
+    },
+    description: {
+      de: 'Der meistgefragte Bereich in deutschen Studios. Hier arbeiten Sie mit Triggerpunkten, Druckrichtung und Behandlung im Sitzen.',
+      th: 'บริเวณที่ลูกค้าในเยอรมนีขอมากที่สุด ที่นี่คุณจะได้ทำงานกับจุดกดเจ็บ ทิศทางการลงน้ำหนัก และการนวดในท่านั่ง',
+    },
   },
   {
     id: 'ruecken',
-    label: 'Rücken und Wirbelsäule',
-    labelThai: 'หลังและกระดูกสันหลัง',
-    complaint: 'Unterer Rücken, paravertebrale Spannung, Fehlhaltung',
-    description:
-      'Vom Becken bis zum Nacken. Sie lernen zu ertasten, den Druck aufzubauen und zu wissen, wo eine Massage endet und die ärztliche Abklärung beginnt.',
+    label: { de: 'Rücken und Wirbelsäule', th: 'หลังและกระดูกสันหลัง' },
+    complaint: {
+      de: 'Unterer Rücken, paravertebrale Spannung, Fehlhaltung',
+      th: 'ปวดหลังส่วนล่าง กล้ามเนื้อข้างกระดูกสันหลังตึง ท่าทางผิด',
+    },
+    description: {
+      de: 'Vom Becken bis zum Nacken. Sie lernen zu ertasten, den Druck aufzubauen und zu wissen, wo eine Massage endet und die ärztliche Abklärung beginnt.',
+      th: 'ตั้งแต่เชิงกรานถึงต้นคอ คุณจะได้ฝึกคลำ ฝึกเพิ่มน้ำหนักมือ และรู้ว่าการนวดจบตรงไหน และเมื่อไรต้องส่งพบแพทย์',
+    },
   },
   {
     id: 'arme-beine',
-    label: 'Arme, Beine, Kreislauf',
-    labelThai: 'แขน ขา และการไหลเวียน',
-    complaint: 'Schwere Beine, Wassereinlagerung, überlastete Muskulatur',
-    description:
-      'Lymphfluss und Muskelarbeit an den Extremitäten, mit manueller Drainage, Schröpfen und kräftigen Sportgriffen.',
+    label: { de: 'Arme, Beine, Kreislauf', th: 'แขน ขา และการไหลเวียน' },
+    complaint: {
+      de: 'Schwere Beine, Wassereinlagerung, überlastete Muskulatur',
+      th: 'ขาหนัก บวมน้ำ กล้ามเนื้อทำงานหนักเกินไป',
+    },
+    description: {
+      de: 'Lymphfluss und Muskelarbeit an den Extremitäten, mit manueller Drainage, Schröpfen und kräftigen Sportgriffen.',
+      th: 'การไหลเวียนน้ำเหลืองและงานกล้ามเนื้อที่แขนขา ทั้งการระบายน้ำเหลืองด้วยมือ การครอบแก้ว และท่านวดสปอร์ตที่ลงน้ำหนักมาก',
+    },
   },
   {
     id: 'ganzkoerper',
-    label: 'Ganzkörper und Beweglichkeit',
-    labelThai: 'ทั้งตัวและการเคลื่อนไหว',
-    complaint: 'Allgemeine Verspannung, Steifheit, Erschöpfung',
-    description:
-      'Vollständige Abläufe mit Anfang, Mitte und Ende. Hier entsteht das Zeitgefühl, das eine Behandlung professionell macht.',
+    label: { de: 'Ganzkörper und Beweglichkeit', th: 'ทั้งตัวและการเคลื่อนไหว' },
+    complaint: {
+      de: 'Allgemeine Verspannung, Steifheit, Erschöpfung',
+      th: 'ตึงทั้งตัว ขยับไม่คล่อง อ่อนเพลีย',
+    },
+    description: {
+      de: 'Vollständige Abläufe mit Anfang, Mitte und Ende. Hier entsteht das Zeitgefühl, das eine Behandlung professionell macht.',
+      th: 'ขั้นตอนเต็มรูปแบบที่มีทั้งเปิด กลาง และปิด ตรงนี้เองที่คุณจะได้จังหวะเวลา ซึ่งเป็นสิ่งที่ทำให้การนวดดูเป็นมืออาชีพ',
+    },
   },
   {
     id: 'fuesse',
-    label: 'Füße',
-    labelThai: 'เท้า',
-    complaint: 'Zonenarbeit, Hornhaut, Nagelpflege',
-    description:
-      'Zwei Wege ab hier: die Fußmassage mit Spa-Ablauf und die professionelle Fußpflege als eigenständiger Beruf.',
+    label: { de: 'Füße', th: 'เท้า' },
+    complaint: {
+      de: 'Zonenarbeit, Hornhaut, Nagelpflege',
+      th: 'จุดสะท้อนฝ่าเท้า หนังแข็ง การดูแลเล็บ',
+    },
+    description: {
+      de: 'Zwei Wege ab hier: die Fußmassage mit Spa-Ablauf und die professionelle Fußpflege als eigenständiger Beruf.',
+      th: 'จากจุดนี้แยกเป็นสองทาง คือนวดเท้าพร้อมสปา และงานดูแลเท้าระดับวิชาชีพซึ่งเป็นอาชีพในตัวเอง',
+    },
   },
   {
     id: 'praxis',
-    label: 'Betrieb und Berufspraxis',
-    labelThai: 'การประกอบวิชาชีพ',
-    complaint: 'Hygiene, Nachweise, Studioführung',
-    description:
-      'Kein Körperbereich, aber der Bereich, an dem Betriebe scheitern: Hygieneplan, Instrumentenaufbereitung und der Sachkundenachweis.',
+    label: { de: 'Betrieb und Berufspraxis', th: 'การบริหารร้านและการประกอบวิชาชีพ' },
+    complaint: {
+      de: 'Hygiene, Nachweise, Studioführung',
+      th: 'สุขอนามัย เอกสารรับรอง การดูแลร้าน',
+    },
+    description: {
+      de: 'Kein Körperbereich, aber der Bereich, an dem Betriebe scheitern: Hygieneplan, Instrumentenaufbereitung und der Sachkundenachweis.',
+      th: 'ไม่ใช่ส่วนของร่างกาย แต่เป็นเรื่องที่ทำให้หลายร้านสะดุด ได้แก่ แผนสุขอนามัย การเตรียมอุปกรณ์ และใบรับรองความรู้',
+    },
   },
 ] as const;
 

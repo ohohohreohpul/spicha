@@ -1,33 +1,11 @@
 import { Reveal } from '@/components/ui/Reveal';
+import type { UiDictionary } from '@/i18n/ui';
 
-const PATHS = [
-  {
-    title: 'Eine Leistung ins bestehende Studio aufnehmen',
-    text: 'Ein Kosmetikstudio, das nach dem Facial Lifting auch Gua Sha anbietet, verkauft an dieselben Kundinnen eine zweite Behandlung.',
-  },
-  {
-    title: 'Im Hotel, Spa oder Massagebetrieb arbeiten',
-    text: 'Betriebe im Hamburger Umland suchen Personal mit nachweisbarer Technik. Das Zertifikat ist das, was Sie vorlegen können.',
-  },
-  {
-    title: 'Sicherheit vor der Selbstständigkeit',
-    text: 'Viele kommen, weil sie ein eigenes Studio planen und vorher wissen wollen, ob ihre Hände das können. Der Hygienekurs gehört dann dazu.',
-  },
-  {
-    title: 'Eine vorhandene Qualifikation erweitern',
-    text: 'Wer schon massiert, holt sich hier eine Technik, die im eigenen Angebot fehlt — an einem Tag, ohne monatelange Ausbildung.',
-  },
-  {
-    title: 'Eine Spezialisierung aufbauen',
-    text: 'Schwangerschaftsmassage oder Lymphdrainage bringen eine Kundengruppe, um die sich sonst kaum jemand kümmert.',
-  },
-] as const;
-
-export function Outcomes() {
+export function Outcomes({ t }: { t: UiDictionary }) {
   return (
     <div className="mt-12">
       <ul className="grid border-t border-ink/15 md:grid-cols-2">
-        {PATHS.map((path, index) => {
+        {t.outcomes.items.map((path, index) => {
           const isLead = index === 0;
           // Second column of each row carries the vertical hairline.
           const isRightColumn = !isLead && index % 2 === 0;
@@ -59,8 +37,7 @@ export function Outcomes() {
       </ul>
 
       <p className="mt-8 max-w-[70ch] border-t border-hairline pt-5 text-xs leading-relaxed text-ink-muted">
-        Diese Wege sind möglich, aber nicht zugesichert. Die Schule vermittelt Fähigkeiten und
-        Nachweise, keine Arbeitsstellen und keine Einkommensgarantie.
+        {t.outcomes.disclaimer}
       </p>
     </div>
   );

@@ -5,6 +5,8 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 import { BODY_AREAS } from '@/data/body-areas';
 import { PROGRAMS } from '@/data/programs';
 import { HOTSPOTS } from '@/components/finder/hotspots';
+import type { Locale } from '@/i18n/config';
+import type { UiDictionary } from '@/i18n/ui';
 import type { BodyArea } from '@/lib/types';
 
 const AREA_ORDER = BODY_AREAS.map((area) => area.id);
@@ -22,7 +24,7 @@ function programsFor(area: BodyArea) {
  *   canonical, always-visible alternative — not a hidden fallback.
  * - The selected region is explained in words, not only by highlight colour.
  */
-export function BodyFinder() {
+export function BodyFinder({ t, locale }: { t: UiDictionary; locale: Locale }) {
   const [selected, setSelected] = useState<BodyArea>('nacken-schulter');
   const [hovered, setHovered] = useState<BodyArea | null>(null);
   const buttonRefs = useRef<Partial<Record<BodyArea, HTMLButtonElement | null>>>({});
@@ -31,16 +33,13 @@ export function BodyFinder() {
   const activeMeta = useMemo(() => BODY_AREAS.find((a) => a.id === active)!, [active]);
   const activePrograms = useMemo(() => programsFor(active), [active]);
 
-  const move = useCallback(
-    (from: BodyArea, direction: 1 | -1) => {
-      const mapOrder = HOTSPOTS.map((h) => h.area);
-      const index = mapOrder.indexOf(from);
-      const next = mapOrder[(index + direction + mapOrder.length) % mapOrder.length];
-      setSelected(next);
-      buttonRefs.current[next]?.focus();
-    },
-    [],
-  );
+  const move = useCallback((from: BodyArea, direction: 1 | -1) => {
+    const mapOrder = HOTSPOTS.map((h) => h.area);
+    const index = mapOrder.indexOf(from);
+    const next = mapOrder[(index + direction + mapOrder.length) % mapOrder.length];
+    setSelected(next);
+    buttonRefs.current[next]?.focus();
+  }, []);
 
   return (
     <div className="mt-12 grid gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
@@ -49,11 +48,10 @@ export function BodyFinder() {
         <div className="relative aspect-3/4 overflow-hidden bg-porcelain-deep">
           <Image
             src="/img/body-map.jpg"
-            alt="Stehende Person in neutraler Haltung. Über der Abbildung liegen auswählbare Körperbereiche."
+            alt={t.finder.mapAlt}
             fill
             sizes="(max-width: 1024px) 92vw, 34vw"
             className="object-cover"
-            priority={false}
           />
 
           {/* Pressure paths: hairlines from the active point out to the edge. */}
@@ -84,7 +82,7 @@ export function BodyFinder() {
 
           <div
             role="radiogroup"
-            aria-label="Körperbereich wählen"
+            aria-label={t.finder.chooseArea}
             className="absolute inset-0"
             onMouseLeave={() => setHovered(null)}
           >
@@ -120,7 +118,7 @@ export function BodyFinder() {
                   style={{ left: `${spot.x}%`, top: `${spot.y}%` }}
                 >
                   <span className="sr-only">
-                    {meta.label} — {programsFor(spot.area).length} Kurse
+                    {meta.label[locale]} — {programsFor(spot.area).length} {t.finder.courses}
                   </span>
 
                   {/* Halo */}
@@ -148,27 +146,27 @@ export function BodyFinder() {
           </div>
         </div>
 
-        <p className="mt-3 text-xs text-ink-muted">
-          Punkt wählen oder mit den Pfeiltasten wechseln. Die vollständige Liste steht rechts.
-        </p>
+        <p className="mt-3 text-xs text-ink-muted">{t.finder.hint}</p>
       </div>
 
       {/* ---------------- Explanation and list ---------------- */}
       <div>
         <div className="border-t border-ink/15 pt-6">
-          <p className="kicker">Ausgewählter Bereich</p>
-          <h3 className="mt-3 font-display text-[clamp(1.75rem,1.2rem+1.6vw,2.75rem)] leading-[1.05]">
-            {activeMeta.label}
+          <p className="kicker">{t.finder.selectedArea}</p>
+          <h3 className="mt-3 font-display text-[clamp(1.75rem,1.2rem+1.6vw,2.75rem)] leading-[1.15]">
+            {activeMeta.label[locale]}
           </h3>
-          <p className="thai mt-1 text-sm text-ink-muted" lang="th">
-            {activeMeta.labelThai}
-          </p>
+          {locale === 'de' ? (
+            <p className="thai mt-1 text-sm text-ink-muted" lang="th">
+              {activeMeta.label.th}
+            </p>
+          ) : null}
           <p className="mt-4 max-w-[52ch] leading-relaxed text-ink-muted">
-            {activeMeta.description}
+            {activeMeta.description[locale]}
           </p>
           <p className="mt-3 text-sm text-ink-muted">
-            <span className="font-semibold text-ink">Typische Anlässe:</span>{' '}
-            {activeMeta.complaint}
+            <span className="font-semibold text-ink">{t.finder.typicalReasons}</span>{' '}
+            {activeMeta.complaint[locale]}
           </p>
         </div>
 
@@ -181,10 +179,10 @@ export function BodyFinder() {
               >
                 <span className="flex-1">
                   <span className="font-display text-xl leading-tight transition-colors duration-150 group-hover:text-teal">
-                    {program.title}
+                    {program.title[locale]}
                   </span>
                   <span className="mt-1 block max-w-[46ch] text-sm text-ink-muted">
-                    {program.subtitle}
+                    {program.subtitle[locale]}
                   </span>
                 </span>
                 <span className="numeric shrink-0 text-sm font-semibold">{program.price} €</span>
@@ -195,7 +193,7 @@ export function BodyFinder() {
 
         {/* Full text alternative — every area, always reachable. */}
         <div className="mt-10">
-          <p className="kicker">Alle Bereiche</p>
+          <p className="kicker">{t.finder.allAreas}</p>
           <div className="mt-3 flex flex-wrap gap-2">
             {AREA_ORDER.map((areaId) => {
               const meta = BODY_AREAS.find((a) => a.id === areaId)!;
@@ -212,7 +210,7 @@ export function BodyFinder() {
                       : 'border-hairline bg-paper text-ink hover:border-teal hover:text-teal'
                   }`}
                 >
-                  {meta.label}
+                  {meta.label[locale]}
                 </button>
               );
             })}

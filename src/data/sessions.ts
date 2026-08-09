@@ -46,7 +46,10 @@ export const SESSIONS: readonly Session[] = [
     capacity: 14,
     placesRemaining: 9,
     status: 'plaetze-frei',
-    note: 'Zertifikat wird am Kurstag ausgegeben.',
+    note: {
+      de: 'Zertifikat wird am Kurstag ausgegeben.',
+      th: 'รับใบประกาศนียบัตรได้ในวันเรียนเลย',
+    },
   },
   {
     id: 's-2026-08-29-lymph',
@@ -95,7 +98,10 @@ export const SESSIONS: readonly Session[] = [
     capacity: 8,
     placesRemaining: 0,
     status: 'ausgebucht',
-    note: 'Warteliste möglich. Nächster Termin im November.',
+    note: {
+      de: 'Warteliste möglich. Nächster Termin im November.',
+      th: 'ลงชื่อรอคิวได้ รอบถัดไปเดือนพฤศจิกายน',
+    },
   },
   {
     id: 's-2026-09-19-wirbelsaeule',
@@ -192,7 +198,10 @@ export const SESSIONS: readonly Session[] = [
     capacity: 10,
     placesRemaining: 0,
     status: 'abgesagt',
-    note: 'Abgesagt wegen Erkrankung der Dozentin. Ersatztermin am 21. November.',
+    note: {
+      de: 'Abgesagt wegen Erkrankung der Dozentin. Ersatztermin am 21. November.',
+      th: 'ยกเลิกเนื่องจากครูผู้สอนป่วย มีรอบชดเชยวันที่ 21 พฤศจิกายน',
+    },
     updatedIso: '2026-08-04T11:05:00+02:00',
   },
   {
@@ -230,7 +239,10 @@ export const SESSIONS: readonly Session[] = [
     capacity: 10,
     placesRemaining: 10,
     status: 'offen',
-    note: 'Ersatztermin für den abgesagten Kurs am 31. Oktober.',
+    note: {
+      de: 'Ersatztermin für den abgesagten Kurs am 31. Oktober.',
+      th: 'รอบชดเชยแทนรอบวันที่ 31 ตุลาคมที่ยกเลิกไป',
+    },
   },
   {
     id: 's-2026-11-22-hygiene',

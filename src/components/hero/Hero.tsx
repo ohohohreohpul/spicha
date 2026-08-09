@@ -2,35 +2,47 @@ import { HeroVideoSequence, type Clip } from '@/components/hero/HeroVideoSequenc
 import { NextCourseModule } from '@/components/hero/NextCourseModule';
 import { LinkButton } from '@/components/ui/Button';
 import { SCHOOL } from '@/data/school';
+import { SECTION_IDS, type Locale } from '@/i18n/config';
+import type { UiDictionary } from '@/i18n/ui';
 import type { SessionView } from '@/lib/types';
 
-const CLIPS: readonly Clip[] = [
-  {
-    src: '/video/hand-01-oil.mp4',
-    poster: '/video/poster-01.jpg',
-    alt: 'Die Hände der Ausbilderin verteilen warmes Massageöl zwischen den Handflächen.',
-  },
-  {
-    src: '/video/hand-02-correction.mp4',
-    poster: '/video/poster-02.jpg',
-    alt: 'Die Ausbilderin führt die Hand einer Schülerin und korrigiert Winkel und Druck am Schultergürtel.',
-  },
-  {
-    src: '/video/hand-03-classroom.mp4',
-    poster: '/video/poster-03.jpg',
-    alt: 'Schülerinnen üben paarweise an Behandlungsliegen, die Ausbilderin geht zwischen ihnen hindurch und beobachtet.',
-  },
-];
+const CLIP_ALT: Record<Locale, readonly string[]> = {
+  de: [
+    'Die Hände der Ausbilderin verteilen warmes Massageöl zwischen den Handflächen.',
+    'Die Ausbilderin führt die Hand einer Schülerin und korrigiert Winkel und Druck am Schultergürtel.',
+    'Schülerinnen üben paarweise an Behandlungsliegen, die Ausbilderin geht zwischen ihnen hindurch und beobachtet.',
+  ],
+  th: [
+    'มือของครูผู้สอนกำลังเกลี่ยน้ำมันนวดอุ่น ๆ ระหว่างฝ่ามือทั้งสองข้าง',
+    'ครูผู้สอนจับมือนักเรียนเพื่อแก้องศาข้อมือและน้ำหนักการกดบริเวณบ่า',
+    'นักเรียนฝึกนวดเป็นคู่บนเตียงนวด โดยมีครูเดินดูอยู่ระหว่างเตียง',
+  ],
+};
+
+function clips(locale: Locale): readonly Clip[] {
+  const alt = CLIP_ALT[locale];
+  return [
+    { src: '/video/hand-01-oil.mp4', poster: '/video/poster-01.jpg', alt: alt[0] },
+    { src: '/video/hand-02-correction.mp4', poster: '/video/poster-02.jpg', alt: alt[1] },
+    { src: '/video/hand-03-classroom.mp4', poster: '/video/poster-03.jpg', alt: alt[2] },
+  ];
+}
 
 export function Hero({
   nextSession,
   syncedAtLabel,
   stale,
+  t,
+  locale,
 }: {
   nextSession?: SessionView;
   syncedAtLabel: string;
   stale: boolean;
+  t: UiDictionary;
+  locale: Locale;
 }) {
+  const secondaryLang = locale === 'de' ? 'th' : 'de';
+
   return (
     <section className="relative flex flex-col overflow-hidden pt-[var(--header-height)] lg:block lg:min-h-[100dvh]">
       {/*
@@ -38,7 +50,7 @@ export function Hero({
         screens, a full-bleed plate behind it from lg upward.
       */}
       <div className="relative order-2 h-[42vh] min-h-56 w-full lg:absolute lg:inset-0 lg:order-none lg:h-auto lg:min-h-0">
-        <HeroVideoSequence clips={CLIPS} />
+        <HeroVideoSequence clips={clips(locale)} />
         <div
           aria-hidden
           className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-porcelain to-transparent lg:hidden"
@@ -60,30 +72,34 @@ export function Hero({
           <div className="max-w-[46rem]">
             <p className="kicker flex items-center gap-3">
               <span aria-hidden className="h-px w-8 bg-gold" />
-              {SCHOOL.locationName} · seit 1997
+              {t.hero.kicker}
             </p>
 
-            <h1 className="mt-6 text-[length:var(--text-hero)] leading-[0.9] tracking-[-0.035em]">
-              Ihre Hände
+            <h1 className="mt-6 text-[length:var(--text-hero)] leading-[0.95] tracking-[-0.03em]">
+              {t.hero.headlineA}
               <br />
-              können eine <span className="italic text-teal">Zukunft</span>
+              {t.hero.headlineB} <span className="italic text-teal">{t.hero.headlineAccent}</span>
               <br />
-              bauen.
+              {t.hero.headlineC}
             </h1>
 
-            <p className="mt-7 max-w-[38ch] text-[length:var(--text-lead)] leading-relaxed text-ink-muted">
-              Lernen Sie Massage, Fußpflege, Spa und Kosmetik in Ahrensburg — mit erfahrenen
-              Ausbilderinnen, geführter Praxis und einem Zertifikat, das im Beruf zählt.
+            <p className="mt-7 max-w-[40ch] text-[length:var(--text-lead)] leading-relaxed text-ink-muted">
+              {t.hero.lead}
             </p>
 
-            <p className="thai mt-3 max-w-[42ch] text-sm text-ink-muted/85" lang="th">
-              เรียนนวด สปา ดูแลเท้า และความงาม ที่เมือง Ahrensburg สอนภาษาไทยและเยอรมัน
+            <p
+              className={`mt-3 max-w-[46ch] text-sm text-ink-muted/85 ${
+                secondaryLang === 'th' ? 'thai' : ''
+              }`}
+              lang={secondaryLang}
+            >
+              {t.hero.secondary}
             </p>
 
             <div className="mt-7 flex flex-wrap items-center gap-3">
-              <LinkButton href="#kursfinder">Kurs finden</LinkButton>
-              <LinkButton href="#termine" variant="secondary">
-                Termine ansehen
+              <LinkButton href={`#${SECTION_IDS.finder}`}>{t.hero.ctaPrimary}</LinkButton>
+              <LinkButton href={`#${SECTION_IDS.schedule}`} variant="secondary">
+                {t.hero.ctaSecondary}
               </LinkButton>
             </div>
           </div>
@@ -94,19 +110,18 @@ export function Hero({
               session={nextSession}
               syncedAtLabel={syncedAtLabel}
               stale={stale}
+              t={t}
             />
           </div>
         </div>
 
         <div className="mt-14 hidden items-end justify-between gap-8 border-t border-ink/10 pt-6 lg:flex">
-          <p className="max-w-[34ch] text-sm leading-relaxed text-ink-muted">
-            Berührung ist eine Fähigkeit. Übung macht daraus einen Beruf.
-          </p>
+          <p className="max-w-[38ch] text-sm leading-relaxed text-ink-muted">{t.hero.motto}</p>
           <a
-            href="#vertrauen"
+            href={`#${SECTION_IDS.trust}`}
             className="group flex items-center gap-3 text-sm font-semibold text-ink transition-colors duration-150 hover:text-teal"
           >
-            Weiter
+            {t.hero.next}
             <span
               aria-hidden
               className="grid h-9 w-9 place-items-center rounded-full border border-ink/20 transition-transform duration-[var(--dur-3)] ease-[var(--ease-out-quart)] group-hover:translate-y-1 group-hover:border-teal"
@@ -124,6 +139,8 @@ export function Hero({
           </a>
         </div>
       </div>
+
+      <span className="sr-only">{SCHOOL.name}</span>
     </section>
   );
 }

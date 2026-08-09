@@ -1,5 +1,5 @@
 /** Skeleton rows matching the real row geometry — no spinner. */
-export function ScheduleSkeleton() {
+export function ScheduleSkeleton({ label }: { label: string }) {
   return (
     <div aria-hidden className="animate-pulse">
       {[0, 1, 2, 3].map((row) => (
@@ -19,7 +19,7 @@ export function ScheduleSkeleton() {
           <div className="hidden h-11 w-36 self-center rounded-full bg-hairline/50 md:block" />
         </div>
       ))}
-      <span className="sr-only">Termine werden geladen</span>
+      <span className="sr-only">{label}</span>
     </div>
   );
 }
