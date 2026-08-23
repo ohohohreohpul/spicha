@@ -1,27 +1,27 @@
-import type { LocalizedList, LocalizedText } from '@/i18n/config';
+import type { LocalizedList, LocalizedText } from "@/i18n/config";
 
 export type BodyArea =
-  | 'kopf-gesicht'
-  | 'nacken-schulter'
-  | 'ruecken'
-  | 'arme-beine'
-  | 'ganzkoerper'
-  | 'fuesse'
-  | 'praxis';
+  | "kopf-gesicht"
+  | "nacken-schulter"
+  | "ruecken"
+  | "arme-beine"
+  | "ganzkoerper"
+  | "fuesse"
+  | "praxis";
 
-export type ProgramCategory = 'kurzkurs' | 'ausbildung' | 'betrieb';
+export type ProgramCategory = "kurzkurs" | "ausbildung" | "betrieb";
 
-export type Language = 'de' | 'th' | 'de-th';
+export type Language = "de" | "th" | "de-th";
 
 export type AvailabilityStatus =
-  | 'offen'
-  | 'plaetze-frei'
-  | 'wenige-plaetze'
-  | 'letzter-platz'
-  | 'ausgebucht'
-  | 'warteliste'
-  | 'termin-folgt'
-  | 'abgesagt';
+  | "offen"
+  | "plaetze-frei"
+  | "wenige-plaetze"
+  | "letzter-platz"
+  | "ausgebucht"
+  | "warteliste"
+  | "termin-folgt"
+  | "abgesagt";
 
 export type Program = {
   readonly id: string;
@@ -41,7 +41,10 @@ export type Program = {
   readonly prerequisites: LocalizedText;
   readonly certificate: LocalizedText;
   readonly included?: LocalizedList;
-  readonly faq?: readonly { readonly q: LocalizedText; readonly a: LocalizedText }[];
+  readonly faq?: readonly {
+    readonly q: LocalizedText;
+    readonly a: LocalizedText;
+  }[];
 };
 
 export type Session = {
@@ -61,7 +64,7 @@ export type Session = {
 };
 
 /** Server-formatted session — all display strings are produced once, on the server. */
-export type SessionView = Omit<Session, 'note'> & {
+export type SessionView = Omit<Session, "note"> & {
   readonly note?: string;
   readonly programTitle: string;
   readonly programSlug: string;

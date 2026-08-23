@@ -1,4 +1,4 @@
-import { Reveal } from '@/components/ui/Reveal';
+import { Reveal } from '@/components/motion/Reveal';
 import type { UiDictionary } from '@/i18n/ui';
 
 export function Outcomes({ t }: { t: UiDictionary }) {
@@ -17,7 +17,7 @@ export function Outcomes({ t }: { t: UiDictionary }) {
                 isRightColumn ? 'md:border-l md:border-l-hairline md:pl-10' : ''
               } ${!isLead && !isRightColumn ? 'md:pr-10' : ''}`}
             >
-              <Reveal delay={Math.min(index * 70, 280)} className="h-full">
+              <Reveal delay={Math.min(index * 0.07, 0.28)} className="h-full">
                 <div className="flex h-full flex-col justify-between gap-5 py-9">
                   <h3
                     className={`font-display leading-tight ${

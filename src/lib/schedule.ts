@@ -1,21 +1,21 @@
-import { PROGRAM_BY_ID } from '@/data/programs';
-import { SESSIONS } from '@/data/sessions';
-import { DEFAULT_LOCALE, type Locale } from '@/i18n/config';
+import { PROGRAM_BY_ID } from "@/data/programs";
+import { SESSIONS } from "@/data/sessions";
+import { DEFAULT_LOCALE, type Locale } from "@/i18n/config";
 import type {
   AvailabilityStatus,
   Language,
   SchedulePayload,
   Session,
   SessionView,
-} from '@/lib/types';
+} from "@/lib/types";
 
 /** Thai schedules read more clearly with Gregorian years next to the German page. */
 const INTL_LOCALE: Record<Locale, string> = {
-  de: 'de-DE',
-  th: 'th-TH-u-ca-gregory',
+  de: "de-DE",
+  th: "th-TH-u-ca-gregory",
 };
 
-const TIME_ZONE = 'Europe/Berlin';
+const TIME_ZONE = "Europe/Berlin";
 
 /** A schedule older than this is shown with a "last confirmed" warning instead of as live. */
 const STALE_AFTER_MS = 1000 * 60 * 60 * 24;
@@ -38,32 +38,38 @@ function formatters(locale: Locale): Formatters {
 
   const tag = INTL_LOCALE[locale];
   const made: Formatters = {
-    weekday: new Intl.DateTimeFormat(tag, { weekday: 'long', timeZone: TIME_ZONE }),
-    day: new Intl.DateTimeFormat(tag, { day: '2-digit', timeZone: TIME_ZONE }),
-    month: new Intl.DateTimeFormat(tag, { month: 'short', timeZone: TIME_ZONE }),
+    weekday: new Intl.DateTimeFormat(tag, {
+      weekday: "long",
+      timeZone: TIME_ZONE,
+    }),
+    day: new Intl.DateTimeFormat(tag, { day: "2-digit", timeZone: TIME_ZONE }),
+    month: new Intl.DateTimeFormat(tag, {
+      month: "short",
+      timeZone: TIME_ZONE,
+    }),
     date: new Intl.DateTimeFormat(tag, {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric',
+      day: "numeric",
+      month: "long",
+      year: "numeric",
       timeZone: TIME_ZONE,
     }),
     time: new Intl.DateTimeFormat(tag, {
-      hour: '2-digit',
-      minute: '2-digit',
-      hourCycle: 'h23',
+      hour: "2-digit",
+      minute: "2-digit",
+      hourCycle: "h23",
       timeZone: TIME_ZONE,
     }),
     stamp: new Intl.DateTimeFormat(tag, {
-      day: '2-digit',
-      month: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      hourCycle: 'h23',
+      day: "2-digit",
+      month: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hourCycle: "h23",
       timeZone: TIME_ZONE,
     }),
     price: new Intl.NumberFormat(tag, {
-      style: 'currency',
-      currency: 'EUR',
+      style: "currency",
+      currency: "EUR",
       maximumFractionDigits: 0,
     }),
   };
@@ -73,46 +79,52 @@ function formatters(locale: Locale): Formatters {
 }
 
 const LANGUAGE_LABEL: Record<Language, Record<Locale, string>> = {
-  de: { de: 'Deutsch', th: 'ภาษาเยอรมัน' },
-  th: { de: 'ไทย', th: 'ภาษาไทย' },
-  'de-th': { de: 'Deutsch und ไทย', th: 'ไทยและเยอรมัน' },
+  de: { de: "Deutsch", th: "ภาษาเยอรมัน" },
+  th: { de: "ไทย", th: "ภาษาไทย" },
+  "de-th": { de: "Deutsch und ไทย", th: "ไทยและเยอรมัน" },
 };
 
-export const AVAILABILITY_LABEL: Record<AvailabilityStatus, Record<Locale, string>> = {
-  offen: { de: 'Anmeldung offen', th: 'เปิดรับสมัคร' },
-  'plaetze-frei': { de: 'Plätze frei', th: 'ยังมีที่นั่ง' },
-  'wenige-plaetze': { de: 'Wenige Plätze', th: 'เหลือไม่กี่ที่' },
-  'letzter-platz': { de: 'Letzter Platz', th: 'เหลือที่สุดท้าย' },
-  ausgebucht: { de: 'Ausgebucht', th: 'เต็มแล้ว' },
-  warteliste: { de: 'Warteliste', th: 'รับรายชื่อรอคิว' },
-  'termin-folgt': { de: 'Termin folgt', th: 'รอประกาศวันที่' },
-  abgesagt: { de: 'Abgesagt', th: 'ยกเลิกรอบนี้' },
+export const AVAILABILITY_LABEL: Record<
+  AvailabilityStatus,
+  Record<Locale, string>
+> = {
+  offen: { de: "Anmeldung offen", th: "เปิดรับสมัคร" },
+  "plaetze-frei": { de: "Plätze frei", th: "ยังมีที่นั่ง" },
+  "wenige-plaetze": { de: "Wenige Plätze", th: "เหลือไม่กี่ที่" },
+  "letzter-platz": { de: "Letzter Platz", th: "เหลือที่สุดท้าย" },
+  ausgebucht: { de: "Ausgebucht", th: "เต็มแล้ว" },
+  warteliste: { de: "Warteliste", th: "รับรายชื่อรอคิว" },
+  "termin-folgt": { de: "Termin folgt", th: "รอประกาศวันที่" },
+  abgesagt: { de: "Abgesagt", th: "ยกเลิกรอบนี้" },
 };
 
 /** Urgency tone. Never the only carrier of meaning — always paired with the label above. */
-export const AVAILABILITY_TONE: Record<AvailabilityStatus, 'open' | 'limited' | 'closed'> = {
-  offen: 'open',
-  'plaetze-frei': 'open',
-  'wenige-plaetze': 'limited',
-  'letzter-platz': 'limited',
-  ausgebucht: 'closed',
-  warteliste: 'limited',
-  'termin-folgt': 'closed',
-  abgesagt: 'closed',
+export const AVAILABILITY_TONE: Record<
+  AvailabilityStatus,
+  "open" | "limited" | "closed"
+> = {
+  offen: "open",
+  "plaetze-frei": "open",
+  "wenige-plaetze": "limited",
+  "letzter-platz": "limited",
+  ausgebucht: "closed",
+  warteliste: "limited",
+  "termin-folgt": "closed",
+  abgesagt: "closed",
 };
 
 export function isBookable(status: AvailabilityStatus): boolean {
   return (
-    status === 'offen' ||
-    status === 'plaetze-frei' ||
-    status === 'wenige-plaetze' ||
-    status === 'letzter-platz'
+    status === "offen" ||
+    status === "plaetze-frei" ||
+    status === "wenige-plaetze" ||
+    status === "letzter-platz"
   );
 }
 
 function availabilityLabel(session: Session, locale: Locale): string {
-  if (session.status === 'wenige-plaetze' && session.placesRemaining > 0) {
-    return locale === 'de'
+  if (session.status === "wenige-plaetze" && session.placesRemaining > 0) {
+    return locale === "de"
       ? `Noch ${session.placesRemaining} Plätze`
       : `เหลือ ${session.placesRemaining} ที่`;
   }
@@ -120,8 +132,8 @@ function availabilityLabel(session: Session, locale: Locale): string {
 }
 
 function languageLabel(languages: readonly Language[], locale: Locale): string {
-  if (languages.length > 1) return LANGUAGE_LABEL['de-th'][locale];
-  return LANGUAGE_LABEL[languages[0] ?? 'de'][locale];
+  if (languages.length > 1) return LANGUAGE_LABEL["de-th"][locale];
+  return LANGUAGE_LABEL[languages[0] ?? "de"][locale];
 }
 
 function toView(session: Session, locale: Locale): SessionView | null {
@@ -132,7 +144,7 @@ function toView(session: Session, locale: Locale): SessionView | null {
   const start = new Date(session.startIso);
   const end = new Date(session.endIso);
   const multiDay = fmt.date.format(start) !== fmt.date.format(end);
-  const priceNote = program.priceNote ? ` ${program.priceNote[locale]}` : '';
+  const priceNote = program.priceNote ? ` ${program.priceNote[locale]}` : "";
 
   return {
     ...session,
@@ -143,7 +155,7 @@ function toView(session: Session, locale: Locale): SessionView | null {
     bodyAreas: program.bodyAreas,
     weekdayLabel: fmt.weekday.format(start),
     dayLabel: fmt.day.format(start),
-    monthLabel: fmt.month.format(start).replace('.', ''),
+    monthLabel: fmt.month.format(start).replace(".", ""),
     dateLabel: multiDay
       ? `${fmt.date.format(start)} – ${fmt.date.format(end)}`
       : fmt.date.format(start),
@@ -164,10 +176,14 @@ export function getSchedule(
 ): SchedulePayload {
   const cutoff = now.getTime();
 
-  const sessions = SESSIONS.filter((s) => new Date(s.endIso).getTime() >= cutoff)
+  const sessions = SESSIONS.filter(
+    (s) => new Date(s.endIso).getTime() >= cutoff,
+  )
     .map((s) => toView(s, locale))
     .filter((s): s is SessionView => s !== null)
-    .sort((a, b) => new Date(a.startIso).getTime() - new Date(b.startIso).getTime());
+    .sort(
+      (a, b) => new Date(a.startIso).getTime() - new Date(b.startIso).getTime(),
+    );
 
   // In production this timestamp comes from the calendar sync service.
   const syncedAt = new Date(cutoff - 1000 * 60 * 12);
@@ -180,10 +196,15 @@ export function getSchedule(
   };
 }
 
-export function getNextSession(payload: SchedulePayload): SessionView | undefined {
+export function getNextSession(
+  payload: SchedulePayload,
+): SessionView | undefined {
   return payload.sessions.find((s) => isBookable(s.status));
 }
 
-export function formatPrice(value: number, locale: Locale = DEFAULT_LOCALE): string {
+export function formatPrice(
+  value: number,
+  locale: Locale = DEFAULT_LOCALE,
+): string {
   return formatters(locale).price.format(value);
 }

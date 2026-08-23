@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Reveal } from '@/components/ui/Reveal';
+import { Reveal } from '@/components/motion/Reveal';
 import { BODY_AREA_BY_ID } from '@/data/body-areas';
 import { CATEGORY_ORDER, PROGRAMS } from '@/data/programs';
 import type { Locale } from '@/i18n/config';
@@ -63,7 +63,7 @@ function ProgramEntry({
     .join(' · ');
 
   return (
-    <Reveal as="li" delay={Math.min(index * 60, 240)}>
+    <Reveal as="li" delay={Math.min(index * 0.06, 0.24)}>
       <a
         id={`kurs-${program.slug}`}
         href={`#anfrage?kurs=${program.slug}`}

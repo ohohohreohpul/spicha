@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Reveal } from '@/components/ui/Reveal';
+import { Reveal } from '@/components/motion/Reveal';
 import type { UiDictionary } from '@/i18n/ui';
 
 const FACT_VALUES = ['1997', '12', '3', '8'] as const;
@@ -10,7 +10,7 @@ export function Evidence({ t }: { t: UiDictionary }) {
       <div>
         <dl className="border-t border-ink/15">
           {FACT_VALUES.map((value, index) => (
-            <Reveal key={value} delay={index * 70}>
+            <Reveal key={value} delay={index * 0.07}>
               <div className="flex items-baseline gap-6 border-b border-hairline py-5">
                 <dt className="numeric w-20 shrink-0 font-display text-3xl text-teal">{value}</dt>
                 <dd className="text-sm leading-relaxed text-ink-muted">

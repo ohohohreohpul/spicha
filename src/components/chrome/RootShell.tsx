@@ -1,4 +1,6 @@
 import { Fraunces, Noto_Sans_Thai } from 'next/font/google';
+import { MotionRoot } from '@/components/motion/MotionRoot';
+import { ScrollProgress } from '@/components/motion/ScrollProgress';
 import { HTML_LANG, type Locale } from '@/i18n/config';
 import { getUi } from '@/i18n/ui';
 import '@/app/globals.css';
@@ -31,6 +33,8 @@ export function RootShell({ locale, children }: { locale: Locale; children: Reac
       className={`${fraunces.variable} ${notoSansThai.variable}`}
     >
       <body className="grain antialiased">
+        <MotionRoot />
+        <ScrollProgress />
         <a
           href="#inhalt"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-teal focus:px-5 focus:py-3 focus:text-sm focus:font-semibold focus:text-paper"

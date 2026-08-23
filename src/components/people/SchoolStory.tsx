@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Reveal } from '@/components/ui/Reveal';
+import { Reveal } from '@/components/motion/Reveal';
 import { FOUNDER, RECOGNITION } from '@/data/school';
 import type { Locale } from '@/i18n/config';
 import type { UiDictionary } from '@/i18n/ui';
@@ -24,7 +24,7 @@ export function SchoolStory({ t, locale }: { t: UiDictionary; locale: Locale }) 
         </Reveal>
 
         <div className="mt-10 grid grid-cols-[8rem_minmax(0,1fr)] gap-6">
-          <Reveal delay={80}>
+          <Reveal delay={0.08}>
             <figure>
               <div className="relative aspect-3/4 overflow-hidden bg-porcelain-deep grayscale">
                 <Image

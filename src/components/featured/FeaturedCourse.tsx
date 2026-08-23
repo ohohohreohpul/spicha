@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { AvailabilityBadge } from '@/components/ui/Availability';
 import { LinkButton } from '@/components/ui/Button';
-import { Reveal } from '@/components/ui/Reveal';
+import { Reveal } from '@/components/motion/Reveal';
 import { BODY_AREA_BY_ID } from '@/data/body-areas';
 import { PROGRAM_BY_ID } from '@/data/programs';
 import { SCHOOL } from '@/data/school';

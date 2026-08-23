@@ -1,4 +1,4 @@
-import { Reveal } from '@/components/ui/Reveal';
+import { Reveal } from '@/components/motion/Reveal';
 
 export type SectionCopy = {
   readonly index: string;
@@ -34,7 +34,7 @@ export function SectionHeader({ copy, id }: SectionHeaderProps) {
       </Reveal>
 
       {copy.lead ? (
-        <Reveal delay={80} className="lg:pt-2">
+        <Reveal delay={0.08} className="lg:pt-2">
           <p className="max-w-[46ch] text-base leading-relaxed text-ink-muted">{copy.lead}</p>
         </Reveal>
       ) : null}

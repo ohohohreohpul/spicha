@@ -1,4 +1,4 @@
-import { Reveal } from '@/components/ui/Reveal';
+import { Reveal } from '@/components/motion/Reveal';
 import { RECOGNITION, SCHOOL } from '@/data/school';
 import { SECTION_IDS, type Locale } from '@/i18n/config';
 import type { UiDictionary } from '@/i18n/ui';
@@ -52,7 +52,7 @@ export function TrustStrip({ t, locale }: { t: UiDictionary; locale: Locale }) {
         <ul className="grid grid-cols-1 gap-px bg-hairline md:grid-cols-2 lg:grid-cols-5">
           {points.map((point, index) => (
             <li key={point.label} className="bg-porcelain-deep">
-              <Reveal delay={index * 70} className="h-full">
+              <Reveal delay={index * 0.07} className="h-full">
                 <div className="flex h-full flex-col gap-2 px-0 py-6 md:px-6 md:first:pl-0 lg:px-5">
                   <p
                     className={`text-[0.65rem] font-semibold uppercase tracking-[0.16em] ${
