@@ -8,20 +8,23 @@ import type { SessionView } from '@/lib/types';
 
 const CLIP_ALT: Record<Locale, readonly string[]> = {
   de: [
-    'Die Hände der Ausbilderin verteilen warmes Massageöl zwischen den Handflächen.',
-    'Die Ausbilderin führt die Hand einer Schülerin und korrigiert Winkel und Druck am Schultergürtel.',
+    'Nahaufnahme: beide Hände arbeiten mit flachem Druck am Nacken und Schultergürtel.',
+    'Nahaufnahme: übereinandergelegte Hände geben gleichmäßigen Druck auf den Rücken.',
+    'Nahaufnahme: beide Hände umfassen einen Fuß und arbeiten am Fußgewölbe.',
   ],
   th: [
-    'มือของครูผู้สอนกำลังเกลี่ยน้ำมันนวดอุ่น ๆ ระหว่างฝ่ามือทั้งสองข้าง',
-    'ครูผู้สอนจับมือนักเรียนเพื่อแก้องศาข้อมือและน้ำหนักการกดบริเวณบ่า',
+    'ภาพระยะใกล้: มือทั้งสองข้างลงน้ำหนักแบบราบที่ต้นคอและบ่า',
+    'ภาพระยะใกล้: มือวางทับกันเพื่อลงน้ำหนักสม่ำเสมอบนแผ่นหลัง',
+    'ภาพระยะใกล้: มือทั้งสองข้างจับเท้าและกดที่อุ้งเท้า',
   ],
 };
 
 function clips(locale: Locale): readonly Clip[] {
   const alt = CLIP_ALT[locale];
   return [
-    { src: '/video/hand-01-oil.mp4', poster: '/video/poster-01.jpg', alt: alt[0] },
-    { src: '/video/hand-02-correction.mp4', poster: '/video/poster-02.jpg', alt: alt[1] },
+    { src: '/video/clip-01-nacken.mp4', poster: '/video/poster-01.jpg', alt: alt[0] },
+    { src: '/video/clip-02-ruecken.mp4', poster: '/video/poster-02.jpg', alt: alt[1] },
+    { src: '/video/clip-03-fuss.mp4', poster: '/video/poster-03.jpg', alt: alt[2] },
   ];
 }
 

@@ -24,31 +24,52 @@ eine Rasterdatei. **Empfehlung:** vom Auftraggeber die Originaldatei anfordern �
 idealerweise als Vektor (AI, EPS oder SVG). Liegt die vor, ersetzt sie diese Datei
 ohne weitere Codeänderung; der Dateiname bleibt gleich.
 
-## Generiertes Material
+## Bewegtbild: echtes Filmmaterial
 
-Alle Bilder werden mit **Recraft V4.1** erzeugt, die Hero-Clips anschließend mit
-**Kling 3.0** aus genau diesen Bildern animiert (das Recraft-Bild ist der Startframe).
-Kein Clip entsteht als reines Text-zu-Video — deshalb bleiben Licht, Farbe, Korn und
-Bildausschnitt über Standbild und Bewegung identisch.
+Alle Hero-Clips sind **lizenziertes Realfilmmaterial** aus der Freepik-Stockbibliothek —
+kein KI-Video. Das war die Antwort auf zwei Rückmeldungen: generierte Clips wirkten
+unecht, und generierte Totalen mit mehreren Personen wirkten unheimlich.
+
+| Datei | Quelle | Motiv |
+|---|---|---|
+| `video/clip-01-nacken.mp4` | Freepik Stock, real gefilmt | Flacher Druck an Nacken und Schultergürtel |
+| `video/clip-02-ruecken.mp4` | Freepik Stock, real gefilmt | Übereinandergelegte Hände am Rücken |
+| `video/clip-03-fuss.mp4` | Freepik Stock, real gefilmt | Arbeit am Fußgewölbe, helle Praxis |
+
+Auswahlregeln, die sich bewährt haben:
+
+- **nur Detailaufnahmen** — Hände und Griff, nah kadriert, **keine Gesichter**
+- **keine Spa-Ästhetik** — verworfen wurden alle Clips mit warmem Stimmungslicht,
+  öliger Haut, Kerzen oder sinnlicher Kadrierung, ebenso ein Clip aus einem
+  Wohnzimmer-Salon mit Duschkabine im Bild
+- bevorzugt wurde, was nach **Praxis** aussieht: Physiotherapie, Chiropraktik, helle
+  Räume, sachliche Kadrierung
+
+Jeder Clip ist auf 6 Sekunden geschnitten, auf 1600 px skaliert, tonlos, und leicht
+**kühler graded** (weniger Sättigung, Blauanteil erhöht), damit er zur Porzellan-Palette
+der Seite passt statt nach Beige-Wellness auszusehen.
+
+## Generierte Standbilder
+
+Standbilder werden mit **Recraft V4.1** erzeugt. Im Foto stört die Künstlichkeit nicht,
+solange die Bildsprache stimmt — im Bewegtbild sehr wohl.
 
 Die Aufnahmen zeigen **keine realen Personen** und keine reale Ausbilderin. Sie sind
 Platzhalter, bis eigene Fotos aus dem Unterricht vorliegen.
 
-| Datei | Erzeugung | Motiv |
-|---|---|---|
-| `video/hand-01-oil.mp4` | Recraft V4.1 → Kling 3.0, 1080p, 5 s | Hände verteilen Öl |
-| `video/hand-02-correction.mp4` | Recraft V4.1 → Kling 3.0, 1080p, 5 s | Hand auf Hand, Korrektur am Handgelenk |
-| `img/body-map.jpg` | Recraft V4.1 | Körperfigur für den Kursfinder |
-| `img/t-office.jpg` | Recraft V4.1 | Office-Syndrom-Massage |
-| `img/t-cupping.jpg` | Recraft V4.1 | Schröpfen |
-| `img/t-facial.jpg` | Recraft V4.1 | Facial Lifting |
-| `img/t-foot.jpg` | Recraft V4.1 | Fußmassage und Spa |
-| `img/t-fusspflege.jpg` | Recraft V4.1 | Fußpflege |
+| Datei | Motiv |
+|---|---|
+| `img/body-map.jpg` | Körperfigur für den Kursfinder |
+| `img/t-office.jpg` | Office-Syndrom-Massage |
+| `img/t-cupping.jpg` | Schröpfen |
+| `img/t-facial.jpg` | Facial Lifting |
+| `img/t-foot.jpg` | Fußmassage und Spa |
+| `img/t-fusspflege.jpg` | Fußpflege |
 
 ### Bildsprache
 
-Der frühere Satz sah nach Spa-Werbung aus und wurde vollständig ersetzt. Die
-Prompts sind jetzt auf Reportage festgelegt, nicht auf Werbung:
+Der erste Satz sah nach Spa-Werbung aus und wurde vollständig ersetzt. Die Prompts sind
+jetzt auf Reportage festgelegt, nicht auf Werbung:
 
 - 35-mm-Reportage, ausschließlich vorhandenes Licht, kein Studiolicht, kein Aufheller
 - echter deutscher Unterrichtsraum: weiße Wand, Fenster mit weißem Rahmen,
@@ -59,28 +80,12 @@ Prompts sind jetzt auf Reportage festgelegt, nicht auf Werbung:
 - ausgeschlossen: Kerzen, Orchideen, gestapelte Steine, Bambus, warmes Stimmungslicht,
   glänzend geölte Haut, Retusche, Modelgesichter, symmetrische Studiokomposition
 
-### Bewegung
-
-Die Kling-Prompts beschreiben nur die Bewegung, nicht das Bild — und ausdrücklich
-**keine** Kamerafahrt: kein Zoom, kein Schwenk, kein Push-in, keine Umfahrung. Nur
-das, was im Raum wirklich passiert: Hände, die Öl verteilen, ein Druck, der nachlässt,
-eine Dozentin, die ihr Gewicht verlagert. Das ist der Grund, warum die Clips nicht wie
-KI-Video aussehen.
-
 ## Verworfene Aufnahmen
 
-**Keine Weitwinkel-Videos mit Personen.** Der Klassenraum-Clip wurde entfernt: eine
-generierte Totale mit mehreren Gesichtern und liegenden Körpern wirkt unheimlich, egal
-wie gut das Standbild ist. Je mehr vollständige Menschen sich in einem KI-Video bewegen,
-desto stärker fällt das Uncanny-Valley auf.
-
-Regel für Bewegtbild: **nur Detailaufnahmen.** Hände, Werkzeug, ein Griff — nah
-kadriert, ohne Blick in die Kamera, ohne Totale des Raums. Weitwinkel-Situationen
-bleiben Standbilder, denn im Foto stört die Künstlichkeit nicht.
-
-Ein Gua-Sha-Clip wurde ebenfalls nicht übernommen: die Kadrierung wirkte wie
-Spa-Werbung statt wie Unterricht, und die Abdeckung entsprach nicht der im Briefing
-verlangten professionellen Draperie.
+**Kein KI-Bewegtbild mehr.** Die generierten Clips (Öl zwischen den Händen, Korrektur
+Hand auf Hand, Totale des Unterrichtsraums) sind vollständig entfernt und durch
+Realfilm ersetzt. Die Totale war der schlimmste Fall: je mehr vollständige Menschen
+sich in einem KI-Clip bewegen, desto stärker fällt das Uncanny-Valley auf.
 
 ## Regel für Zertifikate
 
