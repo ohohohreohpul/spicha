@@ -62,12 +62,25 @@ export function TrustStrip({ t, locale }: { t: UiDictionary; locale: Locale }) {
           ))}
         </KineticMarquee>
 
-        {/* Hairline-divided rows, not a card grid. */}
-        <ul className="grid grid-cols-1 gap-px bg-hairline sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        {/* Hairline-divided columns, not a card grid. The dividers are the
+            parent's background showing through a 1px grid gap.
+
+            The negative margin is what buys the text its distance from those
+            dividers. Every cell is padded on both sides, and the grid is then
+            pulled back out by the same amount, so the outer text still lines up
+            with the shell edge. The outdent tracks the shell's own padding at
+            each breakpoint — overshooting it pushes the grid past the viewport
+            and gives the whole document a horizontal scrollbar.
+
+            Doing this with a first-child exception instead does not work here:
+            the padded element is the only child of its own wrapper, so
+            `first:` matches in every column and silently removes the left
+            padding from all of them. */}
+        <ul className="grid grid-cols-1 gap-px bg-hairline sm:-mx-4 sm:grid-cols-2 md:-mx-6 lg:grid-cols-3 xl:-mx-7 xl:grid-cols-5">
           {points.map((point, index) => (
             <li key={point.label} className="bg-porcelain-deep">
               <Reveal delay={index * 0.07} className="h-full">
-                <div className="flex h-full flex-col gap-2.5 px-0 py-7 sm:px-6 sm:first:pl-0 xl:px-7">
+                <div className="flex h-full flex-col gap-2.5 px-0 py-7 sm:px-4 md:px-6 xl:px-7">
                   <p
                     className={`text-[0.65rem] font-semibold uppercase tracking-[0.16em] ${
                       point.gold ? 'text-gold' : 'text-ink-muted'
