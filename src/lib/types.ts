@@ -7,6 +7,7 @@ export type BodyArea =
   | 'arme-beine'
   | 'ganzkoerper'
   | 'fuesse'
+  | 'haende-naegel'
   | 'praxis';
 
 export type ProgramCategory = 'kurzkurs' | 'ausbildung' | 'betrieb';

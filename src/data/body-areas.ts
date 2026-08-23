@@ -82,6 +82,18 @@ export const BODY_AREAS: readonly BodyAreaMeta[] = [
     },
   },
   {
+    id: 'haende-naegel',
+    label: { de: 'Hände und Nägel', th: 'มือและเล็บ' },
+    complaint: {
+      de: 'Naturnagel aufbauen, Nagelhaut, Modellage die hält',
+      th: 'เสริมหน้าเล็บ หนังรอบเล็บ งานเจลที่อยู่ทน',
+    },
+    description: {
+      de: 'Arbeit auf wenigen Quadratzentimetern. Vorbereitung des Naturnagels, Führung der Fräse und ein Aufbau, der Wochen hält statt Tage.',
+      th: 'งานบนพื้นที่เพียงไม่กี่ตารางเซนติเมตร ตั้งแต่การเตรียมหน้าเล็บ การใช้เครื่องเจียร์ ไปจนถึงการวางโครงที่อยู่ได้เป็นสัปดาห์ ไม่ใช่แค่วันสองวัน',
+    },
+  },
+  {
     id: 'praxis',
     label: { de: 'Betrieb und Berufspraxis', th: 'การบริหารร้านและการประกอบวิชาชีพ' },
     complaint: {

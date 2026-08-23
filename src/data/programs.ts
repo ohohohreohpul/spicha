@@ -689,6 +689,111 @@ export const PROGRAMS: readonly Program[] = [
       th: 'ใบประกาศนียบัตรรับรองความรู้ ลงนามโดยแพทย์ Prof. Dr. med. Bernd Wüsten รับได้ในวันเรียนเลย',
     },
   },
+  {
+    id: 'gel-basis',
+    slug: 'basiskurs-gelmodellage',
+    title: { de: 'Basiskurs Gelmodellage', th: 'คอร์สปูพื้นฐานทำเล็บเจล' },
+    subtitle: {
+      de: 'Naturnagel vorbereiten, Russian Maniküre und ein Overlay, das hält',
+      th: 'ปูพื้นฐานทำเล็บเจลอย่างถูกวิธี พร้อมต่อยอดสู่อาชีพจริง',
+    },
+    category: 'ausbildung',
+    bodyAreas: ['haende-naegel'],
+    price: 750,
+    priceNote: { de: 'zzgl. 19 % MwSt.', th: 'ยังไม่รวมภาษี 19%' },
+    durationDays: 2,
+    durationLabel: { de: '2 Tage · 09:00–17:00', th: '2 วัน · 09:00–17:00 น.' },
+    languages: ['de', 'th'],
+    audience: {
+      de: 'Für Einsteigerinnen und Einsteiger ohne Vorkenntnisse und für Nageldesignerinnen, die ihre Technik systematisch nacharbeiten wollen.',
+      th: 'เหมาะสำหรับผู้เริ่มต้น ไม่มีพื้นฐาน และผู้ที่ต้องการพัฒนาทักษะการทำเล็บให้เป็นระบบ',
+    },
+    outcomes: {
+      de: [
+        'Den Naturnagel nach Salon-Standard vorbereiten und die Vorbehandlung in der richtigen Reihenfolge aufbauen',
+        'Cleanser, Dehydrator, Primer und Base Gel unterscheiden und gezielt einsetzen',
+        'Die Fräse sicher führen, ohne den Naturnagel zu schädigen',
+        'Ein Overlay modellieren, das hält, und die Nagelform ausbalanciert feilen',
+        'Gel ablösen, ohne die Nagelplatte anzugreifen',
+      ],
+      th: [
+        'เตรียมหน้าเล็บตามมาตรฐานร้าน และวางขั้นตอนก่อนลงเจลได้ถูกลำดับ',
+        'แยกความต่างของ Cleanser, Dehydrator, Primer และ Base Gel และเลือกใช้ได้ตรงงาน',
+        'ใช้เครื่องเจียร์ได้อย่างมั่นใจ โดยไม่ทำให้หน้าเล็บเสียหาย',
+        'วางโครง Overlay ให้แข็งแรง และตะไบทรงเล็บให้สมดุล',
+        'ถอดเจลได้อย่างถูกวิธี ไม่ทำร้ายแผ่นเล็บ',
+      ],
+    },
+    curriculum: {
+      de: [
+        'Nagelvorbereitung nach Salon-Standard',
+        'Produkte der Vorbehandlung: Cleanser, Dehydrator, Primer, Base Gel',
+        'Sichere Führung der Fräse (E-File)',
+        'Nagelhaut vorbereiten und reinigen',
+        'Technik der Russian Maniküre',
+        'Nagelfläche aufbauen und korrigieren',
+        'Farbgel gleichmäßig, sauber und haltbar auftragen',
+        'Overlay setzen — stabil und natürlich im Ergebnis',
+        'Nagelform ausbalanciert feilen',
+        'Gel schadenfrei ablösen',
+        'Praxis am Modell mit Einzelkorrektur',
+      ],
+      th: [
+        'การเตรียมหน้าเล็บแบบมาตรฐาน Salon Prep',
+        'การเลือกและใช้ผลิตภัณฑ์สำหรับเตรียมหน้าเล็บ Cleanser • Dehydrator • Primer • Base Gel',
+        'การใช้เครื่องเจียร์ E-File อย่างถูกวิธี',
+        'การเตรียมและทำความสะอาดหนังรอบเล็บ',
+        'เทคนิค Russian Manikure',
+        'การเสริมและปรับโครงสร้างหน้าเล็บ',
+        'เทคนิคการทาสีเจลให้เรียบ สวย และติดทน',
+        'การวาง Overlay ให้แข็งแรงและดูเป็นธรรมชาติ',
+        'การตะไบทรงเล็บให้สวยสมดุล',
+        'การถอด Gel อย่างถูกวิธี ลดความเสียหายต่อหน้าเล็บ',
+        'ฝึกปฏิบัติจริง พร้อมคำแนะนำและแก้ไขเทคนิคแบบตัวต่อตัว',
+      ],
+    },
+    prerequisites: { de: 'Keine Vorkenntnisse erforderlich.', th: 'ไม่ต้องมีพื้นฐานมาก่อน' },
+    certificate: {
+      de: 'Zwei Zertifikate: eines der Kosmetikschule Picha und eines mit BfD-Siegel.',
+      th: 'ใบประกาศนียบัตร 2 ใบ จากโรงเรียน S.Picha และแบบประทับตรา BfD',
+    },
+    included: {
+      de: ['Kursunterlagen', 'Produkte und Materialien für beide Kurstage', 'Zwei Zertifikate'],
+      th: ['เอกสารประกอบการเรียน', 'ผลิตภัณฑ์และอุปกรณ์ที่ใช้ทั้งสองวัน', 'ใบประกาศนียบัตร 2 ใบ'],
+    },
+    faq: [
+      {
+        q: {
+          de: 'Kann ich den Kurs ohne Vorerfahrung besuchen?',
+          th: 'ไม่มีประสบการณ์มาก่อนเรียนได้ไหม',
+        },
+        a: {
+          de: 'Ja. Tag eins beginnt bei der Produktkunde und der Vorbereitung des Naturnagels. Sie arbeiten an beiden Tagen am Modell und werden einzeln korrigiert.',
+          th: 'เรียนได้ วันแรกเริ่มจากความรู้เรื่องผลิตภัณฑ์และการเตรียมหน้าเล็บ คุณจะได้ฝึกกับแบบจริงทั้งสองวัน และมีครูแก้เทคนิคให้แบบตัวต่อตัว',
+        },
+      },
+      {
+        q: {
+          de: 'Brauche ich eigene Fräse und Produkte?',
+          th: 'ต้องเตรียมเครื่องเจียร์และผลิตภัณฑ์มาเองไหม',
+        },
+        a: {
+          de: 'Nein. Produkte und Materialien für beide Kurstage sind im Preis enthalten. Wer mit dem eigenen Gerät arbeiten möchte, darf es mitbringen.',
+          th: 'ไม่ต้อง ผลิตภัณฑ์และอุปกรณ์ที่ใช้ทั้งสองวันรวมอยู่ในค่าเรียนแล้ว ถ้าอยากใช้เครื่องของตัวเองก็นำมาได้',
+        },
+      },
+      {
+        q: {
+          de: 'Darf ich nach dem Kurs beruflich arbeiten?',
+          th: 'จบแล้วเปิดรับลูกค้าได้เลยไหม',
+        },
+        a: {
+          de: 'Das Zertifikat belegt die erfolgreiche Kursteilnahme. Ob und in welcher Form Sie selbstständig arbeiten dürfen, richtet sich nach den gewerberechtlichen Vorgaben an Ihrem Standort.',
+          th: 'ใบประกาศเป็นหลักฐานว่าผ่านการอบรมแล้ว ส่วนจะเปิดกิจการเองได้ในรูปแบบใด ขึ้นอยู่กับข้อกำหนดทางการค้าในพื้นที่ของคุณ',
+        },
+      },
+    ],
+  },
 ] as const;
 
 export const PROGRAM_BY_ID = new Map(PROGRAMS.map((p) => [p.id, p]));

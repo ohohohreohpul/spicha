@@ -18,5 +18,6 @@ export const HOTSPOTS: readonly Hotspot[] = [
   { area: 'ganzkoerper', x: 50, y: 34, side: 'right' },
   { area: 'arme-beine', x: 34, y: 47, side: 'left' },
   { area: 'ruecken', x: 57, y: 44, side: 'right' },
+  { area: 'haende-naegel', x: 62, y: 59, side: 'right' },
   { area: 'fuesse', x: 50, y: 93, side: 'left' },
 ];
