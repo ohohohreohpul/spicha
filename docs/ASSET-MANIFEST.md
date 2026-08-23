@@ -38,7 +38,6 @@ Platzhalter, bis eigene Fotos aus dem Unterricht vorliegen.
 |---|---|---|
 | `video/hand-01-oil.mp4` | Recraft V4.1 → Kling 3.0, 1080p, 5 s | Hände verteilen Öl |
 | `video/hand-02-correction.mp4` | Recraft V4.1 → Kling 3.0, 1080p, 5 s | Hand auf Hand, Korrektur am Handgelenk |
-| `video/hand-03-classroom.mp4` | Recraft V4.1 → Kling 3.0, 1080p, 5 s | Übung zu zweit im Unterrichtsraum |
 | `img/body-map.jpg` | Recraft V4.1 | Körperfigur für den Kursfinder |
 | `img/t-office.jpg` | Recraft V4.1 | Office-Syndrom-Massage |
 | `img/t-cupping.jpg` | Recraft V4.1 | Schröpfen |
@@ -70,10 +69,18 @@ KI-Video aussehen.
 
 ## Verworfene Aufnahmen
 
-Ein vierter generierter Clip (Gua-Sha-Nahaufnahme) wurde nicht übernommen: die
-Kadrierung wirkte wie Spa-Werbung statt wie Unterricht, und die Abdeckung entsprach
-nicht der im Briefing verlangten professionellen Draperie. Ein Ersatz sollte die
-Werkzeugführung zeigen, nicht die Haut.
+**Keine Weitwinkel-Videos mit Personen.** Der Klassenraum-Clip wurde entfernt: eine
+generierte Totale mit mehreren Gesichtern und liegenden Körpern wirkt unheimlich, egal
+wie gut das Standbild ist. Je mehr vollständige Menschen sich in einem KI-Video bewegen,
+desto stärker fällt das Uncanny-Valley auf.
+
+Regel für Bewegtbild: **nur Detailaufnahmen.** Hände, Werkzeug, ein Griff — nah
+kadriert, ohne Blick in die Kamera, ohne Totale des Raums. Weitwinkel-Situationen
+bleiben Standbilder, denn im Foto stört die Künstlichkeit nicht.
+
+Ein Gua-Sha-Clip wurde ebenfalls nicht übernommen: die Kadrierung wirkte wie
+Spa-Werbung statt wie Unterricht, und die Abdeckung entsprach nicht der im Briefing
+verlangten professionellen Draperie.
 
 ## Regel für Zertifikate
 

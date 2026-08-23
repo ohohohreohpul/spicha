@@ -10,12 +10,10 @@ const CLIP_ALT: Record<Locale, readonly string[]> = {
   de: [
     'Die Hände der Ausbilderin verteilen warmes Massageöl zwischen den Handflächen.',
     'Die Ausbilderin führt die Hand einer Schülerin und korrigiert Winkel und Druck am Schultergürtel.',
-    'Schülerinnen üben paarweise an Behandlungsliegen, die Ausbilderin geht zwischen ihnen hindurch und beobachtet.',
   ],
   th: [
     'มือของครูผู้สอนกำลังเกลี่ยน้ำมันนวดอุ่น ๆ ระหว่างฝ่ามือทั้งสองข้าง',
     'ครูผู้สอนจับมือนักเรียนเพื่อแก้องศาข้อมือและน้ำหนักการกดบริเวณบ่า',
-    'นักเรียนฝึกนวดเป็นคู่บนเตียงนวด โดยมีครูเดินดูอยู่ระหว่างเตียง',
   ],
 };
 
@@ -24,7 +22,6 @@ function clips(locale: Locale): readonly Clip[] {
   return [
     { src: '/video/hand-01-oil.mp4', poster: '/video/poster-01.jpg', alt: alt[0] },
     { src: '/video/hand-02-correction.mp4', poster: '/video/poster-02.jpg', alt: alt[1] },
-    { src: '/video/hand-03-classroom.mp4', poster: '/video/poster-03.jpg', alt: alt[2] },
   ];
 }
 
