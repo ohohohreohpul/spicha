@@ -65,7 +65,7 @@ export function Magnetic({
   }, [strength]);
 
   return (
-    <span ref={ref} className={`inline-block ${className}`}>
+    <span ref={ref} className={`inline-flex ${className}`}>
       {children}
     </span>
   );

@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { ParallaxMedia } from '@/components/motion/ParallaxMedia';
 import { AvailabilityBadge } from '@/components/ui/Availability';
 import { LinkButton } from '@/components/ui/Button';
 import { Reveal } from '@/components/motion/Reveal';
@@ -36,7 +37,7 @@ export function FeaturedCourse({
     <div className="mt-12 grid gap-12 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-20">
       <div>
         <Reveal>
-          <div className="relative aspect-16/10 overflow-hidden bg-porcelain-deep">
+          <ParallaxMedia className="relative aspect-16/10 bg-porcelain-deep">
             <Image
               src="/img/t-office.jpg"
               alt={t.featured.imageAlt}
@@ -44,7 +45,7 @@ export function FeaturedCourse({
               sizes="(max-width: 1024px) 92vw, 55vw"
               className="object-cover"
             />
-          </div>
+          </ParallaxMedia>
         </Reveal>
 
         <div className="mt-10">

@@ -230,6 +230,31 @@ html[lang='th'] h2 .italic {
   z-index: 1;
 }
 
+/* ------------------------------------------------------------------ *
+ * Pulse on the selected pressure point.
+ * Transform and opacity only, so it stays on the compositor and costs
+ * nothing while it loops. Pure CSS on purpose — a perpetual JS tween here
+ * would re-render the finder on every frame.
+ * ------------------------------------------------------------------ */
+@keyframes pressure-pulse {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.55;
+  }
+  70% {
+    transform: scale(1.75);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.75);
+    opacity: 0;
+  }
+}
+
+.pulse-ring {
+  animation: pressure-pulse 2.4s var(--ease-out-quart) infinite;
+}
+
 /* Pressure paths draw themselves when their section enters the viewport. */
 .pressure-path path {
   stroke-dasharray: var(--path-length, 800);
@@ -263,5 +288,9 @@ html[lang='th'] h2 .italic {
   .spotlight::before,
   .wipe-hover::after {
     display: none;
+  }
+
+  .pulse-ring {
+    animation: none;
   }
 }

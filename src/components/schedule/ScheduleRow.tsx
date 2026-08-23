@@ -1,3 +1,4 @@
+import { Spotlight } from '@/components/motion/Spotlight';
 import { AvailabilityBadge } from '@/components/ui/Availability';
 import type { Locale } from '@/i18n/config';
 import { fill, type UiDictionary } from '@/i18n/ui';
@@ -7,6 +8,9 @@ import type { SessionView } from '@/lib/types';
 /**
  * One session, presented as an editorial row rather than a boxed card:
  * date rail on the left, facts in the middle, action on the right.
+ *
+ * On hover the row lights under the cursor and the date pushes forward, so the
+ * row you are about to click is the one that reacts — cancelled rows stay inert.
  */
 export function ScheduleRow({
   session,
@@ -20,13 +24,16 @@ export function ScheduleRow({
   const cancelled = session.status === 'abgesagt';
 
   return (
-    <article
-      className={`group grid grid-cols-[3.5rem_minmax(0,1fr)] gap-x-5 gap-y-4 border-b border-hairline py-6 transition-colors duration-150 md:grid-cols-[4.5rem_minmax(0,1fr)_auto] md:gap-x-8 ${
-        cancelled ? 'opacity-65' : 'hover:bg-paper/70'
+    <Spotlight
+      as="article"
+      className={`group grid grid-cols-[3.5rem_minmax(0,1fr)] gap-x-5 gap-y-4 border-b border-hairline py-6 md:grid-cols-[4.5rem_minmax(0,1fr)_auto] md:gap-x-8 ${
+        cancelled ? 'opacity-65' : ''
       }`}
     >
       <div className="numeric text-center">
-        <div className="font-display text-3xl leading-none">{session.dayLabel}</div>
+        <div className="font-display text-3xl leading-none transition-transform duration-[var(--dur-4)] ease-[var(--ease-out-quart)] group-hover:-translate-y-0.5">
+          {session.dayLabel}
+        </div>
         <div className="mt-1 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-ink-muted">
           {session.monthLabel}
         </div>
@@ -109,6 +116,6 @@ export function ScheduleRow({
           </a>
         )}
       </div>
-    </article>
+    </Spotlight>
   );
 }

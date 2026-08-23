@@ -131,6 +131,15 @@ export function BodyFinder({ t, locale }: { t: UiDictionary; locale: Locale }) {
                       transform: isActive ? 'scale(1)' : 'scale(0.55)',
                     }}
                   />
+                  {/* The selected point keeps breathing, so the finder never
+                      looks like a static diagram. */}
+                  {isSelected ? (
+                    <span
+                      aria-hidden
+                      className="pulse-ring absolute h-11 w-11 rounded-full border border-pressure/70"
+                    />
+                  ) : null}
+
                   {/* Pressure point */}
                   <span
                     aria-hidden

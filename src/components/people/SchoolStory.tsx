@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { ParallaxMedia } from '@/components/motion/ParallaxMedia';
 import { Reveal } from '@/components/motion/Reveal';
 import { FOUNDER, RECOGNITION } from '@/data/school';
 import type { Locale } from '@/i18n/config';
@@ -10,7 +11,7 @@ export function SchoolStory({ t, locale }: { t: UiDictionary; locale: Locale }) 
       <div>
         <Reveal>
           <figure>
-            <div className="relative aspect-4/3 overflow-hidden bg-porcelain-deep">
+            <ParallaxMedia className="relative aspect-4/3 bg-porcelain-deep">
               <Image
                 src="/img/school-team.jpg"
                 alt={t.school.teamAlt}
@@ -18,7 +19,7 @@ export function SchoolStory({ t, locale }: { t: UiDictionary; locale: Locale }) 
                 sizes="(max-width: 1024px) 92vw, 46vw"
                 className="object-cover"
               />
-            </div>
+            </ParallaxMedia>
             <figcaption className="mt-3 text-xs text-ink-muted">{t.school.teamCaption}</figcaption>
           </figure>
         </Reveal>
@@ -26,13 +27,13 @@ export function SchoolStory({ t, locale }: { t: UiDictionary; locale: Locale }) 
         <div className="mt-10 grid grid-cols-[8rem_minmax(0,1fr)] gap-6">
           <Reveal delay={0.08}>
             <figure>
-              <div className="relative aspect-3/4 overflow-hidden bg-porcelain-deep grayscale">
+              <div className="group relative aspect-3/4 overflow-hidden bg-porcelain-deep">
                 <Image
                   src="/img/founder-1983.jpg"
                   alt={t.school.archiveAlt}
                   fill
                   sizes="128px"
-                  className="object-cover"
+                  className="object-cover grayscale transition-[filter,transform] duration-[var(--dur-5)] ease-[var(--ease-out-quart)] group-hover:scale-[1.04] group-hover:grayscale-0"
                 />
               </div>
               <figcaption className="numeric mt-2 text-[0.7rem] text-ink-muted">1983</figcaption>
