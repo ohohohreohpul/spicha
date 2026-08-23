@@ -26,24 +26,47 @@ ohne weitere Codeänderung; der Dateiname bleibt gleich.
 
 ## Generiertes Material
 
-Erzeugt über Freepik/Magnific. Zeigt **keine realen Personen** und keine reale
-Ausbilderin. Als Platzhalter gedacht, bis eigene Fotos vorliegen.
+Alle Bilder werden mit **Recraft V4.1** erzeugt, die Hero-Clips anschließend mit
+**Kling 3.0** aus genau diesen Bildern animiert (das Recraft-Bild ist der Startframe).
+Kein Clip entsteht als reines Text-zu-Video — deshalb bleiben Licht, Farbe, Korn und
+Bildausschnitt über Standbild und Bewegung identisch.
 
-| Datei | Modell | Motiv |
+Die Aufnahmen zeigen **keine realen Personen** und keine reale Ausbilderin. Sie sind
+Platzhalter, bis eigene Fotos aus dem Unterricht vorliegen.
+
+| Datei | Erzeugung | Motiv |
 |---|---|---|
-| `video/hand-01-oil.mp4` | Seedance 2.0 Pro, 1080p, 5 s | Hände verteilen Öl |
-| `video/hand-02-correction.mp4` | Seedance 2.0 Pro, 1080p, 5 s | Handhaltung am Schultergürtel |
-| `video/hand-03-classroom.mp4` | Kling 2.5, 1080p, 5 s | Übung zu zweit im Unterrichtsraum |
-| `img/body-map.jpg` | Text-to-Image | Körperfigur für den Kursfinder |
-| `img/t-office.jpg` | Text-to-Image | Office-Syndrom-Massage |
-| `img/t-cupping.jpg` | Text-to-Image | Schröpfen |
-| `img/t-facial.jpg` | Text-to-Image | Facial Lifting |
-| `img/t-foot.jpg` | Text-to-Image | Fußmassage und Spa |
-| `img/t-fusspflege.jpg` | Text-to-Image | Fußpflege |
+| `video/hand-01-oil.mp4` | Recraft V4.1 → Kling 3.0, 1080p, 5 s | Hände verteilen Öl |
+| `video/hand-02-correction.mp4` | Recraft V4.1 → Kling 3.0, 1080p, 5 s | Hand auf Hand, Korrektur am Handgelenk |
+| `video/hand-03-classroom.mp4` | Recraft V4.1 → Kling 3.0, 1080p, 5 s | Übung zu zweit im Unterrichtsraum |
+| `img/body-map.jpg` | Recraft V4.1 | Körperfigur für den Kursfinder |
+| `img/t-office.jpg` | Recraft V4.1 | Office-Syndrom-Massage |
+| `img/t-cupping.jpg` | Recraft V4.1 | Schröpfen |
+| `img/t-facial.jpg` | Recraft V4.1 | Facial Lifting |
+| `img/t-foot.jpg` | Recraft V4.1 | Fußmassage und Spa |
+| `img/t-fusspflege.jpg` | Recraft V4.1 | Fußpflege |
 
-Alle Prompts enthielten dieselben Ausschlüsse: keine Kerzen, Orchideen oder gestapelten
-Steine, keine Wellness-Werbeästhetik, keine sexualisierten Posen, korrekte Handanatomie,
-professionelle Abdeckung. Negative Prompts sind im Generierungsprotokoll hinterlegt.
+### Bildsprache
+
+Der frühere Satz sah nach Spa-Werbung aus und wurde vollständig ersetzt. Die
+Prompts sind jetzt auf Reportage festgelegt, nicht auf Werbung:
+
+- 35-mm-Reportage, ausschließlich vorhandenes Licht, kein Studiolicht, kein Aufheller
+- echter deutscher Unterrichtsraum: weiße Wand, Fenster mit weißem Rahmen,
+  Heizkörper, Laminat, Wanduhr, Whiteboard, Handtuchwagen, Ölflasche auf einem Hocker
+- Arbeitshände: kurze blanke Nägel, sichtbare Sehnen, kein Schmuck, keine Maniküre
+- echte Haut mit Poren und Falten, gedeckte Farben, feines Filmkorn, leicht
+  unperfekter Bildausschnitt, niemand blickt in die Kamera
+- ausgeschlossen: Kerzen, Orchideen, gestapelte Steine, Bambus, warmes Stimmungslicht,
+  glänzend geölte Haut, Retusche, Modelgesichter, symmetrische Studiokomposition
+
+### Bewegung
+
+Die Kling-Prompts beschreiben nur die Bewegung, nicht das Bild — und ausdrücklich
+**keine** Kamerafahrt: kein Zoom, kein Schwenk, kein Push-in, keine Umfahrung. Nur
+das, was im Raum wirklich passiert: Hände, die Öl verteilen, ein Druck, der nachlässt,
+eine Dozentin, die ihr Gewicht verlagert. Das ist der Grund, warum die Clips nicht wie
+KI-Video aussehen.
 
 ## Verworfene Aufnahmen
 

@@ -13,7 +13,7 @@ export type Hotspot = {
 };
 
 export const HOTSPOTS: readonly Hotspot[] = [
-  { area: 'kopf-gesicht', x: 50, y: 12, side: 'right' },
+  { area: 'kopf-gesicht', x: 50, y: 8, side: 'right' },
   { area: 'nacken-schulter', x: 42, y: 23, side: 'left' },
   { area: 'ganzkoerper', x: 50, y: 34, side: 'right' },
   { area: 'arme-beine', x: 34, y: 47, side: 'left' },
