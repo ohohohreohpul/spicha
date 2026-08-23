@@ -74,7 +74,9 @@ export function SiteHeader({ t, locale }: { t: UiDictionary; locale: Locale }) {
             </span>
             <span
               className={`hidden border-l pl-3 text-[0.65rem] font-semibold uppercase leading-tight tracking-[0.14em] sm:inline ${
-                overFilm ? 'border-porcelain/25 text-porcelain/70' : 'border-hairline text-ink-muted'
+                overFilm
+                  ? 'border-porcelain/25 text-porcelain/70'
+                  : 'border-hairline text-ink-muted'
               }`}
             >
               {t.nav.recognised}
@@ -168,7 +170,11 @@ export function SiteHeader({ t, locale }: { t: UiDictionary; locale: Locale }) {
           </div>
         </div>
 
-        <div id="mobile-nav" hidden={!menuOpen} className="border-t border-hairline bg-porcelain md:hidden">
+        <div
+          id="mobile-nav"
+          hidden={!menuOpen}
+          className="border-t border-hairline bg-porcelain md:hidden"
+        >
           <nav aria-label={t.nav.main} className="shell flex flex-col py-2">
             {nav.map((item) => (
               <a
@@ -180,7 +186,10 @@ export function SiteHeader({ t, locale }: { t: UiDictionary; locale: Locale }) {
                 {item.label}
               </a>
             ))}
-            <a href={SCHOOL.phoneHref} className="border-b border-hairline/60 py-4 text-base font-semibold text-teal">
+            <a
+              href={SCHOOL.phoneHref}
+              className="border-b border-hairline/60 py-4 text-base font-semibold text-teal"
+            >
               <span className="numeric">{SCHOOL.phone}</span> · {SCHOOL.contactPerson[locale]}
             </a>
             <div className="flex gap-2 py-4">

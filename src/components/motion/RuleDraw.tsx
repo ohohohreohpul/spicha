@@ -1,22 +1,22 @@
-"use client";
+'use client';
 
-import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { MOTION_OK } from "@/lib/motion";
-import { whenVisible } from "@/lib/when-visible";
+import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { MOTION_OK } from '@/lib/motion';
+import { whenVisible } from '@/lib/when-visible';
 
 /**
  * A hairline that draws itself from one end when it scrolls into view.
  * Used wherever the layout would otherwise just present a static border.
  */
 export function RuleDraw({
-  className = "",
+  className = '',
   delay = 0,
-  origin = "left",
+  origin = 'left',
 }: {
   className?: string;
   delay?: number;
-  origin?: "left" | "right";
+  origin?: 'left' | 'right';
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -33,9 +33,9 @@ export function RuleDraw({
           {
             scaleX: 1,
             duration: 1.1,
-            ease: "outExpo",
+            ease: 'outExpo',
             delay,
-            scrollTrigger: { trigger: el, start: "top 94%", once: true },
+            scrollTrigger: { trigger: el, start: 'top 94%', once: true },
           },
         );
         return () => {
@@ -52,7 +52,7 @@ export function RuleDraw({
     <div
       aria-hidden
       ref={ref}
-      className={`h-px bg-hairline ${origin === "left" ? "origin-left" : "origin-right"} ${className}`}
+      className={`h-px bg-hairline ${origin === 'left' ? 'origin-left' : 'origin-right'} ${className}`}
     />
   );
 }

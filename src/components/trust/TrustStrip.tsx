@@ -1,3 +1,4 @@
+import { KineticMarquee } from '@/components/motion/KineticMarquee';
 import { Reveal } from '@/components/motion/Reveal';
 import { RECOGNITION, SCHOOL } from '@/data/school';
 import { SECTION_IDS, type Locale } from '@/i18n/config';
@@ -38,15 +39,28 @@ export function TrustStrip({ t, locale }: { t: UiDictionary; locale: Locale }) {
   ];
 
   return (
-    <section
-      id={SECTION_IDS.trust}
-      aria-labelledby="vertrauen-titel"
-      className="bg-porcelain-deep"
-    >
+    <section id={SECTION_IDS.trust} aria-labelledby="vertrauen-titel" className="bg-porcelain-deep">
       <div className="shell py-14 md:py-20">
         <h2 id="vertrauen-titel" className="sr-only">
           {t.trust.srTitle}
         </h2>
+
+        {/* Credential ribbon. Drifts on its own, speeds up with the reader's
+            scrolling and reverses when they reverse. The same facts are listed
+            in full below, so nothing here is load-bearing. */}
+        <KineticMarquee className="-mt-2 mb-10 border-y border-hairline py-4">
+          {points.map((point) => (
+            <span
+              key={`ribbon-${point.label}`}
+              className="flex shrink-0 items-center gap-5 pr-5 text-sm uppercase tracking-[0.14em] text-ink-muted"
+            >
+              <span aria-hidden className={point.gold ? 'text-gold' : 'text-teal'}>
+                &#9670;
+              </span>
+              {point.value}
+            </span>
+          ))}
+        </KineticMarquee>
 
         {/* Hairline-divided rows, not a card grid. */}
         <ul className="grid grid-cols-1 gap-px bg-hairline md:grid-cols-2 lg:grid-cols-5">

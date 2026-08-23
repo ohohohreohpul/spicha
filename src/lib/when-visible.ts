@@ -14,24 +14,24 @@
  * @returns a teardown that cancels the pending callback or the built animation.
  */
 export function whenVisible(build: () => (() => void) | void): () => void {
-  if (typeof document === "undefined") return () => {};
+  if (typeof document === 'undefined') return () => {};
 
-  if (document.visibilityState === "visible") {
+  if (document.visibilityState === 'visible') {
     return build() ?? (() => {});
   }
 
   let teardown: (() => void) | void;
 
   const onVisible = () => {
-    if (document.visibilityState !== "visible") return;
-    document.removeEventListener("visibilitychange", onVisible);
+    if (document.visibilityState !== 'visible') return;
+    document.removeEventListener('visibilitychange', onVisible);
     teardown = build();
   };
 
-  document.addEventListener("visibilitychange", onVisible);
+  document.addEventListener('visibilitychange', onVisible);
 
   return () => {
-    document.removeEventListener("visibilitychange", onVisible);
+    document.removeEventListener('visibilitychange', onVisible);
     teardown?.();
   };
 }

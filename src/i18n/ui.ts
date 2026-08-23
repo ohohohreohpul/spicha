@@ -41,8 +41,7 @@ export const UI = {
       headlineAccent: 'Zukunft',
       headlineC: 'bauen.',
       lead: 'Lernen Sie Massage, Fußpflege, Spa und Kosmetik in Ahrensburg — mit erfahrenen Ausbilderinnen, geführter Praxis und einem Zertifikat, das im Beruf zählt.',
-      secondary:
-        'เรียนนวด สปา ดูแลเท้า และความงาม ที่เมือง Ahrensburg สอนภาษาไทยและเยอรมัน',
+      secondary: 'เรียนนวด สปา ดูแลเท้า และความงาม ที่เมือง Ahrensburg สอนภาษาไทยและเยอรมัน',
       ctaPrimary: 'Kurs finden',
       ctaSecondary: 'Termine ansehen',
       motto: 'Berührung ist eine Fähigkeit. Übung macht daraus einen Beruf.',
@@ -51,8 +50,7 @@ export const UI = {
     nextCourse: {
       label: 'Nächster Kurs',
       emptyTitle: 'Zurzeit ist kein Termin veröffentlicht.',
-      emptyBody:
-        'Fragen Sie nach dem nächsten geplanten Kurs — wir melden uns mit einem Datum.',
+      emptyBody: 'Fragen Sie nach dem nächsten geplanten Kurs — wir melden uns mit einem Datum.',
       emptyCta: 'Nach dem nächsten Termin fragen',
       date: 'Datum',
       time: 'Zeit',
@@ -72,8 +70,7 @@ export const UI = {
       practice: 'Praxis',
       travel: 'Anreise',
       licenceValue: 'Ausbildungsbefugnis Kosmetik und Wellness',
-      licenceDetail:
-        'Erteilt durch das Regierungspräsidium Darmstadt an Sunisa Picha, 2005.',
+      licenceDetail: 'Erteilt durch das Regierungspräsidium Darmstadt an Sunisa Picha, 2005.',
       teachingValue: 'Deutsch und ไทย',
       teachingDetail: 'Sie dürfen in der Sprache fragen, in der Sie denken.',
       practiceValue: 'Kleine Gruppen, Hand an Hand',
@@ -198,8 +195,7 @@ export const UI = {
       showAll: 'Alle Termine zeigen',
       countOne: 'Termin',
       countMany: 'Termine',
-      countNote:
-        'Alle Angaben ohne Gewähr, Änderungen werden hier veröffentlicht.',
+      countNote: 'Alle Angaben ohne Gewähr, Änderungen werden hier veröffentlicht.',
       loadingSr: 'Termine werden geladen',
       updatedBadge: 'Aktualisiert',
       noSeat: 'Kein Platz buchbar',
@@ -320,8 +316,7 @@ export const UI = {
       teamAlt:
         'Sunisa Picha mit zwei Kolleginnen und einem Kollegen in weißen Kitteln vor dem Schullogo, daneben die gerahmte BfD-Anerkennung.',
       teamCaption: 'Die Schulleitung in Ahrensburg, daneben die Anerkennung durch den BfD.',
-      archiveAlt:
-        'Archivfoto von Sunisa Picha als junge Krankenpflegeschülerin in Uniform, 1983.',
+      archiveAlt: 'Archivfoto von Sunisa Picha als junge Krankenpflegeschülerin in Uniform, 1983.',
     },
     evidence: {
       note: 'Nach jedem Kurs steht dieselbe Szene am Ende: die Gruppe mit den Zertifikaten in der Hand. Was danach daraus wird, entscheidet jede Teilnehmerin selbst.',
@@ -430,8 +425,7 @@ export const UI = {
       headlineAccent: 'อนาคต',
       headlineC: 'ได้',
       lead: 'เรียนนวด ดูแลเท้า สปา และความงาม ที่เมือง Ahrensburg กับครูผู้มีประสบการณ์จริง ฝึกปฏิบัติทุกขั้นตอน และรับใบประกาศนียบัตรที่ใช้ประกอบอาชีพได้',
-      secondary:
-        'Kurse auf Deutsch und Thailändisch — mitten in Ahrensburg bei Hamburg.',
+      secondary: 'Kurse auf Deutsch und Thailändisch — mitten in Ahrensburg bei Hamburg.',
       ctaPrimary: 'ค้นหาหลักสูตร',
       ctaSecondary: 'ดูตารางเรียน',
       motto: 'การนวดคือทักษะ ฝึกจนชำนาญก็กลายเป็นอาชีพ',
@@ -574,8 +568,7 @@ export const UI = {
       onlyAvailable: 'แสดงเฉพาะรอบที่ยังมีที่นั่ง',
       resetFilters: 'ล้างตัวกรอง',
       course: 'หลักสูตร',
-      syncError:
-        'ขณะนี้ยังอัปเดตตารางเรียนไม่ได้ ข้อมูลที่เห็นคือข้อมูลที่ยืนยันล่าสุด',
+      syncError: 'ขณะนี้ยังอัปเดตตารางเรียนไม่ได้ ข้อมูลที่เห็นคือข้อมูลที่ยืนยันล่าสุด',
       emptyFiltered: 'ยังไม่มีรอบเรียนที่ตรงกับเงื่อนไขนี้',
       emptyAll: 'ขณะนี้ยังไม่มีรอบเรียนที่ประกาศ',
       emptyBody:
@@ -610,8 +603,7 @@ export const UI = {
         betrieb: {
           kicker: 'สิ่งที่เจ้าของร้านต้องมี',
           title: 'สำหรับเจ้าของกิจการ',
-          description:
-            'สิ่งที่ต้องมีเพื่อเปิดร้านให้ถูกกฎหมาย และเอกสารที่ยื่นได้เมื่อมีการตรวจ',
+          description: 'สิ่งที่ต้องมีเพื่อเปิดร้านให้ถูกกฎหมาย และเอกสารที่ยื่นได้เมื่อมีการตรวจ',
         },
       },
     },
@@ -730,8 +722,7 @@ export const UI = {
     },
     form: {
       title: 'สอบถามที่นั่ง',
-      intro:
-        'การสอบถามยังไม่ใช่การจอง คุณจะได้รับคำตอบพร้อมเงื่อนไขทั้งหมดก่อนที่จะมีอะไรผูกมัด',
+      intro: 'การสอบถามยังไม่ใช่การจอง คุณจะได้รับคำตอบพร้อมเงื่อนไขทั้งหมดก่อนที่จะมีอะไรผูกมัด',
       errorSummary: 'กรุณาตรวจสอบข้อมูลต่อไปนี้:',
       name: 'ชื่อ',
       phone: 'โทรศัพท์ หรือ LINE',
@@ -761,8 +752,7 @@ export const UI = {
       sentBody:
         'คุณนุ้ยจะติดต่อกลับด้วยตัวเอง โดยปกติภายในหนึ่งวันทำการ คุณจะได้รับการยืนยันที่นั่ง วิธีชำระเงิน และเงื่อนไขการยกเลิก',
       sentAgain: 'ส่งคำถามอีกครั้ง',
-      sendError:
-        'ขณะนี้ส่งคำถามไม่สำเร็จ กรุณาลองใหม่อีกครั้ง หรือโทร 0152 5524 8655',
+      sendError: 'ขณะนี้ส่งคำถามไม่สำเร็จ กรุณาลองใหม่อีกครั้ง หรือโทร 0152 5524 8655',
       errors: {
         name: 'กรุณากรอกชื่อของคุณ',
         contact: 'กรุณากรอกอีเมลหรือหมายเลขโทรศัพท์อย่างน้อยหนึ่งอย่าง',

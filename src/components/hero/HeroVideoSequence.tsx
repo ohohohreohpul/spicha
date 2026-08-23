@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { memo, useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from 'react';
 
 export type Clip = {
   readonly src: string;
@@ -27,11 +27,11 @@ function HeroVideoSequenceImpl({ clips }: { clips: readonly Clip[] }) {
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
   useEffect(() => {
-    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const query = window.matchMedia('(prefers-reduced-motion: reduce)');
     const sync = () => setMotionOk(!query.matches);
     sync();
-    query.addEventListener("change", sync);
-    return () => query.removeEventListener("change", sync);
+    query.addEventListener('change', sync);
+    return () => query.removeEventListener('change', sync);
   }, []);
 
   // Advance the sequence.
@@ -109,7 +109,7 @@ function HeroVideoSequenceImpl({ clips }: { clips: readonly Clip[] }) {
           poster={clip.poster}
           muted
           playsInline
-          preload={index === 0 ? "auto" : "metadata"}
+          preload={index === 0 ? 'auto' : 'metadata'}
           aria-hidden={index !== active}
           tabIndex={-1}
         />

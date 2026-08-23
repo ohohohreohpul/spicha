@@ -64,9 +64,21 @@ export function Schedule({
   const [loading, setLoading] = useState(false);
 
   const views: readonly { id: View; label: string; hint: string }[] = [
-    { id: 'naechste', label: t.schedule.views.next, hint: t.schedule.views.nextHint },
-    { id: 'nach-kurs', label: t.schedule.views.byProgram, hint: t.schedule.views.byProgramHint },
-    { id: 'kalender', label: t.schedule.views.byMonth, hint: t.schedule.views.byMonthHint },
+    {
+      id: 'naechste',
+      label: t.schedule.views.next,
+      hint: t.schedule.views.nextHint,
+    },
+    {
+      id: 'nach-kurs',
+      label: t.schedule.views.byProgram,
+      hint: t.schedule.views.byProgramHint,
+    },
+    {
+      id: 'kalender',
+      label: t.schedule.views.byMonth,
+      hint: t.schedule.views.byMonthHint,
+    },
   ];
 
   const filtered = useMemo(
@@ -98,7 +110,9 @@ export function Schedule({
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`/api/schedule?locale=${locale}`, { cache: 'no-store' });
+      const response = await fetch(`/api/schedule?locale=${locale}`, {
+        cache: 'no-store',
+      });
       if (!response.ok) throw new Error(`Response ${response.status}`);
       const next = (await response.json()) as SchedulePayload;
       startTransition(() => setPayload(next));
@@ -117,7 +131,11 @@ export function Schedule({
     <div className="mt-12">
       {/* View switch + sync stamp */}
       <div className="flex flex-wrap items-end justify-between gap-6 border-t border-ink/15 pt-6">
-        <div role="tablist" aria-label={t.schedule.views.label} className="flex flex-wrap items-center gap-1">
+        <div
+          role="tablist"
+          aria-label={t.schedule.views.label}
+          className="flex flex-wrap items-center gap-1"
+        >
           {views.map((item) => {
             const isActive = view === item.id;
             return (
@@ -128,7 +146,9 @@ export function Schedule({
                 type="button"
                 onClick={() => setView(item.id)}
                 className={`min-h-11 rounded-full px-5 text-sm font-semibold transition-colors duration-150 ${
-                  isActive ? 'bg-ink text-paper' : 'text-ink-muted hover:bg-porcelain-deep hover:text-ink'
+                  isActive
+                    ? 'bg-ink text-paper'
+                    : 'text-ink-muted hover:bg-porcelain-deep hover:text-ink'
                 }`}
               >
                 {item.label}
@@ -187,7 +207,10 @@ export function Schedule({
             <select
               value={filters.category}
               onChange={(event) =>
-                setFilters({ ...filters, category: event.target.value as Filters['category'] })
+                setFilters({
+                  ...filters,
+                  category: event.target.value as Filters['category'],
+                })
               }
               className="min-h-11 rounded-full border border-hairline bg-paper px-4 text-sm"
             >
@@ -204,7 +227,10 @@ export function Schedule({
             <select
               value={filters.bodyArea}
               onChange={(event) =>
-                setFilters({ ...filters, bodyArea: event.target.value as Filters['bodyArea'] })
+                setFilters({
+                  ...filters,
+                  bodyArea: event.target.value as Filters['bodyArea'],
+                })
               }
               className="min-h-11 rounded-full border border-hairline bg-paper px-4 text-sm"
             >
@@ -221,7 +247,10 @@ export function Schedule({
             <select
               value={filters.language}
               onChange={(event) =>
-                setFilters({ ...filters, language: event.target.value as Filters['language'] })
+                setFilters({
+                  ...filters,
+                  language: event.target.value as Filters['language'],
+                })
               }
               className="min-h-11 rounded-full border border-hairline bg-paper px-4 text-sm"
             >
@@ -254,7 +283,10 @@ export function Schedule({
       )}
 
       {error ? (
-        <p role="status" className="mt-6 border-l-2 border-pressure bg-pressure/5 px-4 py-3 text-sm text-ink">
+        <p
+          role="status"
+          className="mt-6 border-l-2 border-pressure bg-pressure/5 px-4 py-3 text-sm text-ink"
+        >
           {error}
         </p>
       ) : null}
@@ -289,8 +321,7 @@ export function Schedule({
 
       {visible.length > 0 ? (
         <p className="numeric mt-5 text-sm text-ink-muted">
-          {visible.length}{' '}
-          {visible.length === 1 ? t.schedule.countOne : t.schedule.countMany} ·{' '}
+          {visible.length} {visible.length === 1 ? t.schedule.countOne : t.schedule.countMany} ·{' '}
           {t.schedule.countNote}
         </p>
       ) : null}

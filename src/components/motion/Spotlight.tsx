@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useEffect, useRef, type ReactNode } from "react";
-import { gsap } from "gsap";
-import { MOTION_OK } from "@/lib/motion";
+import { useEffect, useRef, type ReactNode } from 'react';
+import { gsap } from 'gsap';
+import { MOTION_OK } from '@/lib/motion';
 
 /**
  * Publishes the pointer position onto the element as --mx / --my so CSS can
@@ -13,12 +13,12 @@ import { MOTION_OK } from "@/lib/motion";
  */
 export function Spotlight({
   children,
-  className = "",
-  as: Tag = "div",
+  className = '',
+  as: Tag = 'div',
 }: {
   children: ReactNode;
   className?: string;
-  as?: "div" | "article" | "li";
+  as?: 'div' | 'article' | 'li';
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -28,8 +28,8 @@ export function Spotlight({
 
     const mm = gsap.matchMedia();
     mm.add(`${MOTION_OK} and (hover: hover) and (pointer: fine)`, () => {
-      const setX = gsap.quickSetter(el, "--mx", "px");
-      const setY = gsap.quickSetter(el, "--my", "px");
+      const setX = gsap.quickSetter(el, '--mx', 'px');
+      const setY = gsap.quickSetter(el, '--my', 'px');
 
       const onMove = (event: PointerEvent) => {
         const box = el.getBoundingClientRect();
@@ -37,8 +37,8 @@ export function Spotlight({
         setY(event.clientY - box.top);
       };
 
-      el.addEventListener("pointermove", onMove);
-      return () => el.removeEventListener("pointermove", onMove);
+      el.addEventListener('pointermove', onMove);
+      return () => el.removeEventListener('pointermove', onMove);
     });
 
     return () => mm.revert();

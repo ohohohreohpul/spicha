@@ -68,7 +68,10 @@ export const PROGRAMS: readonly Program[] = [
     },
     faq: [
       {
-        q: { de: 'Kann ich den Kurs ohne Vorerfahrung besuchen?', th: 'ไม่มีประสบการณ์มาก่อนเรียนได้ไหม' },
+        q: {
+          de: 'Kann ich den Kurs ohne Vorerfahrung besuchen?',
+          th: 'ไม่มีประสบการณ์มาก่อนเรียนได้ไหม',
+        },
         a: {
           de: 'Ja. Der Kurs beginnt bei der Anatomie und der Handhaltung. Sie üben den ganzen Tag unter Anleitung.',
           th: 'เรียนได้ หลักสูตรเริ่มจากกายวิภาคและการวางมือ แล้วฝึกจริงตลอดทั้งวันโดยมีครูดูแล',
@@ -89,7 +92,10 @@ export const PROGRAMS: readonly Program[] = [
         },
       },
       {
-        q: { de: 'Darf ich nach dem Kurs beruflich behandeln?', th: 'จบแล้วเปิดรับลูกค้าได้เลยไหม' },
+        q: {
+          de: 'Darf ich nach dem Kurs beruflich behandeln?',
+          th: 'จบแล้วเปิดรับลูกค้าได้เลยไหม',
+        },
         a: {
           de: 'Das Zertifikat belegt die erfolgreiche Kursteilnahme. Ob und in welcher Form Sie selbstständig arbeiten dürfen, richtet sich nach den gewerberechtlichen Vorgaben an Ihrem Standort.',
           th: 'ใบประกาศเป็นหลักฐานว่าผ่านการอบรมแล้ว ส่วนจะเปิดกิจการเองได้ในรูปแบบใด ขึ้นอยู่กับข้อกำหนดทางการค้าในพื้นที่ของคุณ',

@@ -67,7 +67,7 @@ function ProgramEntry({
       <a
         id={`kurs-${program.slug}`}
         href={`#anfrage?kurs=${program.slug}`}
-        className="group grid scroll-mt-32 grid-cols-1 items-start gap-4 border-b border-hairline py-7 transition-colors duration-150 hover:bg-paper/60 md:grid-cols-[minmax(0,1fr)_auto] md:gap-10"
+        className="group wipe-hover grid scroll-mt-32 grid-cols-1 items-start gap-4 border-b border-hairline py-7 md:grid-cols-[minmax(0,1fr)_auto] md:gap-10"
       >
         <div className="flex gap-5">
           {image ? (
@@ -77,7 +77,7 @@ function ProgramEntry({
                 alt={image.alt[locale]}
                 fill
                 sizes="128px"
-                className="object-cover transition-transform duration-[var(--dur-5)] ease-[var(--ease-out-quart)] group-hover:scale-[1.04]"
+                className="object-cover transition-transform duration-[var(--dur-5)] ease-[var(--ease-out-quart)] group-hover:scale-[1.06]"
               />
             </div>
           ) : null}

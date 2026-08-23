@@ -1,25 +1,22 @@
-import { HeroStage } from "@/components/hero/HeroStage";
-import {
-  HeroVideoSequence,
-  type Clip,
-} from "@/components/hero/HeroVideoSequence";
-import { Magnetic } from "@/components/motion/Magnetic";
-import { NextCourseModule } from "@/components/hero/NextCourseModule";
-import { SCHOOL } from "@/data/school";
-import { SECTION_IDS, type Locale } from "@/i18n/config";
-import type { UiDictionary } from "@/i18n/ui";
-import type { SessionView } from "@/lib/types";
+import { HeroStage } from '@/components/hero/HeroStage';
+import { HeroVideoSequence, type Clip } from '@/components/hero/HeroVideoSequence';
+import { Magnetic } from '@/components/motion/Magnetic';
+import { NextCourseModule } from '@/components/hero/NextCourseModule';
+import { SCHOOL } from '@/data/school';
+import { SECTION_IDS, type Locale } from '@/i18n/config';
+import type { UiDictionary } from '@/i18n/ui';
+import type { SessionView } from '@/lib/types';
 
 const CLIP_ALT: Record<Locale, readonly string[]> = {
   de: [
-    "Nahaufnahme: beide Hände arbeiten mit flachem Druck am Nacken und Schultergürtel.",
-    "Nahaufnahme: übereinandergelegte Hände geben gleichmäßigen Druck auf den Rücken.",
-    "Nahaufnahme: beide Hände umfassen einen Fuß und arbeiten am Fußgewölbe.",
+    'Nahaufnahme: beide Hände arbeiten mit flachem Druck am Nacken und Schultergürtel.',
+    'Nahaufnahme: übereinandergelegte Hände geben gleichmäßigen Druck auf den Rücken.',
+    'Nahaufnahme: beide Hände umfassen einen Fuß und arbeiten am Fußgewölbe.',
   ],
   th: [
-    "ภาพระยะใกล้: มือทั้งสองข้างลงน้ำหนักแบบราบที่ต้นคอและบ่า",
-    "ภาพระยะใกล้: มือวางทับกันเพื่อลงน้ำหนักสม่ำเสมอบนแผ่นหลัง",
-    "ภาพระยะใกล้: มือทั้งสองข้างจับเท้าและกดที่อุ้งเท้า",
+    'ภาพระยะใกล้: มือทั้งสองข้างลงน้ำหนักแบบราบที่ต้นคอและบ่า',
+    'ภาพระยะใกล้: มือวางทับกันเพื่อลงน้ำหนักสม่ำเสมอบนแผ่นหลัง',
+    'ภาพระยะใกล้: มือทั้งสองข้างจับเท้าและกดที่อุ้งเท้า',
   ],
 };
 
@@ -27,18 +24,18 @@ function clips(locale: Locale): readonly Clip[] {
   const alt = CLIP_ALT[locale];
   return [
     {
-      src: "/video/clip-01-nacken.mp4",
-      poster: "/video/poster-01.jpg",
+      src: '/video/clip-01-nacken.mp4',
+      poster: '/video/poster-01.jpg',
       alt: alt[0],
     },
     {
-      src: "/video/clip-02-ruecken.mp4",
-      poster: "/video/poster-02.jpg",
+      src: '/video/clip-02-ruecken.mp4',
+      poster: '/video/poster-02.jpg',
       alt: alt[1],
     },
     {
-      src: "/video/clip-03-fuss.mp4",
-      poster: "/video/poster-03.jpg",
+      src: '/video/clip-03-fuss.mp4',
+      poster: '/video/poster-03.jpg',
       alt: alt[2],
     },
   ];
@@ -62,7 +59,7 @@ export function Hero({
   t: UiDictionary;
   locale: Locale;
 }) {
-  const secondaryLang = locale === "de" ? "th" : "de";
+  const secondaryLang = locale === 'de' ? 'th' : 'de';
 
   return (
     <HeroStage className="relative isolate min-h-[100dvh] overflow-hidden bg-ink">
@@ -82,21 +79,13 @@ export function Hero({
         className="absolute inset-0 bg-[radial-gradient(120%_88%_at_50%_32%,transparent_46%,rgba(15,20,21,0.42)_100%)]"
       />
       {/* Closes over the film as the hero scrolls away. */}
-      <div
-        data-hero="veil"
-        className="absolute inset-0 bg-ink opacity-0"
-        aria-hidden
-      />
+      <div data-hero="veil" className="absolute inset-0 bg-ink opacity-0" aria-hidden />
 
       <div className="shell relative flex min-h-[100dvh] flex-col justify-end pb-12 pt-[calc(var(--header-height)+2rem)] lg:pb-16">
         <div className="grid items-end gap-10 lg:grid-cols-[minmax(0,1fr)_24rem] lg:gap-14">
           <div data-hero="copy">
             <p className="flex items-center gap-3 text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-porcelain/70">
-              <span
-                data-hero="rule"
-                aria-hidden
-                className="h-px w-10 origin-left bg-gold"
-              />
+              <span data-hero="rule" aria-hidden className="h-px w-10 origin-left bg-gold" />
               <span data-hero="kicker">{t.hero.kicker}</span>
             </p>
 
@@ -106,8 +95,7 @@ export function Hero({
             >
               {t.hero.headlineA}
               <br />
-              {t.hero.headlineB}{" "}
-              <span className="italic text-aqua">{t.hero.headlineAccent}</span>
+              {t.hero.headlineB} <span className="italic text-aqua">{t.hero.headlineAccent}</span>
               <br />
               {t.hero.headlineC}
             </h1>
@@ -122,7 +110,7 @@ export function Hero({
             <p
               data-hero="prose"
               className={`mt-2.5 max-w-[46ch] text-sm leading-relaxed text-porcelain/55 ${
-                secondaryLang === "th" ? "thai" : ""
+                secondaryLang === 'th' ? 'thai' : ''
               }`}
               lang={secondaryLang}
             >
@@ -168,10 +156,7 @@ export function Hero({
         </div>
 
         <div className="mt-12 flex items-center justify-between gap-8 border-t border-porcelain/15 pt-6">
-          <p
-            data-hero="foot"
-            className="max-w-[40ch] text-sm leading-relaxed text-porcelain/60"
-          >
+          <p data-hero="foot" className="max-w-[40ch] text-sm leading-relaxed text-porcelain/60">
             {t.hero.motto}
           </p>
           <a
@@ -183,13 +168,7 @@ export function Hero({
               aria-hidden
               className="grid h-9 w-9 place-items-center rounded-full border border-porcelain/30 transition-transform duration-[var(--dur-3)] ease-[var(--ease-out-quart)] group-hover:translate-y-1 group-hover:border-porcelain"
             >
-              <svg
-                width="12"
-                height="14"
-                viewBox="0 0 12 14"
-                fill="none"
-                aria-hidden
-              >
+              <svg width="12" height="14" viewBox="0 0 12 14" fill="none" aria-hidden>
                 <path
                   d="M6 0v12M1 7.5 6 13l5-5.5"
                   stroke="currentColor"

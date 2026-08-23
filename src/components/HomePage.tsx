@@ -44,7 +44,11 @@ export function HomePage({ locale }: { locale: Locale }) {
 
         <TrustStrip t={t} locale={locale} />
 
-        <section id={SECTION_IDS.finder} aria-labelledby="kursfinder-titel" className="scroll-mt-24">
+        <section
+          id={SECTION_IDS.finder}
+          aria-labelledby="kursfinder-titel"
+          className="scroll-mt-24"
+        >
           <div className="shell py-[var(--spacing-section)]">
             <SectionHeader copy={t.sections.finder} id="kursfinder-titel" />
             <BodyFinder t={t} locale={locale} />
@@ -117,7 +121,7 @@ export function HomePage({ locale }: { locale: Locale }) {
         >
           <div className="shell py-[var(--spacing-section)]">
             <SectionHeader copy={t.sections.evidence} id="belege-titel" />
-            <Evidence t={t} />
+            <Evidence t={t} locale={locale} />
           </div>
         </section>
 

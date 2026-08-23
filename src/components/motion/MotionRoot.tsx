@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import { gsap } from "gsap";
-import { CustomEase } from "gsap/CustomEase";
-import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { SplitText } from "gsap/SplitText";
-import { DUR, EASE_PATH } from "@/lib/motion";
+import { useEffect } from 'react';
+import { gsap } from 'gsap';
+import { CustomEase } from 'gsap/CustomEase';
+import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { SplitText } from 'gsap/SplitText';
+import { DUR, EASE_PATH } from '@/lib/motion';
 
 let registered = false;
 
@@ -29,7 +29,7 @@ export function MotionRoot() {
       CustomEase.create(name, path);
     }
 
-    gsap.defaults({ ease: "outQuart", duration: DUR.d3 });
+    gsap.defaults({ ease: 'outQuart', duration: DUR.d3 });
 
     // Anchor jumps are instant scrolls; let the pins settle afterwards.
     ScrollTrigger.config({ ignoreMobileResize: true });

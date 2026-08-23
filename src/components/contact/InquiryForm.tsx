@@ -16,7 +16,10 @@ function readHashParams(): { kurs?: string; termin?: string } {
   const [, query] = window.location.hash.split('?');
   if (!query) return {};
   const params = new URLSearchParams(query);
-  return { kurs: params.get('kurs') ?? undefined, termin: params.get('termin') ?? undefined };
+  return {
+    kurs: params.get('kurs') ?? undefined,
+    termin: params.get('termin') ?? undefined,
+  };
 }
 
 /**
@@ -81,7 +84,10 @@ export function InquiryForm({
 
     setStatus('sending');
     try {
-      const response = await fetch('/api/anfrage', { method: 'POST', body: data });
+      const response = await fetch('/api/anfrage', {
+        method: 'POST',
+        body: data,
+      });
       if (!response.ok) throw new Error(`Response ${response.status}`);
       setStatus('sent');
       form.reset();
@@ -112,7 +118,10 @@ export function InquiryForm({
       <p className="mt-2 max-w-[46ch] text-sm leading-relaxed text-ink-muted">{t.form.intro}</p>
 
       {Object.keys(errors).length > 0 ? (
-        <div role="alert" className="mt-6 border-l-2 border-pressure bg-pressure/5 px-4 py-3 text-sm">
+        <div
+          role="alert"
+          className="mt-6 border-l-2 border-pressure bg-pressure/5 px-4 py-3 text-sm"
+        >
           <p className="font-semibold">{t.form.errorSummary}</p>
           <ul className="mt-1.5 list-disc space-y-1 pl-5 text-ink-muted">
             {Object.values(errors).map((message) => (
@@ -144,7 +153,12 @@ export function InquiryForm({
           />
         </Field>
 
-        <Field label={t.form.email} htmlFor="email" error={errors.contact} className="sm:col-span-2">
+        <Field
+          label={t.form.email}
+          htmlFor="email"
+          error={errors.contact}
+          className="sm:col-span-2"
+        >
           <input
             id="email"
             name="email"
@@ -214,7 +228,12 @@ export function InquiryForm({
           <input type="hidden" id="reason" name="reason" value={reason} readOnly />
         </Field>
 
-        <Field label={t.form.message} htmlFor="message" className="sm:col-span-2" hint={t.form.optional}>
+        <Field
+          label={t.form.message}
+          htmlFor="message"
+          className="sm:col-span-2"
+          hint={t.form.optional}
+        >
           <textarea
             id="message"
             name="message"

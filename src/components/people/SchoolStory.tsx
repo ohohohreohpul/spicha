@@ -56,7 +56,10 @@ export function SchoolStory({ t, locale }: { t: UiDictionary; locale: Locale }) 
         <h3 className="mt-3 font-display text-[clamp(2rem,1.3rem+2.4vw,3.25rem)] leading-[1.08]">
           {locale === 'th' ? FOUNDER.nameThai : FOUNDER.name}
         </h3>
-        <p className={`mt-1 text-lg text-ink-muted ${locale === 'de' ? 'thai' : ''}`} lang={locale === 'de' ? 'th' : 'de'}>
+        <p
+          className={`mt-1 text-lg text-ink-muted ${locale === 'de' ? 'thai' : ''}`}
+          lang={locale === 'de' ? 'th' : 'de'}
+        >
           {locale === 'th' ? FOUNDER.name : FOUNDER.nameThai}
         </p>
 

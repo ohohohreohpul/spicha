@@ -51,7 +51,9 @@ export function LocationFaq({
           </dl>
 
           <p className="mt-5 text-sm leading-relaxed text-ink-muted">
-            {fill(t.contact.travelNote, { cities: SCHOOL.travelFrom.join(', ') })}
+            {fill(t.contact.travelNote, {
+              cities: SCHOOL.travelFrom.join(', '),
+            })}
           </p>
 
           <a

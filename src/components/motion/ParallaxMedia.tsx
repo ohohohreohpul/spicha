@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useEffect, useRef, type ReactNode } from "react";
-import { gsap } from "gsap";
-import { MOTION_OK } from "@/lib/motion";
-import { whenVisible } from "@/lib/when-visible";
+import { useEffect, useRef, type ReactNode } from 'react';
+import { gsap } from 'gsap';
+import { MOTION_OK } from '@/lib/motion';
+import { whenVisible } from '@/lib/when-visible';
 
 /**
  * Scroll-linked depth for a framed image or clip: the media drifts and swells
@@ -14,7 +14,7 @@ import { whenVisible } from "@/lib/when-visible";
  */
 export function ParallaxMedia({
   children,
-  className = "",
+  className = '',
   /** Percent of the frame height the media travels across the whole pass. */
   travel = 14,
   zoom = 1.14,
@@ -41,11 +41,11 @@ export function ParallaxMedia({
           {
             yPercent: travel / 2,
             scale: 1,
-            ease: "none",
+            ease: 'none',
             scrollTrigger: {
               trigger: el,
-              start: "top bottom",
-              end: "bottom top",
+              start: 'top bottom',
+              end: 'bottom top',
               scrub: 0.6,
             },
           },

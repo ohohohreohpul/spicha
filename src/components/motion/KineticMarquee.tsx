@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useEffect, useRef, type ReactNode } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { MOTION_OK } from "@/lib/motion";
+import { useEffect, useRef, type ReactNode } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { MOTION_OK } from '@/lib/motion';
 
 const BASE_RATE = 0.045;
 const VELOCITY_DAMPING = 900;
@@ -13,10 +13,12 @@ const VELOCITY_DAMPING = 900;
  * with a hard scroll, and it reverses when the page reverses.
  *
  * The track is rendered twice and wrapped at -50%, so the seam never arrives.
+ * That duplication is why the band is hidden from assistive tech — whatever it
+ * shows has to be stated somewhere else too.
  */
 export function KineticMarquee({
   children,
-  className = "",
+  className = '',
   reverse = false,
 }: {
   children: ReactNode;
@@ -47,14 +49,10 @@ export function KineticMarquee({
       // Scroll velocity feeds the band's speed and can flip its direction.
       const trigger = ScrollTrigger.create({
         start: 0,
-        end: "max",
+        end: 'max',
         onUpdate: (self) => {
           const velocity = self.getVelocity();
-          boost = gsap.utils.clamp(
-            -6,
-            6,
-            1 + Math.abs(velocity) / VELOCITY_DAMPING,
-          );
+          boost = gsap.utils.clamp(-6, 6, 1 + Math.abs(velocity) / VELOCITY_DAMPING);
           if (velocity < 0) boost *= -1;
         },
       });
@@ -69,7 +67,7 @@ export function KineticMarquee({
   }, [reverse]);
 
   return (
-    <div className={`relative overflow-hidden ${className}`}>
+    <div aria-hidden className={`relative overflow-hidden ${className}`}>
       <div ref={track} className="flex w-max will-change-transform">
         {children}
         {children}

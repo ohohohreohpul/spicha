@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useEffect, useRef, type ReactNode } from "react";
-import { gsap } from "gsap";
-import { MOTION_OK } from "@/lib/motion";
+import { useEffect, useRef, type ReactNode } from 'react';
+import { gsap } from 'gsap';
+import { MOTION_OK } from '@/lib/motion';
 
 /**
  * The child drifts toward the pointer while it is over the element, then
@@ -15,7 +15,7 @@ import { MOTION_OK } from "@/lib/motion";
 export function Magnetic({
   children,
   strength = 0.32,
-  className = "",
+  className = '',
 }: {
   children: ReactNode;
   /** Fraction of the pointer's offset from centre that the child follows. */
@@ -31,13 +31,13 @@ export function Magnetic({
     const mm = gsap.matchMedia();
     mm.add(`${MOTION_OK} and (hover: hover) and (pointer: fine)`, () => {
       const target = el.firstElementChild ?? el;
-      const xTo = gsap.quickTo(target, "x", {
+      const xTo = gsap.quickTo(target, 'x', {
         duration: 0.45,
-        ease: "outQuart",
+        ease: 'outQuart',
       });
-      const yTo = gsap.quickTo(target, "y", {
+      const yTo = gsap.quickTo(target, 'y', {
         duration: 0.45,
-        ease: "outQuart",
+        ease: 'outQuart',
       });
 
       const onMove = (event: PointerEvent) => {
@@ -51,12 +51,12 @@ export function Magnetic({
         yTo(0);
       };
 
-      el.addEventListener("pointermove", onMove);
-      el.addEventListener("pointerleave", onLeave);
+      el.addEventListener('pointermove', onMove);
+      el.addEventListener('pointerleave', onLeave);
 
       return () => {
-        el.removeEventListener("pointermove", onMove);
-        el.removeEventListener("pointerleave", onLeave);
+        el.removeEventListener('pointermove', onMove);
+        el.removeEventListener('pointerleave', onLeave);
         gsap.set(target, { x: 0, y: 0 });
       };
     });

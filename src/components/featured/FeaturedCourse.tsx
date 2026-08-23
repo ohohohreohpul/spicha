@@ -28,7 +28,9 @@ export function FeaturedCourse({
   if (!program) return null;
 
   const upcoming = sessions.filter((s) => s.programId === programId).slice(0, 3);
-  const areas = program.bodyAreas.map((id) => BODY_AREA_BY_ID.get(id)?.label[locale]).filter(Boolean);
+  const areas = program.bodyAreas
+    .map((id) => BODY_AREA_BY_ID.get(id)?.label[locale])
+    .filter(Boolean);
 
   return (
     <div className="mt-12 grid gap-12 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-20">
@@ -157,7 +159,10 @@ export function FeaturedCourse({
             ) : (
               <ul className="mt-3 space-y-3">
                 {upcoming.map((session) => (
-                  <li key={session.id} className="numeric flex items-center justify-between gap-3 text-sm">
+                  <li
+                    key={session.id}
+                    className="numeric flex items-center justify-between gap-3 text-sm"
+                  >
                     <span>{session.dateLabel}</span>
                     <AvailabilityBadge status={session.status} label={session.availabilityLabel} />
                   </li>

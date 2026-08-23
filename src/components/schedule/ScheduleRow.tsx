@@ -66,7 +66,9 @@ export function ScheduleRow({
           <span aria-hidden className="h-3 w-px bg-hairline" />
           <div>
             <dt className="sr-only">{t.nextCourse.language}</dt>
-            <dd className={locale === 'de' && session.languages.includes('th') ? 'thai' : undefined}>
+            <dd
+              className={locale === 'de' && session.languages.includes('th') ? 'thai' : undefined}
+            >
               {session.languageLabel}
             </dd>
           </div>

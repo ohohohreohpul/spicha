@@ -20,7 +20,10 @@ export function Button({
   className = '',
   children,
   ...props
-}: ComponentPropsWithoutRef<'button'> & { variant?: Variant; children: ReactNode }) {
+}: ComponentPropsWithoutRef<'button'> & {
+  variant?: Variant;
+  children: ReactNode;
+}) {
   return (
     <button className={`${BASE} ${VARIANT[variant]} ${className}`} {...props}>
       {children}

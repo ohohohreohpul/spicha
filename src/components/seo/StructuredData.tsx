@@ -30,7 +30,11 @@ export function StructuredData({ locale }: { locale: Locale }) {
       url: SITE_URL,
       telephone: SCHOOL.phone,
       address,
-      geo: { '@type': 'GeoCoordinates', latitude: SCHOOL.geo.lat, longitude: SCHOOL.geo.lng },
+      geo: {
+        '@type': 'GeoCoordinates',
+        latitude: SCHOOL.geo.lat,
+        longitude: SCHOOL.geo.lng,
+      },
       knowsLanguage: ['de', 'th'],
       description: RECOGNITION.bfd[locale],
       areaServed: ['Ahrensburg', 'Hamburg', 'Schleswig-Holstein'],
@@ -74,7 +78,10 @@ export function StructuredData({ locale }: { locale: Locale }) {
       type="application/ld+json"
       // Structured data is generated from our own typed content, not user input.
       dangerouslySetInnerHTML={{
-        __html: JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }),
+        __html: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@graph': graph,
+        }),
       }}
     />
   );

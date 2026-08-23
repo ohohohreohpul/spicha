@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { MOTION_OK } from "@/lib/motion";
+import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { MOTION_OK } from '@/lib/motion';
 
 /**
  * A gold hairline across the top of the document that tracks reading progress.
@@ -22,8 +22,8 @@ export function ScrollProgress() {
         { scaleX: 0 },
         {
           scaleX: 1,
-          ease: "none",
-          scrollTrigger: { start: 0, end: "max", scrub: 0.3 },
+          ease: 'none',
+          scrollTrigger: { start: 0, end: 'max', scrub: 0.3 },
         },
       );
       return () => {

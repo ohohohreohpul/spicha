@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { ProgressPath } from '@/components/learn/ProgressPath';
 import type { UiDictionary } from '@/i18n/ui';
 
 /**
@@ -28,8 +29,6 @@ export function LearningSequence({ t }: { t: UiDictionary }) {
     return () => observer.disconnect();
   }, []);
 
-  const progress = ((active + 1) / steps.length) * 100;
-
   return (
     <div className="mt-12 grid gap-10 lg:grid-cols-[16rem_minmax(0,1fr)] lg:gap-20">
       <div className="lg:sticky lg:top-32 lg:h-fit lg:self-start">
@@ -40,18 +39,15 @@ export function LearningSequence({ t }: { t: UiDictionary }) {
           {t.learn.of} {steps.length} {t.learn.steps}
         </p>
 
-        {/* Pressure path as a progress line. */}
-        <div className="mt-6 h-px w-full bg-hairline">
-          <div
-            className="h-px bg-teal transition-[width] duration-[var(--dur-5)] ease-[var(--ease-in-out-cubic)]"
-            style={{ width: `${progress}%` }}
-          />
+        {/* Vertical path, drawn by the scrollbar rather than stepped. */}
+        <div className="mt-6 hidden lg:block">
+          <ProgressPath trackSelector="[data-learn-track]" />
         </div>
 
         <p className="mt-6 max-w-[30ch] text-sm leading-relaxed text-ink-muted">{t.learn.note}</p>
       </div>
 
-      <ol className="border-t border-ink/15">
+      <ol data-learn-track className="border-t border-ink/15">
         {steps.map((step, index) => {
           const isActive = index === active;
           return (
@@ -75,7 +71,9 @@ export function LearningSequence({ t }: { t: UiDictionary }) {
                 <div>
                   <h3
                     className="font-display text-[clamp(1.5rem,1.1rem+1.4vw,2.25rem)] leading-tight transition-colors duration-[var(--dur-4)]"
-                    style={{ color: isActive ? 'var(--color-ink)' : 'var(--color-ink-muted)' }}
+                    style={{
+                      color: isActive ? 'var(--color-ink)' : 'var(--color-ink-muted)',
+                    }}
                   >
                     {step.title}
                   </h3>

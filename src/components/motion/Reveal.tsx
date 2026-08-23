@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { useEffect, useRef, type ElementType, type ReactNode } from "react";
-import { gsap } from "gsap";
-import { DUR, MOTION_OK } from "@/lib/motion";
-import { whenVisible } from "@/lib/when-visible";
+import { useEffect, useRef, type ElementType, type ReactNode } from 'react';
+import { gsap } from 'gsap';
+import { DUR, MOTION_OK } from '@/lib/motion';
+import { whenVisible } from '@/lib/when-visible';
 
-type Edge = "bottom" | "left" | "right";
+type Edge = 'bottom' | 'left' | 'right';
 
 const FROM: Record<Edge, string> = {
-  bottom: "inset(0% 0% 100% 0%)",
-  left: "inset(0% 100% 0% 0%)",
-  right: "inset(0% 0% 0% 100%)",
+  bottom: 'inset(0% 0% 100% 0%)',
+  left: 'inset(0% 100% 0% 0%)',
+  right: 'inset(0% 0% 0% 100%)',
 };
 
 /**
@@ -23,10 +23,10 @@ const FROM: Record<Edge, string> = {
  */
 export function Reveal({
   children,
-  as: Tag = "div",
-  className = "",
+  as: Tag = 'div',
+  className = '',
   delay = 0,
-  from = "bottom",
+  from = 'bottom',
   distance = 26,
 }: {
   children: ReactNode;
@@ -47,21 +47,19 @@ export function Reveal({
     mm.add(MOTION_OK, () =>
       whenVisible(() => {
         const offset =
-          from === "bottom"
-            ? { y: distance }
-            : { x: from === "left" ? -distance : distance };
+          from === 'bottom' ? { y: distance } : { x: from === 'left' ? -distance : distance };
 
         const tween = gsap.fromTo(
           el,
           { clipPath: FROM[from], ...offset },
           {
-            clipPath: "inset(0% 0% 0% 0%)",
+            clipPath: 'inset(0% 0% 0% 0%)',
             x: 0,
             y: 0,
             duration: DUR.cinematic,
-            ease: "outExpo",
+            ease: 'outExpo',
             delay,
-            scrollTrigger: { trigger: el, start: "top 90%", once: true },
+            scrollTrigger: { trigger: el, start: 'top 90%', once: true },
           },
         );
 

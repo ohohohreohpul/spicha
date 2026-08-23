@@ -68,7 +68,9 @@ export function SiteFooter({ t, locale }: { t: UiDictionary; locale: Locale }) {
           <a href="#datenschutz" className="hover:text-aqua">
             {t.footer.privacy}
           </a>
-          <span className="numeric">© {new Date().getFullYear()} {SCHOOL.name}</span>
+          <span className="numeric">
+            © {new Date().getFullYear()} {SCHOOL.name}
+          </span>
         </div>
       </div>
     </footer>
