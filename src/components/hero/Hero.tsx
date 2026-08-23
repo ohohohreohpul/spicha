@@ -1,6 +1,5 @@
 import { HeroVideoSequence, type Clip } from '@/components/hero/HeroVideoSequence';
 import { NextCourseModule } from '@/components/hero/NextCourseModule';
-import { LinkButton } from '@/components/ui/Button';
 import { SCHOOL } from '@/data/school';
 import { SECTION_IDS, type Locale } from '@/i18n/config';
 import type { UiDictionary } from '@/i18n/ui';
@@ -28,6 +27,11 @@ function clips(locale: Locale): readonly Clip[] {
   ];
 }
 
+/**
+ * Full-bleed cinematic opening: the film fills the viewport and the type sits
+ * on it. Everything above the film is porcelain on ink, so the scrim carries
+ * the contrast rather than a side-by-side split.
+ */
 export function Hero({
   nextSession,
   syncedAtLabel,
@@ -44,51 +48,45 @@ export function Hero({
   const secondaryLang = locale === 'de' ? 'th' : 'de';
 
   return (
-    <section className="relative flex flex-col overflow-hidden pt-[var(--header-height)] lg:block lg:min-h-[100dvh]">
-      {/*
-        One video instance in both layouts: a band under the type on small
-        screens, a full-bleed plate behind it from lg upward.
-      */}
-      <div className="relative order-2 h-[42vh] min-h-56 w-full lg:absolute lg:inset-0 lg:order-none lg:h-auto lg:min-h-0">
+    <section className="relative isolate min-h-[100dvh] overflow-hidden bg-ink">
+      {/* The film, edge to edge. */}
+      <div className="absolute inset-0">
         <HeroVideoSequence clips={clips(locale)} />
-        <div
-          aria-hidden
-          className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-porcelain to-transparent lg:hidden"
-        />
       </div>
 
-      {/* Desktop scrim only — on mobile the type sits on plain porcelain. */}
+      {/* Scrims: a heavy foot for the type, a lighter top for the nav, and a
+          vignette so the frame reads as a projected image rather than a div. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 hidden lg:block lg:bg-gradient-to-r lg:from-porcelain lg:from-32% lg:via-porcelain/75 lg:via-52% lg:to-transparent lg:to-72%"
+        className="absolute inset-0 bg-gradient-to-t from-ink via-ink/45 via-45% to-ink/70"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-40 bg-gradient-to-t from-porcelain to-transparent lg:block"
+        className="absolute inset-0 bg-[radial-gradient(115%_85%_at_50%_35%,transparent_35%,rgba(15,20,21,0.62)_100%)]"
       />
 
-      <div className="shell relative order-1 flex flex-col justify-between pb-10 pt-10 lg:order-none lg:min-h-[calc(100dvh-var(--header-height))] lg:pt-14">
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-16">
-          <div className="max-w-[46rem]">
-            <p className="kicker flex items-center gap-3">
-              <span aria-hidden className="h-px w-8 bg-gold" />
+      <div className="shell relative flex min-h-[100dvh] flex-col justify-end pb-12 pt-[calc(var(--header-height)+2rem)] lg:pb-16">
+        <div className="grid items-end gap-10 lg:grid-cols-[minmax(0,1fr)_24rem] lg:gap-14">
+          <div>
+            <p className="flex items-center gap-3 text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-porcelain/70">
+              <span aria-hidden className="h-px w-10 bg-gold" />
               {t.hero.kicker}
             </p>
 
-            <h1 className="mt-6 text-[length:var(--text-hero)] leading-[0.95] tracking-[-0.03em]">
+            <h1 className="mt-7 max-w-[24ch] text-[length:var(--text-hero)] leading-[0.95] tracking-[-0.03em] text-porcelain">
               {t.hero.headlineA}
               <br />
-              {t.hero.headlineB} <span className="italic text-teal">{t.hero.headlineAccent}</span>
+              {t.hero.headlineB} <span className="italic text-aqua">{t.hero.headlineAccent}</span>
               <br />
               {t.hero.headlineC}
             </h1>
 
-            <p className="mt-7 max-w-[40ch] text-[length:var(--text-lead)] leading-relaxed text-ink-muted">
+            <p className="mt-7 max-w-[44ch] text-[length:var(--text-lead)] leading-relaxed text-porcelain/80">
               {t.hero.lead}
             </p>
 
             <p
-              className={`mt-3 max-w-[46ch] text-sm text-ink-muted/85 ${
+              className={`mt-2.5 max-w-[46ch] text-sm leading-relaxed text-porcelain/55 ${
                 secondaryLang === 'th' ? 'thai' : ''
               }`}
               lang={secondaryLang}
@@ -96,35 +94,48 @@ export function Hero({
               {t.hero.secondary}
             </p>
 
-            <div className="mt-7 flex flex-wrap items-center gap-3">
-              <LinkButton href={`#${SECTION_IDS.finder}`}>{t.hero.ctaPrimary}</LinkButton>
-              <LinkButton href={`#${SECTION_IDS.schedule}`} variant="secondary">
+            <div className="mt-9 flex flex-wrap items-center gap-3">
+              <a
+                href={`#${SECTION_IDS.finder}`}
+                className="group inline-flex min-h-12 items-center gap-3 rounded-full bg-porcelain px-7 text-sm font-semibold text-ink transition-[transform,background-color] duration-[var(--dur-1)] ease-[var(--ease-out-quad)] hover:bg-white active:translate-y-px"
+              >
+                {t.hero.ctaPrimary}
+                <span
+                  aria-hidden
+                  className="transition-transform duration-[var(--dur-3)] ease-[var(--ease-out-quart)] group-hover:translate-x-1"
+                >
+                  →
+                </span>
+              </a>
+              <a
+                href={`#${SECTION_IDS.schedule}`}
+                className="inline-flex min-h-12 items-center rounded-full border border-porcelain/35 px-7 text-sm font-semibold text-porcelain transition-colors duration-150 hover:border-porcelain hover:bg-porcelain/10"
+              >
                 {t.hero.ctaSecondary}
-              </LinkButton>
+              </a>
             </div>
           </div>
 
-          {/* The live module deliberately breaks into the film plate on desktop. */}
-          <div className="lg:-ml-24 lg:self-end xl:-ml-32">
-            <NextCourseModule
-              session={nextSession}
-              syncedAtLabel={syncedAtLabel}
-              stale={stale}
-              t={t}
-            />
-          </div>
+          {/* Live module as a glass panel on the film. */}
+          <NextCourseModule
+            session={nextSession}
+            syncedAtLabel={syncedAtLabel}
+            stale={stale}
+            t={t}
+            onFilm
+          />
         </div>
 
-        <div className="mt-14 hidden items-end justify-between gap-8 border-t border-ink/10 pt-6 lg:flex">
-          <p className="max-w-[38ch] text-sm leading-relaxed text-ink-muted">{t.hero.motto}</p>
+        <div className="mt-12 flex items-center justify-between gap-8 border-t border-porcelain/15 pt-6">
+          <p className="max-w-[40ch] text-sm leading-relaxed text-porcelain/60">{t.hero.motto}</p>
           <a
             href={`#${SECTION_IDS.trust}`}
-            className="group flex items-center gap-3 text-sm font-semibold text-ink transition-colors duration-150 hover:text-teal"
+            className="group hidden items-center gap-3 text-sm font-semibold text-porcelain/80 transition-colors duration-150 hover:text-porcelain sm:flex"
           >
             {t.hero.next}
             <span
               aria-hidden
-              className="grid h-9 w-9 place-items-center rounded-full border border-ink/20 transition-transform duration-[var(--dur-3)] ease-[var(--ease-out-quart)] group-hover:translate-y-1 group-hover:border-teal"
+              className="grid h-9 w-9 place-items-center rounded-full border border-porcelain/30 transition-transform duration-[var(--dur-3)] ease-[var(--ease-out-quart)] group-hover:translate-y-1 group-hover:border-porcelain"
             >
               <svg width="12" height="14" viewBox="0 0 12 14" fill="none" aria-hidden>
                 <path

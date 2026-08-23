@@ -12,6 +12,10 @@ export function SiteHeader({ t, locale }: { t: UiDictionary; locale: Locale }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const sentinelRef = useRef<HTMLDivElement>(null);
 
+  // Above the fold the header floats on the dark hero film; after the sentinel
+  // it lands on porcelain and flips back to ink.
+  const overFilm = !lifted;
+
   const nav = [
     { href: `#${SECTION_IDS.finder}`, label: t.nav.finder },
     { href: `#${SECTION_IDS.schedule}`, label: t.nav.schedule },
@@ -54,15 +58,25 @@ export function SiteHeader({ t, locale }: { t: UiDictionary; locale: Locale }) {
       >
         <div className="shell flex h-[var(--header-height)] items-center justify-between gap-6">
           <a href="#top" className="flex items-center gap-3">
-            <Image
-              src="/logo/spicha-logo.png"
-              alt={SCHOOL.name}
-              width={1200}
-              height={658}
-              priority
-              className="h-9 w-auto sm:h-10"
-            />
-            <span className="hidden border-l border-hairline pl-3 text-[0.65rem] font-semibold uppercase leading-tight tracking-[0.14em] text-ink-muted sm:inline">
+            <span
+              className={`inline-flex transition-[background-color,padding] duration-[var(--dur-3)] ${
+                overFilm ? 'rounded-md bg-porcelain px-3 py-2' : ''
+              }`}
+            >
+              <Image
+                src="/logo/spicha-logo.png"
+                alt={SCHOOL.name}
+                width={1200}
+                height={658}
+                priority
+                className="h-8 w-auto sm:h-9"
+              />
+            </span>
+            <span
+              className={`hidden border-l pl-3 text-[0.65rem] font-semibold uppercase leading-tight tracking-[0.14em] sm:inline ${
+                overFilm ? 'border-porcelain/25 text-porcelain/70' : 'border-hairline text-ink-muted'
+              }`}
+            >
               {t.nav.recognised}
               <br />
               {t.nav.school_}
@@ -74,7 +88,9 @@ export function SiteHeader({ t, locale }: { t: UiDictionary; locale: Locale }) {
               <a
                 key={item.href}
                 href={item.href}
-                className="relative text-sm font-medium text-ink transition-colors duration-150 hover:text-teal"
+                className={`relative text-sm font-medium transition-colors duration-150 ${
+                  overFilm ? 'text-porcelain/85 hover:text-white' : 'text-ink hover:text-teal'
+                }`}
               >
                 {item.label}
               </a>
@@ -83,7 +99,11 @@ export function SiteHeader({ t, locale }: { t: UiDictionary; locale: Locale }) {
 
           <div className="flex items-center gap-3">
             <div
-              className="hidden items-center gap-1 rounded-full border border-hairline bg-porcelain/75 px-1 py-1 text-xs font-semibold backdrop-blur-[3px] lg:flex"
+              className={`hidden items-center gap-1 rounded-full border px-1 py-1 text-xs font-semibold backdrop-blur-[3px] lg:flex ${
+                overFilm
+                  ? 'border-porcelain/25 bg-ink/35 text-porcelain'
+                  : 'border-hairline bg-porcelain/75'
+              }`}
               role="group"
               aria-label={t.nav.chooseLanguage}
             >
@@ -92,7 +112,9 @@ export function SiteHeader({ t, locale }: { t: UiDictionary; locale: Locale }) {
                   <span
                     key={code}
                     aria-current="true"
-                    className={`rounded-full bg-ink px-2.5 py-1 text-paper ${code === 'th' ? 'thai' : ''}`}
+                    className={`rounded-full px-2.5 py-1 ${
+                      overFilm ? 'bg-porcelain text-ink' : 'bg-ink text-paper'
+                    } ${code === 'th' ? 'thai' : ''}`}
                   >
                     {LOCALE_LABEL[code]}
                   </span>
@@ -101,9 +123,11 @@ export function SiteHeader({ t, locale }: { t: UiDictionary; locale: Locale }) {
                     key={code}
                     href={LOCALE_PATH[code]}
                     hrefLang={code}
-                    className={`rounded-full px-2.5 py-1 text-ink-muted transition-colors duration-150 hover:text-teal ${
-                      code === 'th' ? 'thai' : ''
-                    }`}
+                    className={`rounded-full px-2.5 py-1 transition-colors duration-150 ${
+                      overFilm
+                        ? 'text-porcelain/70 hover:text-white'
+                        : 'text-ink-muted hover:text-teal'
+                    } ${code === 'th' ? 'thai' : ''}`}
                   >
                     {LOCALE_LABEL[code]}
                   </Link>
@@ -113,7 +137,11 @@ export function SiteHeader({ t, locale }: { t: UiDictionary; locale: Locale }) {
 
             <a
               href={SCHOOL.phoneHref}
-              className="numeric hidden rounded-full bg-teal px-5 py-2.5 text-sm font-semibold text-paper transition-colors duration-150 hover:bg-teal-deep sm:inline-block"
+              className={`numeric hidden rounded-full px-5 py-2.5 text-sm font-semibold transition-colors duration-150 sm:inline-block ${
+                overFilm
+                  ? 'bg-porcelain text-ink hover:bg-white'
+                  : 'bg-teal text-paper hover:bg-teal-deep'
+              }`}
             >
               {SCHOOL.phone}
             </a>
@@ -123,7 +151,9 @@ export function SiteHeader({ t, locale }: { t: UiDictionary; locale: Locale }) {
               onClick={() => setMenuOpen((open) => !open)}
               aria-expanded={menuOpen}
               aria-controls="mobile-nav"
-              className="grid h-11 w-11 place-items-center rounded-full border border-ink/15 md:hidden"
+              className={`grid h-11 w-11 place-items-center rounded-full border md:hidden ${
+                overFilm ? 'border-porcelain/30 text-porcelain' : 'border-ink/15'
+              }`}
             >
               <span className="sr-only">{menuOpen ? t.nav.closeMenu : t.nav.openMenu}</span>
               <svg width="18" height="12" viewBox="0 0 18 12" aria-hidden>
