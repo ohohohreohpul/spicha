@@ -12,12 +12,12 @@ const isQuantity = (value: string) => value !== '1997';
 
 export function Evidence({ t, locale }: { t: UiDictionary; locale: Locale }) {
   return (
-    <div className="mt-12 grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
+    <div className="mt-[var(--space-block)] grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
       <div>
         <dl className="border-t border-ink/15">
           {FACT_VALUES.map((value, index) => (
             <Reveal key={value} delay={index * 0.07}>
-              <div className="flex items-baseline gap-6 border-b border-hairline py-5">
+              <div className="flex items-baseline gap-6 border-b border-hairline py-6">
                 <dt className="numeric w-20 shrink-0 font-display text-3xl text-teal">
                   {isQuantity(value) ? <CountUp value={Number(value)} locale={locale} /> : value}
                 </dt>

@@ -42,7 +42,7 @@ export function BodyFinder({ t, locale }: { t: UiDictionary; locale: Locale }) {
   }, []);
 
   return (
-    <div className="mt-12 grid gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
+    <div className="mt-[var(--space-block)] grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
       {/* ---------------- Map ---------------- */}
       <div className="relative mx-auto w-full max-w-[26rem] lg:max-w-none">
         <div className="relative aspect-3/4 overflow-hidden bg-porcelain-deep">

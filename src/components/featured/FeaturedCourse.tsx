@@ -34,7 +34,7 @@ export function FeaturedCourse({
     .filter(Boolean);
 
   return (
-    <div className="mt-12 grid gap-12 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-20">
+    <div className="mt-[var(--space-block)] grid gap-12 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-20">
       <div>
         <Reveal>
           <ParallaxMedia className="relative aspect-16/10 bg-porcelain-deep">
@@ -99,7 +99,7 @@ export function FeaturedCourse({
         </div>
 
         {program.faq ? (
-          <section className="mt-12">
+          <section className="mt-[var(--space-block)]">
             <h4 className="text-sm font-semibold uppercase tracking-[0.12em] text-teal">
               {t.featured.faq}
             </h4>

@@ -27,7 +27,7 @@ export function SectionHeader({ copy, id }: SectionHeaderProps) {
   return (
     <header>
       <RuleDraw />
-      <div className="grid gap-6 pt-8 md:grid-cols-[7rem_1fr] md:gap-10 lg:grid-cols-[9rem_minmax(0,1fr)_26rem] lg:gap-12">
+      <div className="grid gap-7 pt-9 md:grid-cols-[7rem_1fr] md:gap-12 md:pt-10 lg:grid-cols-[9rem_minmax(0,1fr)_26rem] lg:gap-14">
         <div className="flex items-baseline gap-4 md:flex-col md:gap-2">
           <span className="numeric font-display text-2xl text-gold">{copy.index}</span>
           <span className="kicker">{copy.kicker}</span>

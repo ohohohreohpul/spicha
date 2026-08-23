@@ -19,7 +19,7 @@ export function LocationFaq({
   locale: Locale;
 }) {
   return (
-    <div className="mt-12 grid gap-14 lg:grid-cols-[minmax(0,6fr)_minmax(0,6fr)] lg:gap-20">
+    <div className="mt-[var(--space-block)] grid gap-14 lg:grid-cols-[minmax(0,6fr)_minmax(0,6fr)] lg:gap-20">
       <div>
         <div className="border-t border-ink/15 pt-6">
           <p className="kicker">{t.contact.address}</p>

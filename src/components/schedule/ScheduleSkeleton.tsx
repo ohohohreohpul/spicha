@@ -5,7 +5,7 @@ export function ScheduleSkeleton({ label }: { label: string }) {
       {[0, 1, 2, 3].map((row) => (
         <div
           key={row}
-          className="grid grid-cols-[3.5rem_minmax(0,1fr)] gap-x-5 border-b border-hairline py-6 md:grid-cols-[4.5rem_minmax(0,1fr)_auto] md:gap-x-8"
+          className="grid grid-cols-[3.5rem_minmax(0,1fr)] gap-x-5 border-b border-hairline py-[var(--space-row)] md:grid-cols-[4.5rem_minmax(0,1fr)_auto] md:gap-x-8"
         >
           <div className="space-y-2">
             <div className="h-7 rounded bg-hairline/70" />

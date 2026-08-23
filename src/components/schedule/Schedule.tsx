@@ -128,7 +128,7 @@ export function Schedule({
   const selectedProgram = PROGRAMS.find((p) => p.id === programId);
 
   return (
-    <div className="mt-12">
+    <div className="mt-[var(--space-block)]">
       {/* View switch + sync stamp */}
       <div className="flex flex-wrap items-end justify-between gap-6 border-t border-ink/15 pt-6">
         <div

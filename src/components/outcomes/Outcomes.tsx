@@ -3,7 +3,7 @@ import type { UiDictionary } from '@/i18n/ui';
 
 export function Outcomes({ t }: { t: UiDictionary }) {
   return (
-    <div className="mt-12">
+    <div className="mt-[var(--space-block)]">
       <ul className="grid border-t border-ink/15 md:grid-cols-2">
         {t.outcomes.items.map((path, index) => {
           const isLead = index === 0;
@@ -18,7 +18,7 @@ export function Outcomes({ t }: { t: UiDictionary }) {
               } ${!isLead && !isRightColumn ? 'md:pr-10' : ''}`}
             >
               <Reveal delay={Math.min(index * 0.07, 0.28)} className="h-full">
-                <div className="flex h-full flex-col justify-between gap-5 py-9">
+                <div className="flex h-full flex-col justify-between gap-6 py-[var(--space-row-lg)]">
                   <h3
                     className={`font-display leading-tight ${
                       isLead

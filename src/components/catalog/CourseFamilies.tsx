@@ -67,7 +67,7 @@ function ProgramEntry({
       <a
         id={`kurs-${program.slug}`}
         href={`#anfrage?kurs=${program.slug}`}
-        className="group wipe-hover grid scroll-mt-32 grid-cols-1 items-start gap-4 border-b border-hairline py-7 md:grid-cols-[minmax(0,1fr)_auto] md:gap-10"
+        className="group wipe-hover grid scroll-mt-32 grid-cols-1 items-start gap-4 border-b border-hairline py-[var(--space-row)] md:grid-cols-[minmax(0,1fr)_auto] md:gap-10"
       >
         <div className="flex gap-5">
           {image ? (
@@ -119,7 +119,7 @@ function ProgramEntry({
 
 export function CourseFamilies({ t, locale }: { t: UiDictionary; locale: Locale }) {
   return (
-    <div className="mt-12 space-y-16">
+    <div className="mt-[var(--space-block)] space-y-[var(--space-group)]">
       {CATEGORY_ORDER.map((category) => {
         const group = t.catalog.groups[category];
         const programs = PROGRAMS.filter((program) => program.category === category);

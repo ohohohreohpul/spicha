@@ -26,7 +26,7 @@ export function ScheduleRow({
   return (
     <Spotlight
       as="article"
-      className={`group grid grid-cols-[3.5rem_minmax(0,1fr)] gap-x-5 gap-y-4 border-b border-hairline py-6 md:grid-cols-[4.5rem_minmax(0,1fr)_auto] md:gap-x-8 ${
+      className={`group grid grid-cols-[3.5rem_minmax(0,1fr)] gap-x-5 gap-y-4 border-b border-hairline py-[var(--space-row)] md:grid-cols-[4.5rem_minmax(0,1fr)_auto] md:gap-x-8 ${
         cancelled ? 'opacity-65' : ''
       }`}
     >

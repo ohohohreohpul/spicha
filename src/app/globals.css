@@ -30,6 +30,17 @@
 }
 
 :root {
+  /* Vertical rhythm. Every gap in the page comes from one of these four, so
+     the spacing between a heading and its content cannot drift from the
+     spacing inside the content. Before this they were all a flat 48px, which
+     read as cramped next to the long measure of the headings. */
+  --space-block: clamp(3rem, 2rem + 2.6vw, 5rem);
+  --space-row: clamp(1.875rem, 1.4rem + 1.5vw, 2.875rem);
+  --space-row-lg: clamp(2.5rem, 1.8rem + 2.2vw, 4rem);
+  --space-group: clamp(3.75rem, 2.5rem + 3.4vw, 6.5rem);
+}
+
+:root {
   --dur-1: 120ms;
   --dur-2: 180ms;
   --dur-3: 240ms;
@@ -140,6 +151,14 @@
  * leading for its ascenders and tone marks.
  * These rules sit outside @layer so they win over Tailwind utilities.
  * ------------------------------------------------------------------ */
+html[lang='th'] {
+  /* Thai has no capital height and no descender-free baseline to sit on, so
+     the same pixel size reads larger and denser than the Latin cut. Display
+     sizes come down to compensate. */
+  --text-hero: clamp(2.15rem, 1.2rem + 3.2vw, 4rem);
+  --text-section: clamp(1.75rem, 1.15rem + 2.2vw, 2.9rem);
+}
+
 html[lang='th'] h1,
 html[lang='th'] h2,
 html[lang='th'] h3,
@@ -147,7 +166,30 @@ html[lang='th'] .font-display {
   font-family: var(--font-sans);
   font-weight: 600;
   letter-spacing: 0;
-  line-height: 1.35;
+}
+
+/* Leading has to clear the tone marks and ascenders, but the room they need
+   does not scale with the type size. A flat 1.35 gave the hero 113px line
+   boxes around 84px glyphs, which is what opened those gaps between lines. */
+/* The descendant selectors are load-bearing. `:lang(th)` in the base layer
+ * sets 1.85 on *every* Thai element, and SplitText wraps each line of a
+ * heading in generated divs — which match that rule and win over the leading
+ * inherited from the heading. Without the `*` the headings keep 1.85 and the
+ * lines drift apart no matter what is set on h1. */
+html[lang='th'] h1,
+html[lang='th'] h1 * {
+  line-height: 1.24;
+}
+
+html[lang='th'] h2,
+html[lang='th'] h2 * {
+  line-height: 1.28;
+}
+
+html[lang='th'] h3,
+html[lang='th'] h3 *,
+html[lang='th'] .font-display {
+  line-height: 1.34;
 }
 
 html[lang='th'] .italic,

@@ -30,7 +30,7 @@ export function LearningSequence({ t }: { t: UiDictionary }) {
   }, []);
 
   return (
-    <div className="mt-12 grid gap-10 lg:grid-cols-[16rem_minmax(0,1fr)] lg:gap-20">
+    <div className="mt-[var(--space-block)] grid gap-12 lg:grid-cols-[16rem_minmax(0,1fr)] lg:gap-20">
       <div className="lg:sticky lg:top-32 lg:h-fit lg:self-start">
         <p className="numeric font-display text-[clamp(3.5rem,2rem+6vw,7rem)] leading-none text-teal">
           {String(active + 1).padStart(2, '0')}
@@ -57,7 +57,7 @@ export function LearningSequence({ t }: { t: UiDictionary }) {
               ref={(node) => {
                 stepRefs.current[index] = node;
               }}
-              className="border-b border-hairline py-10 md:py-14"
+              className="border-b border-hairline py-[var(--space-row-lg)]"
             >
               <div className="flex gap-6">
                 <span

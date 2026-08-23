@@ -7,7 +7,7 @@ import type { UiDictionary } from '@/i18n/ui';
 
 export function SchoolStory({ t, locale }: { t: UiDictionary; locale: Locale }) {
   return (
-    <div className="mt-12 grid gap-12 lg:grid-cols-[minmax(0,6fr)_minmax(0,6fr)] lg:gap-20">
+    <div className="mt-[var(--space-block)] grid gap-12 lg:grid-cols-[minmax(0,6fr)_minmax(0,6fr)] lg:gap-20">
       <div>
         <Reveal>
           <figure>

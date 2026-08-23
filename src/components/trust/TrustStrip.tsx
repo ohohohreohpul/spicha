@@ -63,11 +63,11 @@ export function TrustStrip({ t, locale }: { t: UiDictionary; locale: Locale }) {
         </KineticMarquee>
 
         {/* Hairline-divided rows, not a card grid. */}
-        <ul className="grid grid-cols-1 gap-px bg-hairline md:grid-cols-2 lg:grid-cols-5">
+        <ul className="grid grid-cols-1 gap-px bg-hairline sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           {points.map((point, index) => (
             <li key={point.label} className="bg-porcelain-deep">
               <Reveal delay={index * 0.07} className="h-full">
-                <div className="flex h-full flex-col gap-2 px-0 py-6 md:px-6 md:first:pl-0 lg:px-5">
+                <div className="flex h-full flex-col gap-2.5 px-0 py-7 sm:px-6 sm:first:pl-0 xl:px-7">
                   <p
                     className={`text-[0.65rem] font-semibold uppercase tracking-[0.16em] ${
                       point.gold ? 'text-gold' : 'text-ink-muted'
