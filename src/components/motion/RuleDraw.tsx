@@ -40,7 +40,7 @@ export function RuleDraw({
         );
         return () => {
           tween.scrollTrigger?.kill();
-          tween.kill();
+          tween.revert();
         };
       }),
     );

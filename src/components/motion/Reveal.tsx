@@ -65,7 +65,7 @@ export function Reveal({
 
         return () => {
           tween.scrollTrigger?.kill();
-          tween.kill();
+          tween.revert();
         };
       }),
     );

@@ -28,7 +28,7 @@ export function ScrollProgress() {
       );
       return () => {
         tween.scrollTrigger?.kill();
-        tween.kill();
+        tween.revert();
       };
     });
 

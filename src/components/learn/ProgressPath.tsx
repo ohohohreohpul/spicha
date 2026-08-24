@@ -45,7 +45,7 @@ export function ProgressPath({ trackSelector }: { trackSelector: string }) {
 
         return () => {
           tween.scrollTrigger?.kill();
-          tween.kill();
+          tween.revert();
         };
       }),
     );

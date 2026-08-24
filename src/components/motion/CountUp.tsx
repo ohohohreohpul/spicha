@@ -47,7 +47,7 @@ export function CountUp({
 
         return () => {
           tween.scrollTrigger?.kill();
-          tween.kill();
+          tween.revert();
         };
       }),
     );
