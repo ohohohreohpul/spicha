@@ -118,18 +118,23 @@ export function Hero({
             </p>
 
             <div className="mt-9 flex flex-wrap items-center gap-3">
-              <Magnetic>
+              {/* The pill stays put; only its label drifts toward the pointer.
+                  Moving the pill itself lifted it out of line with the button
+                  beside it. */}
+              <Magnetic target="[data-magnet]">
                 <a
                   data-hero="cta"
                   href={`#${SECTION_IDS.finder}`}
-                  className="group inline-flex min-h-12 items-center gap-3 rounded-full bg-porcelain px-7 text-sm font-semibold text-ink transition-[background-color,transform] duration-[var(--dur-1)] ease-[var(--ease-out-quad)] hover:bg-white active:scale-[0.98]"
+                  className="group inline-flex min-h-12 items-center rounded-full bg-porcelain px-7 text-sm font-semibold text-ink transition-[background-color,transform] duration-[var(--dur-1)] ease-[var(--ease-out-quad)] hover:bg-white active:scale-[0.98]"
                 >
-                  {t.hero.ctaPrimary}
-                  <span
-                    aria-hidden
-                    className="transition-transform duration-[var(--dur-3)] ease-[var(--ease-out-quart)] group-hover:translate-x-1"
-                  >
-                    →
+                  <span data-magnet className="inline-flex items-center gap-3">
+                    {t.hero.ctaPrimary}
+                    <span
+                      aria-hidden
+                      className="transition-transform duration-[var(--dur-3)] ease-[var(--ease-out-quart)] group-hover:translate-x-1"
+                    >
+                      →
+                    </span>
                   </span>
                 </a>
               </Magnetic>
