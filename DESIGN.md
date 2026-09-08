@@ -78,19 +78,22 @@ One button, the shadcn one (`ui/hero-08-utils/button.tsx`): `rounded-md`,
 default. Links-styled-as-buttons use `variant="outline"`. On photos: white
 bg + ink text. Full-width pill CTAs and press-scale tricks are gone.
 
-### Course discovery: Wegweiser → Katalog → Körperkarte (unchanged IA)
+### Course discovery: exactly two sections (client feedback 2026-09-08)
 
-1. **Wegweiser** — three persona panels: rounded photo card, serif title,
-   muted situation text, then named first courses with price + level badge +
-   link. Path strip: three quiet steps ("Zuerst / Dann / Danach") with plain
-   top borders, no gold ceremony. The 3-question guide sits in a plain
-   `bg-paper` rounded panel; results show badge + ribbon + next date + price.
-   Closing band: `bg-muted` rounded panel with one button.
-2. **Katalog** — card grid (3 cols xl): photo or monogram tile, serif title,
-   level badge, flag ribbon, price + VAT note, next date, CTA. Default
-   family: Ausbildung; flagged courses sort first.
-3. **Körperkarte** — unchanged interactive body map (the tactile signature);
-   only its section header changed.
+Seven surfaces used to carry course listings (finder, schedule, catalog,
+guide, featured, wegweiser). That read as chaotic. Discovery is now:
+
+1. **Wegweiser** — for visitors who don't know what to study: persona panels
+   (situation → named first course), the learning-path strip, and the
+   3-question guide. Level badges and flags travel with every course mention.
+2. **Katalog** — the full, SEO-readable record: three category families,
+   every course as a card with photo/monogram, subtitle, level badge, flag
+   ribbon, price + VAT note, next bookable date, CTA.
+
+Then Termine (dates) — never before these two. The body-map finder and the
+featured-course deep-dive are **unmounted but kept** in the repo
+(`components/finder/`, `components/featured/`); remounting either requires
+an explicit client decision.
 
 Level badge: soft outline pill, teal dot "Ohne Vorkenntnisse" / ink dot "Mit
 Grundlagen", derived via `requiresBasics()`. Flags from `Program.flag`:

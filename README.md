@@ -13,13 +13,12 @@ npm run build
 
 | Abschnitt | Komponente |
 |---|---|
-| Hero (hero-08 Sprache: Serif, Foto-Karten, CTA) | `components/ui/hero-08` |
+| Hero „The Working Hand“ (Film, Wiederherstellung 09/2026) | `components/hero/` |
+| (ruhige Hero-Alternative, ungenutzt) | `components/ui/hero-08` |
 | Anerkennung | `components/trust/` |
 | Wegweiser (Situation → erster Kurs → Lernweg → 3-Fragen-Guide) | `components/orientation/` + `components/catalog/CourseGuide` |
 | Kurskatalog mit Level-Badges und Empfehlungs-Flags | `components/catalog/CourseGrid` |
-| Kursfinder über den Körper | `components/finder/` |
 | Live-Terminplan | `components/schedule/` |
-| Beispielkurs im Detail | `components/featured/` |
 | Der Kurstag | `components/learn/` |
 | Nach dem Kurs | `components/outcomes/` |
 | Die Schule | `components/people/` |
@@ -55,7 +54,10 @@ gerundeten Karten, eine Bewegungssprache (`components/ui/fade-in.tsx`).
 Farbe trägt Bedeutung — Petrol führt, Gold steht ausschließlich für
 Zertifizierung, Rot ausschließlich für knappe Plätze und Fehler.
 Details: [DESIGN.md](DESIGN.md), Bewegung: [docs/MOTION.md](docs/MOTION.md).
-Der Demo-Ursprung des Hero bleibt unter `/demo-hero08` (noindex).
+Die ruhige Hero-Variante bleibt unter `/demo-hero08` (noindex) erreichbar.
+Kursfinder (`components/finder/`) und Beispielkurs (`components/featured/`) sind
+enthalten, aber nicht eingebaut — Kurs-Discovery läuft über genau zwei Abschnitte
+(Wegweiser, Katalog), siehe DESIGN.md.
 
 ## Barrierefreiheit
 

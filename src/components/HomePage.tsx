@@ -3,8 +3,6 @@ import { SiteHeader } from '@/components/chrome/SiteHeader';
 import { CourseGrid, type NextDates } from '@/components/catalog/CourseGrid';
 import { LocationFaq } from '@/components/contact/LocationFaq';
 import { Evidence } from '@/components/evidence/Evidence';
-import { FeaturedCourse } from '@/components/featured/FeaturedCourse';
-import { BodyFinder } from '@/components/finder/BodyFinder';
 import { Hero } from '@/components/hero/Hero';
 import { LearningSequence } from '@/components/learn/LearningSequence';
 import { Wegweiser } from '@/components/orientation/Wegweiser';
@@ -14,7 +12,6 @@ import { Schedule } from '@/components/schedule/Schedule';
 import { StructuredData } from '@/components/seo/StructuredData';
 import { TrustStrip } from '@/components/trust/TrustStrip';
 import { Section, SectionHead, joinTitle } from '@/components/ui/section-head';
-import { FEATURED_PROGRAM_ID } from '@/data/programs';
 import { SECTION_IDS, type Locale } from '@/i18n/config';
 import { getUi } from '@/i18n/ui';
 import { getNextSession, getSchedule } from '@/lib/schedule';
@@ -23,8 +20,11 @@ import { getNextSession, getSchedule } from '@/lib/schedule';
  * The whole one-page experience, rendered once per language.
  * Section anchors are identical in both, so links survive a language switch.
  *
- * 2026-09 rebuild: calm layout, hero-08 language. The discovery order stays
- * sacred: orientation → catalog → body map → schedule.
+ * 2026-09 rebuild: calm layout, hero-08 language, film hero on top.
+ * Course discovery is consolidated to exactly two sections (client feedback
+ * 2026-09-08): Wegweiser (orientation + guide) → Katalog (full record) → then
+ * Termine. The body-map finder and the featured-course deep dive stay in the
+ * repo, unmounted (`components/finder/`, `components/featured/`).
  */
 export function HomePage({ locale }: { locale: Locale }) {
   const t = getUi(locale);
@@ -83,16 +83,6 @@ export function HomePage({ locale }: { locale: Locale }) {
           <CourseGrid nextDates={nextDates} t={t} locale={locale} />
         </Section>
 
-        <Section id={SECTION_IDS.finder} labelledBy="kursfinder-titel">
-          <SectionHead
-            id="kursfinder-titel"
-            label={t.sections.finder.kicker}
-            title={joinTitle(t.sections.finder)}
-            lead={t.sections.finder.lead}
-          />
-          <BodyFinder t={t} locale={locale} />
-        </Section>
-
         <Section id={SECTION_IDS.schedule} labelledBy="termine-titel" className="bg-muted/60">
           <SectionHead
             id="termine-titel"
@@ -101,21 +91,6 @@ export function HomePage({ locale }: { locale: Locale }) {
             lead={t.sections.schedule.lead}
           />
           <Schedule initial={schedule} t={t} locale={locale} />
-        </Section>
-
-        <Section id={SECTION_IDS.featured} labelledBy="beispielkurs-titel">
-          <SectionHead
-            id="beispielkurs-titel"
-            label={t.sections.featured.kicker}
-            title={joinTitle(t.sections.featured)}
-            lead={t.sections.featured.lead}
-          />
-          <FeaturedCourse
-            programId={FEATURED_PROGRAM_ID}
-            sessions={schedule.sessions}
-            t={t}
-            locale={locale}
-          />
         </Section>
 
         <Section id={SECTION_IDS.learn} labelledBy="lernen-titel">
