@@ -26,6 +26,14 @@
   --dur-2: 180ms;
   --dur-3: 240ms;
   --ease-out-quart: cubic-bezier(0.165, 0.84, 0.44, 1);
+
+  /* Restored film-hero (2026-09): the returned Hero.tsx keeps its own
+     scale — the hero is the one surface allowed above the type ceiling. */
+  --text-hero: clamp(2.5rem, 1.1rem + 4.3vw, 5.25rem);
+  --text-lead: clamp(1.0625rem, 1rem + 0.4vw, 1.3125rem);
+  --ease-out-quad: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-in-out-cubic: cubic-bezier(0.645, 0.045, 0.355, 1);
+  --header-height: 4.5rem;
 }
 
 /* ------------------------------------------------------------------ *
@@ -117,6 +125,12 @@
  * leading for its ascenders and tone marks.
  * These rules sit outside @layer so they win over Tailwind utilities.
  * ------------------------------------------------------------------ */
+/* Thai display compensates: no cap-height contrast means same-pixel Thai
+   reads larger — the hero scale comes down to match the Latin cut. */
+html[lang='th'] {
+  --text-hero: clamp(2.15rem, 1.2rem + 3.2vw, 4rem);
+}
+
 html[lang='th'] h1,
 html[lang='th'] h2,
 html[lang='th'] h3,

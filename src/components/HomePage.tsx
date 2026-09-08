@@ -5,6 +5,7 @@ import { LocationFaq } from '@/components/contact/LocationFaq';
 import { Evidence } from '@/components/evidence/Evidence';
 import { FeaturedCourse } from '@/components/featured/FeaturedCourse';
 import { BodyFinder } from '@/components/finder/BodyFinder';
+import { Hero } from '@/components/hero/Hero';
 import { LearningSequence } from '@/components/learn/LearningSequence';
 import { Wegweiser } from '@/components/orientation/Wegweiser';
 import { Outcomes } from '@/components/outcomes/Outcomes';
@@ -12,35 +13,11 @@ import { SchoolStory } from '@/components/people/SchoolStory';
 import { Schedule } from '@/components/schedule/Schedule';
 import { StructuredData } from '@/components/seo/StructuredData';
 import { TrustStrip } from '@/components/trust/TrustStrip';
-import { Hero08 } from '@/components/ui/hero-08';
 import { Section, SectionHead, joinTitle } from '@/components/ui/section-head';
-import { FEATURED_PROGRAM_ID, PROGRAM_BY_ID, VAT_NOTE } from '@/data/programs';
-import { RECOGNITION } from '@/data/school';
+import { FEATURED_PROGRAM_ID } from '@/data/programs';
 import { SECTION_IDS, type Locale } from '@/i18n/config';
 import { getUi } from '@/i18n/ui';
-import { getSchedule } from '@/lib/schedule';
-
-/** Hero cards: the two courses the school visibly pushes (Program.flag). */
-const HERO_CARDS: ReadonlyArray<{ id: string; image: string; imageAlt: Record<Locale, string> }> = [
-  {
-    id: 'klassische-massage',
-    image: '/video/poster-02.jpg',
-    imageAlt: {
-      de: 'Übereinandergelegte Hände geben gleichmäßigen Druck auf den Rücken.',
-      th: 'มือวางทับกันลงน้ำหนักสม่ำเสมอบนแผ่นหลัง',
-    },
-  },
-  {
-    // CLIENT-VERIFY: eigenes Head-Spa-Foto steht noch aus — bis dahin das
-    // Facial-Lifting-Motiv (Kopf/Gesicht), mit ehrlicher Bildunterschrift.
-    id: 'head-spa',
-    image: '/img/t-facial.jpg',
-    imageAlt: {
-      de: 'Behandlung im Kopf- und Gesichtsbereich in der Schule.',
-      th: 'การดูแลบริเวณศีรษะและใบหน้าที่โรงเรียน',
-    },
-  },
-] as const;
+import { getNextSession, getSchedule } from '@/lib/schedule';
 
 /**
  * The whole one-page experience, rendered once per language.
@@ -52,6 +29,7 @@ const HERO_CARDS: ReadonlyArray<{ id: string; image: string; imageAlt: Record<Lo
 export function HomePage({ locale }: { locale: Locale }) {
   const t = getUi(locale);
   const schedule = getSchedule(locale);
+  const nextSession = getNextSession(schedule);
 
   // Catalog cards show the next bookable appearance per course — first
   // non-cancelled entry wins, the payload arrives chronologically sorted.
@@ -66,27 +44,6 @@ export function HomePage({ locale }: { locale: Locale }) {
   }
   const nextDates: NextDates = Object.fromEntries(nextDatesEntries);
 
-  const heroTitle = [t.hero.headlineA, t.hero.headlineB, t.hero.headlineAccent, t.hero.headlineC]
-    .filter(Boolean)
-    .join(' ');
-
-  const heroCards = HERO_CARDS.map((card) => {
-    const program = PROGRAM_BY_ID.get(card.id)!;
-    return {
-      title: program.title[locale],
-      subtitle: `${program.durationLabel[locale]} · ${program.price} € ${VAT_NOTE[locale]}`,
-      image: card.image,
-      imageAlt: card.imageAlt[locale],
-      invert: true,
-      cta: {
-        ctaEnabled: true,
-        text: t.nextCourse.request,
-        link: `#${SECTION_IDS.contact}?kurs=${program.slug}`,
-        size: 'default' as const,
-      },
-    };
-  });
-
   return (
     <>
       <SiteHeader t={t} locale={locale} />
@@ -94,12 +51,14 @@ export function HomePage({ locale }: { locale: Locale }) {
       <main id="inhalt">
         <div id="top" />
 
-        <Hero08
-          title={heroTitle}
-          description={t.hero.lead}
-          socialProof={RECOGNITION.bfdShort[locale]}
-          cards={heroCards}
-          animation="subtle"
+        {/* Restored film hero (2026-09): "The Working Hand" returns on top of
+            the calm rebuild — everything below it stays quiet. */}
+        <Hero
+          nextSession={nextSession}
+          syncedAtLabel={schedule.syncedAtLabel}
+          stale={schedule.stale}
+          t={t}
+          locale={locale}
         />
 
         <TrustStrip t={t} locale={locale} />

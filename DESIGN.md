@@ -1,9 +1,15 @@
 # DESIGN.md — Kosmetikschule Picha
 
-Client feedback 2026-09: the 2026-08 editorial system (giant display type,
-video hero, hairline ceremonies, kinetic marquee, pinned scroll sequences)
-"shouts". Retired wholesale. The page now follows the hero-08 language:
-calm, tangible, quiet. Source of truth for any future surface.
+Client feedback 2026-09: the 2026-08 editorial system (giant display type
+everywhere, hairline ceremonies, kinetic marquee, pinned scroll sequences)
+"shouts". Retired — **with one sanctioned exception**: the film hero
+("The Working Hand", 3-clip crossfade + live next-course module +
+SplitText headline) was restored by client decision on 2026-09-08 and is
+the **only** surface allowed to exceed the type ceiling, use video, or
+animate via GSAP. Everything below it follows the hero-08 language: calm,
+tangible, quiet. Both hero directions are kept: `components/hero/` (video,
+production hero) and `components/ui/hero-08` (calm, demo at /demo-hero08).
+This file is the source of truth for any future surface.
 
 ## 1. Visual Theme & Atmosphere
 
@@ -137,10 +143,12 @@ stagger 0.1 for lists. Honors `useReducedMotion`; animation `'none'` renders
 final state without motion. Body-map pulse rings stay (pure CSS, compositor
 only). Hover = color shifts and image scale ≤ 1.06, 150–300ms.
 
-**Removed and not coming back:** GSAP + ScrollTrigger, SplitLines masking,
-pinned sequences, kinetic marquee, count-ups, magnetic CTAs, spotlight
-tracking, scroll-progress bar, video hero crossfades, and the fixed grain
-overlay.
+**Removed for good (below the hero):** ScrollTrigger pins, kinetic marquee,
+count-ups, spotlight tracking, scroll-progress bar, grain overlay.
+
+**Exception (client decision 2026-09-08):** the film hero keeps GSAP,
+SplitText, Magnetic CTAs and the video crossfade — restored to production.
+Those techniques stay fenced inside `components/hero/`.
 
 ## 8. Do's and Don'ts
 
