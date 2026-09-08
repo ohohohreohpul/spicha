@@ -63,8 +63,11 @@ export function Hero({
 
   return (
     <HeroStage className="relative isolate min-h-[100dvh] overflow-hidden bg-ink">
-      {/* The film, edge to edge. */}
-      <div data-hero="film" className="absolute inset-0 will-change-transform">
+      {/* The film, edge to edge — with 15% vertical slack, because the exit
+          choreography slides it 13% down: without the overhang, the film's
+          top edge drops into view as a black band while the hero scrolls
+          away (fixed 2026-09 — the sticky header made the shift visible). */}
+      <div data-hero="film" className="absolute inset-x-0 -top-[15%] bottom-0 will-change-transform">
         <HeroVideoSequence clips={clips(locale)} />
       </div>
 
