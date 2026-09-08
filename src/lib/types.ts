@@ -12,6 +12,13 @@ export type BodyArea =
 
 export type ProgramCategory = 'kurzkurs' | 'ausbildung' | 'betrieb';
 
+/**
+ * Why the school highlights a course (client feedback 2026-09): nothing is
+ * promoted without a stated reason. `einstieg` — the recommended first step
+ * for beginners; `neu` — new to the programme; `beliebt` — most-booked.
+ */
+export type ProgramFlag = 'einstieg' | 'neu' | 'beliebt';
+
 export type Language = 'de' | 'th' | 'de-th';
 
 export type AvailabilityStatus =
@@ -30,6 +37,7 @@ export type Program = {
   readonly title: LocalizedText;
   readonly subtitle: LocalizedText;
   readonly category: ProgramCategory;
+  readonly flag?: ProgramFlag;
   readonly bodyAreas: readonly BodyArea[];
   readonly price: number;
   readonly priceNote?: LocalizedText;

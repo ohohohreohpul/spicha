@@ -1,16 +1,17 @@
-import { Spotlight } from '@/components/motion/Spotlight';
 import { AvailabilityBadge } from '@/components/ui/Availability';
+import { Button } from '@/components/ui/hero-08-utils/button';
 import type { Locale } from '@/i18n/config';
 import { fill, type UiDictionary } from '@/i18n/ui';
 import { isBookable } from '@/lib/schedule';
 import type { SessionView } from '@/lib/types';
 
 /**
- * One session, presented as an editorial row rather than a boxed card:
- * date rail on the left, facts in the middle, action on the right.
+ * One session as a quiet list row: date on the left, facts in the middle,
+ * price and action on the right.
  *
- * On hover the row lights under the cursor and the date pushes forward, so the
- * row you are about to click is the one that reacts — cancelled rows stay inert.
+ * Only what varies per session is rendered per row (client feedback 2026-08):
+ * the shared course location lives once above the list, the bilingual
+ * teaching language is the default and only single-language sessions say so.
  */
 export function ScheduleRow({
   session,
@@ -22,19 +23,19 @@ export function ScheduleRow({
   locale: Locale;
 }) {
   const cancelled = session.status === 'abgesagt';
+  // Bilingual is the house default; a session flagging one language is the
+  // exception worth a tick.
+  const singleLanguage = session.languages.length === 1;
 
   return (
-    <Spotlight
-      as="article"
-      className={`group grid grid-cols-[3.5rem_minmax(0,1fr)] gap-x-5 gap-y-4 border-b border-hairline py-[var(--space-row)] md:grid-cols-[4.5rem_minmax(0,1fr)_auto] md:gap-x-8 ${
-        cancelled ? 'opacity-65' : ''
+    <article
+      className={`grid grid-cols-[3rem_minmax(0,1fr)] gap-x-5 gap-y-4 border-b border-border py-7 md:grid-cols-[4rem_minmax(0,1fr)_auto] md:gap-x-8 ${
+        cancelled ? 'opacity-60' : ''
       }`}
     >
       <div className="numeric text-center">
-        <div className="font-display text-3xl leading-none transition-transform duration-[var(--dur-4)] ease-[var(--ease-out-quart)] group-hover:-translate-y-0.5">
-          {session.dayLabel}
-        </div>
-        <div className="mt-1 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-ink-muted">
+        <div className="font-serif text-2xl leading-none">{session.dayLabel}</div>
+        <div className="mt-1 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
           {session.monthLabel}
         </div>
       </div>
@@ -42,7 +43,7 @@ export function ScheduleRow({
       <div className="min-w-0">
         <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
           <h3
-            className={`font-display text-xl leading-tight md:text-2xl ${
+            className={`font-serif text-xl leading-tight tracking-tight ${
               cancelled ? 'line-through decoration-pressure/60 decoration-2' : ''
             }`}
           >
@@ -56,66 +57,60 @@ export function ScheduleRow({
           ) : null}
         </div>
 
-        <dl className="numeric mt-3 flex flex-wrap items-center gap-x-5 gap-y-1.5 text-sm text-ink-muted">
+        {/* Separator ticks hide under sm: the wrapped meta row would orphan a
+            tick at the end of a line — gaps alone carry the mobile rhythm. */}
+        <dl className="numeric mt-3 flex flex-wrap items-center gap-x-5 gap-y-1.5 text-sm text-muted-foreground">
           <div className="flex gap-1.5">
             <dt className="sr-only">{t.nextCourse.date}</dt>
             <dd>
               {session.weekdayLabel}, {session.dateLabel}
             </dd>
           </div>
-          <span aria-hidden className="h-3 w-px bg-hairline" />
+          <span aria-hidden className="hidden h-3 w-px bg-border sm:block" />
           <div>
             <dt className="sr-only">{t.nextCourse.time}</dt>
             <dd>
               {session.timeLabel} {t.nextCourse.clock}
             </dd>
           </div>
-          <span aria-hidden className="h-3 w-px bg-hairline" />
-          <div>
-            <dt className="sr-only">{t.nextCourse.language}</dt>
-            <dd
-              className={locale === 'de' && session.languages.includes('th') ? 'thai' : undefined}
-            >
-              {session.languageLabel}
-            </dd>
-          </div>
-          <span aria-hidden className="h-3 w-px bg-hairline" />
-          <div>
-            <dt className="sr-only">{t.nextCourse.price}</dt>
-            <dd className="font-semibold text-ink">{session.priceLabel}</dd>
-          </div>
+          {singleLanguage ? (
+            <>
+              <span aria-hidden className="hidden h-3 w-px bg-border sm:block" />
+              <div>
+                <dt className="sr-only">{t.nextCourse.language}</dt>
+                <dd className={locale === 'th' ? 'thai' : undefined}>{session.languageLabel}</dd>
+              </div>
+            </>
+          ) : null}
         </dl>
 
-        <p className="mt-2 text-sm text-ink-muted">{session.location}</p>
-
         {session.note ? (
-          <p className="mt-2 max-w-[60ch] border-l-2 border-gold/50 pl-3 text-sm text-ink-muted">
+          <p className="mt-2 max-w-[60ch] border-l-2 border-gold/50 pl-3 text-sm text-muted-foreground">
             {session.note}
           </p>
         ) : null}
+      </div>
 
+      <div className="col-start-2 flex flex-col items-start gap-2 md:col-start-3 md:items-end md:self-center">
+        <p className="numeric text-sm font-semibold">{session.priceLabel}</p>
         {!cancelled && session.capacity > 0 ? (
-          <p className="numeric mt-2 text-xs text-ink-muted">
+          <p className="numeric text-xs text-muted-foreground">
             {fill(t.schedule.placesOf, {
               free: session.placesRemaining,
               total: session.capacity,
             })}
           </p>
         ) : null}
-      </div>
-
-      <div className="col-start-2 md:col-start-3 md:self-center">
         {cancelled ? (
-          <span className="text-sm text-ink-muted">{t.schedule.noSeat}</span>
+          <span className="text-sm text-muted-foreground">{t.schedule.noSeat}</span>
         ) : (
-          <a
-            href={`#anfrage?kurs=${session.programSlug}&termin=${session.id}`}
-            className="inline-flex min-h-11 items-center rounded-full border border-ink/20 px-5 text-sm font-semibold transition-colors duration-150 hover:border-teal hover:bg-teal hover:text-paper"
-          >
-            {isBookable(session.status) ? t.schedule.request : t.schedule.waitlist}
-          </a>
+          <Button asChild variant="outline" size="sm">
+            <a href={`#anfrage?kurs=${session.programSlug}&termin=${session.id}`}>
+              {isBookable(session.status) ? t.schedule.request : t.schedule.waitlist}
+            </a>
+          </Button>
         )}
       </div>
-    </Spotlight>
+    </article>
   );
 }

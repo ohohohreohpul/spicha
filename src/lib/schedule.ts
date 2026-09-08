@@ -1,4 +1,5 @@
 import { PROGRAM_BY_ID } from '@/data/programs';
+import { SCHOOL } from '@/data/school';
 import { SESSIONS } from '@/data/sessions';
 import { DEFAULT_LOCALE, type Locale } from '@/i18n/config';
 import type {
@@ -81,7 +82,9 @@ function formatters(locale: Locale): Formatters {
 const LANGUAGE_LABEL: Record<Language, Record<Locale, string>> = {
   de: { de: 'Deutsch', th: 'ภาษาเยอรมัน' },
   th: { de: 'ไทย', th: 'ภาษาไทย' },
-  'de-th': { de: 'Deutsch und ไทย', th: 'ไทยและเยอรมัน' },
+  // Client instruction (2026-08): no mixed scripts on the German page —
+  // Thai script stays on the Thai page, German stays German.
+  'de-th': { de: 'Deutsch und Thailändisch', th: 'ไทยและเยอรมัน' },
 };
 
 export const AVAILABILITY_LABEL: Record<AvailabilityStatus, Record<Locale, string>> = {
@@ -149,11 +152,18 @@ function toView(session: Session, locale: Locale): SessionView | null {
     bodyAreas: program.bodyAreas,
     weekdayLabel: fmt.weekday.format(start),
     dayLabel: fmt.day.format(start),
-    monthLabel: fmt.month.format(start).replace('.', ''),
+    // Thai short months are dotted twice ("ม.ค."), and String.replace only
+    // strips the first — take all of them out.
+    monthLabel: fmt.month.format(start).replaceAll('.', ''),
     dateLabel: multiDay
       ? `${fmt.date.format(start)} – ${fmt.date.format(end)}`
       : fmt.date.format(start),
-    timeLabel: `${fmt.time.format(start)}–${fmt.time.format(end)}`,
+    // Multi-day courses run the school's standard teaching hours every day;
+    // stitching day 1's start to the last day's end would misstate that if
+    // the last day ever ends earlier (e.g. an exam afternoon).
+    timeLabel: multiDay
+      ? `${SCHOOL.courseDayStart}–${SCHOOL.courseDayEnd}`
+      : `${fmt.time.format(start)}–${fmt.time.format(end)}`,
     priceLabel: `${fmt.price.format(program.price)}${priceNote}`,
     languageLabel: languageLabel(session.languages, locale),
     availabilityLabel: availabilityLabel(session, locale),

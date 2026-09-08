@@ -1,18 +1,18 @@
 import Image from 'next/image';
-import { ParallaxMedia } from '@/components/motion/ParallaxMedia';
 import { AvailabilityBadge } from '@/components/ui/Availability';
-import { LinkButton } from '@/components/ui/Button';
-import { Reveal } from '@/components/motion/Reveal';
+import { FadeIn } from '@/components/ui/fade-in';
+import { Button } from '@/components/ui/hero-08-utils/button';
 import { BODY_AREA_BY_ID } from '@/data/body-areas';
 import { PROGRAM_BY_ID } from '@/data/programs';
 import { SCHOOL } from '@/data/school';
-import type { Locale } from '@/i18n/config';
+import { SECTION_IDS, type Locale } from '@/i18n/config';
 import type { UiDictionary } from '@/i18n/ui';
 import type { SessionView } from '@/lib/types';
 
 /**
  * One programme shown in full depth, so the catalogue's promise is provable.
  * Every other programme uses the same field model.
+ * (2026-09 rebuild: quiet two-column layout, no parallax, no display-ceremony.)
  */
 export function FeaturedCourse({
   programId,
@@ -34,10 +34,10 @@ export function FeaturedCourse({
     .filter(Boolean);
 
   return (
-    <div className="mt-[var(--space-block)] grid gap-12 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-20">
+    <div className="grid gap-10 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-16">
       <div>
-        <Reveal>
-          <ParallaxMedia className="relative aspect-16/10 bg-porcelain-deep">
+        <FadeIn>
+          <div className="relative aspect-[16/10] overflow-hidden rounded-lg bg-muted outline outline-black/10">
             <Image
               src="/img/t-office.jpg"
               alt={t.featured.imageAlt}
@@ -45,36 +45,32 @@ export function FeaturedCourse({
               sizes="(max-width: 1024px) 92vw, 55vw"
               className="object-cover"
             />
-          </ParallaxMedia>
-        </Reveal>
+          </div>
+        </FadeIn>
 
-        <div className="mt-10">
-          <p className="kicker">{t.featured.kicker}</p>
-          <h3 className="mt-3 font-display text-[clamp(2rem,1.3rem+2.4vw,3.25rem)] leading-[1.08]">
+        <FadeIn className="mt-8">
+          <h3 className="font-serif text-2xl leading-tight tracking-tight sm:text-3xl">
             {program.title[locale]}
           </h3>
           {locale === 'de' ? (
-            <p className="thai mt-1 text-ink-muted" lang="th">
+            <p className="thai mt-1 text-muted-foreground" lang="th">
               {program.title.th}
             </p>
           ) : null}
-          <p className="mt-5 max-w-[58ch] text-[length:var(--text-lead)] leading-relaxed">
+          <p className="mt-4 max-w-[58ch] leading-relaxed text-muted-foreground">
             {program.subtitle[locale]}. {t.featured.leadSuffix}
           </p>
-          <p className="mt-4 max-w-[58ch] leading-relaxed text-ink-muted">
+          <p className="mt-3 max-w-[58ch] text-sm leading-relaxed text-muted-foreground">
             {program.audience[locale]}
           </p>
-        </div>
+        </FadeIn>
 
         <div className="mt-10 grid gap-10 sm:grid-cols-2">
           <section>
-            <h4 className="text-sm font-semibold uppercase tracking-[0.12em] text-teal">
-              {t.featured.outcomes}
-            </h4>
+            <h4 className="text-sm font-semibold text-teal">{t.featured.outcomes}</h4>
             <ul className="mt-4 space-y-3">
               {program.outcomes?.[locale].map((outcome) => (
-                <li key={outcome} className="flex gap-3 text-sm leading-relaxed">
-                  <span aria-hidden className="mt-2 h-1 w-4 shrink-0 bg-gold" />
+                <li key={outcome} className="text-sm leading-relaxed text-muted-foreground">
                   {outcome}
                 </li>
               ))}
@@ -82,47 +78,33 @@ export function FeaturedCourse({
           </section>
 
           <section>
-            <h4 className="text-sm font-semibold uppercase tracking-[0.12em] text-teal">
-              {t.featured.curriculum}
-            </h4>
-            <ol className="numeric mt-4 space-y-3">
-              {program.curriculum?.[locale].map((item, index) => (
-                <li key={item} className="flex gap-3 text-sm leading-relaxed">
-                  <span className="w-5 shrink-0 text-ink-muted">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
+            <h4 className="text-sm font-semibold text-teal">{t.featured.curriculum}</h4>
+            <ul className="mt-4 space-y-3">
+              {program.curriculum?.[locale].map((item) => (
+                <li key={item} className="text-sm leading-relaxed text-muted-foreground">
                   {item}
                 </li>
               ))}
-            </ol>
+            </ul>
           </section>
         </div>
 
         {program.faq ? (
-          <section className="mt-[var(--space-block)]">
-            <h4 className="text-sm font-semibold uppercase tracking-[0.12em] text-teal">
-              {t.featured.faq}
-            </h4>
-            <div className="mt-4 border-t border-hairline">
+          <section className="mt-12">
+            <h4 className="text-sm font-semibold text-teal">{t.featured.faq}</h4>
+            <div className="mt-4 border-t border-border">
               {program.faq.map((entry) => (
-                <details key={entry.q[locale]} className="group border-b border-hairline">
+                <details key={entry.q[locale]} className="group border-b border-border">
                   <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-4 text-base font-medium marker:hidden">
                     {entry.q[locale]}
                     <span
                       aria-hidden
-                      className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-hairline transition-transform duration-[var(--dur-3)] ease-[var(--ease-in-out-cubic)] group-open:rotate-45"
+                      className="text-lg leading-none text-muted-foreground transition-transform duration-200 group-open:rotate-45"
                     >
-                      <svg width="11" height="11" viewBox="0 0 11 11" aria-hidden>
-                        <path
-                          d="M5.5 0v11M0 5.5h11"
-                          stroke="currentColor"
-                          strokeWidth="1.3"
-                          strokeLinecap="round"
-                        />
-                      </svg>
+                      +
                     </span>
                   </summary>
-                  <p className="max-w-[62ch] pb-5 text-sm leading-relaxed text-ink-muted">
+                  <p className="max-w-[62ch] pb-5 text-sm leading-relaxed text-muted-foreground">
                     {entry.a[locale]}
                   </p>
                 </details>
@@ -133,50 +115,56 @@ export function FeaturedCourse({
       </div>
 
       {/* Facts rail */}
-      <aside className="lg:sticky lg:top-28 lg:self-start">
-        <div className="border-t-2 border-ink bg-paper p-7">
-          <dl className="numeric divide-y divide-hairline text-sm">
-            <Fact label={t.featured.facts.price}>
-              <span className="font-display text-2xl">{program.price} €</span>
-              {program.priceNote ? (
-                <span className="ml-2 text-xs text-ink-muted">{program.priceNote[locale]}</span>
-              ) : null}
-            </Fact>
-            <Fact label={t.featured.facts.duration}>{program.durationLabel[locale]}</Fact>
-            <Fact label={t.featured.facts.language}>{t.trust.teachingValue}</Fact>
-            <Fact label={t.featured.facts.location}>
-              {SCHOOL.street}, {SCHOOL.postalCode} {SCHOOL.city}
-            </Fact>
-            <Fact label={t.featured.facts.prerequisites}>{program.prerequisites[locale]}</Fact>
-            <Fact label={t.featured.facts.bodyArea}>{areas.join(' · ')}</Fact>
-            <Fact label={t.featured.facts.included}>{program.included?.[locale].join(' · ')}</Fact>
-            <Fact label={t.featured.facts.certificate}>{program.certificate[locale]}</Fact>
-          </dl>
+      <aside className="lg:sticky lg:top-24 lg:self-start">
+        <FadeIn>
+          <div className="rounded-lg bg-paper p-6 shadow-sm outline outline-black/5 sm:p-7">
+            <dl className="numeric divide-y divide-border text-sm">
+              <Fact label={t.featured.facts.price}>
+                <span className="font-serif text-2xl">{program.price} €</span>
+                {program.priceNote ? (
+                  <span className="ml-2 text-xs text-muted-foreground">
+                    {program.priceNote[locale]}
+                  </span>
+                ) : null}
+              </Fact>
+              <Fact label={t.featured.facts.duration}>{program.durationLabel[locale]}</Fact>
+              <Fact label={t.featured.facts.language}>{t.trust.teachingValue}</Fact>
+              <Fact label={t.featured.facts.location}>
+                {SCHOOL.street}, {SCHOOL.postalCode} {SCHOOL.city}
+              </Fact>
+              <Fact label={t.featured.facts.prerequisites}>{program.prerequisites[locale]}</Fact>
+              <Fact label={t.featured.facts.bodyArea}>{areas.join(' · ')}</Fact>
+              <Fact label={t.featured.facts.included}>{program.included?.[locale].join(' · ')}</Fact>
+              <Fact label={t.featured.facts.certificate}>{program.certificate[locale]}</Fact>
+            </dl>
 
-          <div className="mt-7 border-t border-hairline pt-6">
-            <p className="kicker">{t.featured.nextDates}</p>
-            {upcoming.length === 0 ? (
-              <p className="mt-3 text-sm text-ink-muted">{t.featured.noDates}</p>
-            ) : (
-              <ul className="mt-3 space-y-3">
-                {upcoming.map((session) => (
-                  <li
-                    key={session.id}
-                    className="numeric flex items-center justify-between gap-3 text-sm"
-                  >
-                    <span>{session.dateLabel}</span>
-                    <AvailabilityBadge status={session.status} label={session.availabilityLabel} />
-                  </li>
-                ))}
-              </ul>
-            )}
+            <div className="mt-6 border-t border-border pt-6">
+              <p className="text-sm font-semibold">{t.featured.nextDates}</p>
+              {upcoming.length === 0 ? (
+                <p className="mt-3 text-sm text-muted-foreground">{t.featured.noDates}</p>
+              ) : (
+                <ul className="mt-3 space-y-3">
+                  {upcoming.map((session) => (
+                    <li
+                      key={session.id}
+                      className="numeric flex items-center justify-between gap-3 text-sm"
+                    >
+                      <span>{session.dateLabel}</span>
+                      <AvailabilityBadge status={session.status} label={session.availabilityLabel} />
+                    </li>
+                  ))}
+                </ul>
+              )}
 
-            <LinkButton href={`#anfrage?kurs=${program.slug}`} className="mt-6 w-full">
-              {t.featured.cta}
-            </LinkButton>
-            <p className="mt-3 text-xs leading-relaxed text-ink-muted">{t.featured.ctaNote}</p>
+              <Button asChild className="mt-6 w-full">
+                <a href={`#${SECTION_IDS.contact}?kurs=${program.slug}`}>{t.featured.cta}</a>
+              </Button>
+              <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+                {t.featured.ctaNote}
+              </p>
+            </div>
           </div>
-        </div>
+        </FadeIn>
       </aside>
     </div>
   );
@@ -184,8 +172,8 @@ export function FeaturedCourse({
 
 function Fact({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="grid grid-cols-[8rem_minmax(0,1fr)] gap-4 py-3.5 first:pt-0">
-      <dt className="text-[0.7rem] uppercase tracking-[0.12em] text-ink-muted">{label}</dt>
+    <div className="grid grid-cols-[7.5rem_minmax(0,1fr)] gap-4 py-3.5 first:pt-0">
+      <dt className="text-xs text-muted-foreground">{label}</dt>
       <dd className="leading-relaxed">{children}</dd>
     </div>
   );

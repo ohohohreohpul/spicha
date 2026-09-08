@@ -1,9 +1,12 @@
-import { KineticMarquee } from '@/components/motion/KineticMarquee';
-import { Reveal } from '@/components/motion/Reveal';
+import { StaggerList, FadeInLi, FadeIn } from '@/components/ui/fade-in';
 import { RECOGNITION, SCHOOL } from '@/data/school';
 import { SECTION_IDS, type Locale } from '@/i18n/config';
 import type { UiDictionary } from '@/i18n/ui';
 
+/**
+ * The facts, plainly stated. (The kinetic marquee is gone — client feedback
+ * 2026-09: the page shouted. Five quiet cells carry the same proof.)
+ */
 export function TrustStrip({ t, locale }: { t: UiDictionary; locale: Locale }) {
   const points = [
     {
@@ -39,66 +42,35 @@ export function TrustStrip({ t, locale }: { t: UiDictionary; locale: Locale }) {
   ];
 
   return (
-    <section id={SECTION_IDS.trust} aria-labelledby="vertrauen-titel" className="bg-porcelain-deep">
-      <div className="shell py-14 md:py-20">
+    <section
+      id={SECTION_IDS.trust}
+      aria-labelledby="vertrauen-titel"
+      className="border-y border-hairline"
+    >
+      <div className="mx-auto max-w-6xl px-6 py-12 sm:py-16">
         <h2 id="vertrauen-titel" className="sr-only">
           {t.trust.srTitle}
         </h2>
 
-        {/* Credential ribbon. Drifts on its own, speeds up with the reader's
-            scrolling and reverses when they reverse. The same facts are listed
-            in full below, so nothing here is load-bearing. */}
-        <KineticMarquee className="-mt-2 mb-10 border-y border-hairline py-4">
+        <StaggerList className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-5 lg:gap-6">
           {points.map((point) => (
-            <span
-              key={`ribbon-${point.label}`}
-              className="flex shrink-0 items-center gap-5 pr-5 text-sm uppercase tracking-[0.14em] text-ink-muted"
-            >
-              <span aria-hidden className={point.gold ? 'text-gold' : 'text-teal'}>
-                &#9670;
-              </span>
-              {point.value}
-            </span>
+            <FadeInLi key={point.label}>
+              <p
+                className={`text-xs font-semibold ${point.gold ? 'text-gold' : 'text-muted-foreground'}`}
+              >
+                {point.label}
+              </p>
+              <p className="mt-1.5 font-serif text-lg leading-snug">{point.value}</p>
+              <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{point.detail}</p>
+            </FadeInLi>
           ))}
-        </KineticMarquee>
+        </StaggerList>
 
-        {/* Hairline-divided columns, not a card grid. The dividers are the
-            parent's background showing through a 1px grid gap.
-
-            The negative margin is what buys the text its distance from those
-            dividers. Every cell is padded on both sides, and the grid is then
-            pulled back out by the same amount, so the outer text still lines up
-            with the shell edge. The outdent tracks the shell's own padding at
-            each breakpoint — overshooting it pushes the grid past the viewport
-            and gives the whole document a horizontal scrollbar.
-
-            Doing this with a first-child exception instead does not work here:
-            the padded element is the only child of its own wrapper, so
-            `first:` matches in every column and silently removes the left
-            padding from all of them. */}
-        <ul className="grid grid-cols-1 gap-px bg-hairline sm:-mx-4 sm:grid-cols-2 md:-mx-6 lg:grid-cols-3 xl:-mx-7 xl:grid-cols-5">
-          {points.map((point, index) => (
-            <li key={point.label} className="bg-porcelain-deep">
-              <Reveal delay={index * 0.07} className="h-full">
-                <div className="flex h-full flex-col gap-2.5 px-0 py-7 sm:px-4 md:px-6 xl:px-7">
-                  <p
-                    className={`text-[0.65rem] font-semibold uppercase tracking-[0.16em] ${
-                      point.gold ? 'text-gold' : 'text-ink-muted'
-                    }`}
-                  >
-                    {point.label}
-                  </p>
-                  <p className="font-display text-lg leading-snug">{point.value}</p>
-                  <p className="text-sm leading-relaxed text-ink-muted">{point.detail}</p>
-                </div>
-              </Reveal>
-            </li>
-          ))}
-        </ul>
-
-        <p className="mt-8 max-w-[76ch] border-t border-hairline pt-5 text-xs leading-relaxed text-ink-muted">
-          {t.trust.disclaimer}
-        </p>
+        <FadeIn>
+          <p className="mt-10 max-w-[76ch] border-t border-border pt-5 text-xs leading-relaxed text-muted-foreground">
+            {t.trust.disclaimer}
+          </p>
+        </FadeIn>
       </div>
     </section>
   );

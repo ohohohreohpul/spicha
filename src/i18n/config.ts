@@ -32,6 +32,7 @@ export const LOCALE_LABEL: Record<Locale, string> = {
 
 /** Anchor ids stay identical across languages so links survive a language switch. */
 export const SECTION_IDS = {
+  orientation: 'wegweiser',
   finder: 'kursfinder',
   schedule: 'termine',
   catalog: 'kurse',

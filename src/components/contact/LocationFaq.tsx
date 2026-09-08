@@ -9,6 +9,7 @@ const MAP_QUERY = encodeURIComponent(
   `${SCHOOL.street}, ${SCHOOL.postalCode} ${SCHOOL.city}, ${SCHOOL.country}`,
 );
 
+/** Address, FAQ and the inquiry form — one quiet two-column close. */
 export function LocationFaq({
   sessions,
   t,
@@ -19,75 +20,62 @@ export function LocationFaq({
   locale: Locale;
 }) {
   return (
-    <div className="mt-[var(--space-block)] grid gap-14 lg:grid-cols-[minmax(0,6fr)_minmax(0,6fr)] lg:gap-20">
+    <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
       <div>
-        <div className="border-t border-ink/15 pt-6">
-          <p className="kicker">{t.contact.address}</p>
-          <p className="mt-3 font-display text-[clamp(1.6rem,1.2rem+1.4vw,2.25rem)] leading-tight">
-            {SCHOOL.street}
-            <br />
-            {SCHOOL.postalCode} {SCHOOL.city}
-          </p>
-          <p className="mt-2 text-sm text-ink-muted">{SCHOOL.seminarHost}</p>
+        <p className="text-sm font-semibold text-teal">{t.contact.address}</p>
+        <p className="mt-3 font-serif text-2xl leading-tight tracking-tight">
+          {SCHOOL.street}
+          <br />
+          {SCHOOL.postalCode} {SCHOOL.city}
+        </p>
+        <p className="mt-2 text-sm text-muted-foreground">{SCHOOL.seminarHost}</p>
 
-          <dl className="mt-6 grid gap-4 sm:grid-cols-2">
-            <div>
-              <dt className="text-[0.7rem] uppercase tracking-[0.12em] text-ink-muted">
-                {t.contact.phone}
-              </dt>
-              <dd className="numeric mt-1">
-                <a href={SCHOOL.phoneHref} className="font-semibold text-teal">
-                  {SCHOOL.phone}
-                </a>
-                <span className="ml-2 text-sm text-ink-muted">{SCHOOL.contactPerson[locale]}</span>
-              </dd>
-            </div>
-            <div>
-              <dt className="text-[0.7rem] uppercase tracking-[0.12em] text-ink-muted">
-                {t.contact.travel}
-              </dt>
-              <dd className="mt-1 text-sm leading-relaxed">{t.contact.travelValue}</dd>
-            </div>
-          </dl>
+        <dl className="mt-6 grid gap-4 sm:grid-cols-2">
+          <div>
+            <dt className="text-xs text-muted-foreground">{t.contact.phone}</dt>
+            <dd className="numeric mt-1">
+              <a href={SCHOOL.phoneHref} className="font-semibold text-teal hover:text-teal-deep">
+                {SCHOOL.phone}
+              </a>
+              <span className="ml-2 text-sm text-muted-foreground">
+                {SCHOOL.contactPerson[locale]}
+              </span>
+            </dd>
+          </div>
+          <div>
+            <dt className="text-xs text-muted-foreground">{t.contact.travel}</dt>
+            <dd className="mt-1 text-sm leading-relaxed">{t.contact.travelValue}</dd>
+          </div>
+        </dl>
 
-          <p className="mt-5 text-sm leading-relaxed text-ink-muted">
-            {fill(t.contact.travelNote, {
-              cities: SCHOOL.travelFrom.join(', '),
-            })}
-          </p>
+        <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
+          {fill(t.contact.travelNote, { cities: SCHOOL.travelFrom.join(', ') })}
+        </p>
 
-          <a
-            href={`https://www.openstreetmap.org/search?query=${MAP_QUERY}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-5 inline-flex min-h-11 items-center rounded-full border border-ink/20 px-5 text-sm font-semibold transition-colors duration-150 hover:border-teal hover:text-teal"
-          >
-            {t.contact.map}
-          </a>
-        </div>
+        <a
+          href={`https://www.openstreetmap.org/search?query=${MAP_QUERY}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-5 inline-flex min-h-11 items-center rounded-md border border-border px-5 text-sm font-semibold transition-colors duration-150 hover:border-teal hover:text-teal"
+        >
+          {t.contact.map}
+        </a>
 
-        <div className="mt-14">
-          <p className="kicker">{t.contact.faq}</p>
-          <div className="mt-4 border-t border-hairline">
+        <div className="mt-12">
+          <p className="text-sm font-semibold text-teal">{t.contact.faq}</p>
+          <div className="mt-4 border-t border-border">
             {FAQS.map((entry) => (
-              <details key={entry.q.de} className="group border-b border-hairline">
+              <details key={entry.q.de} className="group border-b border-border">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-4 text-base font-medium marker:hidden">
                   {entry.q[locale]}
                   <span
                     aria-hidden
-                    className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-hairline transition-transform duration-[var(--dur-3)] ease-[var(--ease-in-out-cubic)] group-open:rotate-45"
+                    className="text-lg leading-none text-muted-foreground transition-transform duration-200 group-open:rotate-45"
                   >
-                    <svg width="11" height="11" viewBox="0 0 11 11" aria-hidden>
-                      <path
-                        d="M5.5 0v11M0 5.5h11"
-                        stroke="currentColor"
-                        strokeWidth="1.3"
-                        strokeLinecap="round"
-                      />
-                    </svg>
+                    +
                   </span>
                 </summary>
-                <p className="max-w-[62ch] pb-5 text-sm leading-relaxed text-ink-muted">
+                <p className="max-w-[62ch] pb-5 text-sm leading-relaxed text-muted-foreground">
                   {entry.a[locale]}
                 </p>
               </details>
@@ -96,7 +84,7 @@ export function LocationFaq({
         </div>
       </div>
 
-      <div className="lg:sticky lg:top-28 lg:self-start">
+      <div className="lg:sticky lg:top-24 lg:self-start">
         <InquiryForm sessions={sessions} t={t} locale={locale} />
       </div>
     </div>

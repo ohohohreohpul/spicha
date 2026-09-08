@@ -42,7 +42,7 @@ export function BodyFinder({ t, locale }: { t: UiDictionary; locale: Locale }) {
   }, []);
 
   return (
-    <div className="mt-[var(--space-block)] grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
+    <div className="grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
       {/* ---------------- Map ---------------- */}
       <div className="relative mx-auto w-full max-w-[26rem] lg:max-w-none">
         <div className="relative aspect-3/4 overflow-hidden bg-porcelain-deep">
@@ -161,7 +161,7 @@ export function BodyFinder({ t, locale }: { t: UiDictionary; locale: Locale }) {
       {/* ---------------- Explanation and list ---------------- */}
       <div>
         <div className="border-t border-ink/15 pt-6">
-          <p className="kicker">{t.finder.selectedArea}</p>
+          <p className="text-sm font-semibold text-teal">{t.finder.selectedArea}</p>
           <h3 className="mt-3 font-display text-[clamp(1.75rem,1.2rem+1.6vw,2.75rem)] leading-[1.15]">
             {activeMeta.label[locale]}
           </h3>
@@ -194,7 +194,14 @@ export function BodyFinder({ t, locale }: { t: UiDictionary; locale: Locale }) {
                     {program.subtitle[locale]}
                   </span>
                 </span>
-                <span className="numeric shrink-0 text-sm font-semibold">{program.price} €</span>
+                <span className="numeric shrink-0 text-right text-sm font-semibold">
+                  {program.price} €
+                  {program.priceNote ? (
+                    <span className="mt-0.5 block text-xs font-normal text-ink-muted">
+                      {program.priceNote[locale]}
+                    </span>
+                  ) : null}
+                </span>
               </a>
             </li>
           ))}
@@ -202,7 +209,7 @@ export function BodyFinder({ t, locale }: { t: UiDictionary; locale: Locale }) {
 
         {/* Full text alternative — every area, always reachable. */}
         <div className="mt-10">
-          <p className="kicker">{t.finder.allAreas}</p>
+          <p className="text-sm font-semibold text-teal">{t.finder.allAreas}</p>
           <div className="mt-3 flex flex-wrap gap-2">
             {AREA_ORDER.map((areaId) => {
               const meta = BODY_AREAS.find((a) => a.id === areaId)!;

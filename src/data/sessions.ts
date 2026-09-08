@@ -100,7 +100,7 @@ export const SESSIONS: readonly Session[] = [
     status: 'ausgebucht',
     note: {
       de: 'Warteliste möglich. Nächster Termin im November.',
-      th: 'ลงชื่อรอคิวได้ รอบถัดไปเดือนพฤศจิกายน',
+      th: 'ลงชื่อรอคิวได้เลย รอบถัดไปเปิดในเดือนพฤศจิกายน',
     },
   },
   {
@@ -200,7 +200,7 @@ export const SESSIONS: readonly Session[] = [
     status: 'abgesagt',
     note: {
       de: 'Abgesagt wegen Erkrankung der Dozentin. Ersatztermin am 21. November.',
-      th: 'ยกเลิกเนื่องจากครูผู้สอนป่วย มีรอบชดเชยวันที่ 21 พฤศจิกายน',
+      th: 'ยกเลิก เพราะครูผู้สอนไม่สบาย มีรอบชดเชยวันที่ 21 พฤศจิกายน',
     },
     updatedIso: '2026-08-04T11:05:00+02:00',
   },
@@ -241,7 +241,7 @@ export const SESSIONS: readonly Session[] = [
     status: 'offen',
     note: {
       de: 'Ersatztermin für den abgesagten Kurs am 31. Oktober.',
-      th: 'รอบชดเชยแทนรอบวันที่ 31 ตุลาคมที่ยกเลิกไป',
+      th: 'รอบชดเชยแทนคอร์สวันที่ 31 ตุลาคมที่ยกเลิกไป',
     },
   },
   {

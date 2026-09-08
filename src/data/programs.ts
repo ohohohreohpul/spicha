@@ -1,5 +1,34 @@
-import type { Locale } from '@/i18n/config';
+import type { Locale, LocalizedText } from '@/i18n/config';
 import type { Program, ProgramCategory } from '@/lib/types';
+
+/**
+ * Entry requirement, derived — never a free-text guess (client feedback
+ * 2026-09): one-day courses are Weiterbildung and demand basics, every
+ * Ausbildung and every Betrieb course states "Keine Vorkenntnisse" in its
+ * prerequisites. The level badge renders from this, so a newcomer sees at a
+ * glance which doors are open.
+ */
+export function requiresBasics(program: Program): boolean {
+  return program.category === 'kurzkurs';
+}
+
+/**
+ * Client instruction (2026-08): every price on the site is net — the VAT
+ * note travels with the number wherever it appears.
+ */
+export const VAT_NOTE: LocalizedText = {
+  de: 'zzgl. 19 % MwSt.',
+  th: 'ยังไม่รวม VAT 19%',
+} as const;
+
+/**
+ * Client instruction (2026-08): one-day courses are Weiterbildung — they
+ * train a technique on top of basics, they do not teach the basics.
+ */
+export const KURZKURS_PREREQUISITES: LocalizedText = {
+  de: 'Grundkenntnisse erforderlich — ein Kurstag ist Weiterbildung, keine Grundausbildung.',
+  th: 'ต้องมีพื้นฐานมาก่อน — คอร์ส 1 วันคือการต่อยอด (Weiterbildung) ไม่ได้สอนตั้งแต่พื้นฐาน',
+} as const;
 
 /**
  * Course titles and prices come from the school's own price sheet
@@ -13,17 +42,20 @@ export const PROGRAMS: readonly Program[] = [
     title: { de: 'Office-Syndrom-Massage', th: 'นวดออฟฟิศซินโดรม' },
     subtitle: {
       de: 'Nacken, Schultern und Migräne-auslösende Spannungen lösen',
-      th: 'คลายกล้ามเนื้อคอ บ่า ไหล่ และจุดที่กระตุ้นอาการไมเกรน',
+      th: 'คลายกล้ามเนื้อคอ บ่า ไหล่ พร้อมจุดกดที่กระตุ้นอาการไมเกรน',
     },
     category: 'kurzkurs',
+    // Most-booked course of the school — mirrored by the FeaturedCourse copy.
+    flag: 'beliebt',
     bodyAreas: ['nacken-schulter', 'kopf-gesicht'],
     price: 269,
+    priceNote: VAT_NOTE,
     durationDays: 1,
     durationLabel: { de: '1 Tag · 09:00–17:00', th: '1 วัน · 09:00–17:00 น.' },
     languages: ['de', 'th'],
     audience: {
       de: 'Für Einsteigerinnen und Einsteiger sowie für Massagepraxen, die eine gefragte Kurzbehandlung ins Angebot nehmen wollen.',
-      th: 'เหมาะกับผู้เริ่มต้น และร้านนวดที่อยากเพิ่มบริการระยะสั้นที่ลูกค้าต้องการมากที่สุด',
+      th: 'เหมาะกับมือใหม่ และร้านนวดที่อยากเพิ่มเมนูนวดระยะสั้นที่ลูกค้าถามหามากที่สุด',
     },
     outcomes: {
       de: [
@@ -33,10 +65,10 @@ export const PROGRAMS: readonly Program[] = [
         'Kontraindikationen erkennen und die Behandlung verantwortlich abgrenzen',
       ],
       th: [
-        'อ่านรูปแบบการตึงของกล้ามเนื้อคอ บ่า ไหล่ และหลังส่วนบนได้',
-        'ทำขั้นตอนการนวดครบทั้งชุดอย่างถูกลำดับและปลอดภัย',
-        'ปรับน้ำหนักมือ องศา และจังหวะตามการตอบสนองของลูกค้า',
-        'รู้ข้อห้ามในการนวด และรู้ว่าควรหยุดตรงไหน',
+        'อ่านและบอกชื่อรูปแบบการตึงของกล้ามเนื้อคอ บ่า ไหล่ จนถึงหลังส่วนบนได้',
+        'ทำขั้นตอนการนวดครบทั้งชุดได้อย่างถูกลำดับและปลอดภัย',
+        'ปรับน้ำหนักมือ องศา และจังหวะให้ตรงกับการตอบสนองของลูกค้าแต่ละคน',
+        'รู้ข้อห้ามในการนวด และรู้ว่าควรหยุดที่จุดไหน',
       ],
     },
     curriculum: {
@@ -52,12 +84,12 @@ export const PROGRAMS: readonly Program[] = [
         'กายวิภาคของคอ บ่า ไหล่ และหลังส่วนบน',
         'จุดกดเจ็บและทิศทางการลงน้ำหนัก',
         'การนวดในท่านั่งและท่านอนคว่ำ',
-        'การผสมการยืดและการเคลื่อนไหวข้อต่อ',
+        'การผสมท่ายืดเหยียดกับการขยับข้อต่อ',
         'สุขอนามัย การจัดท่า และการคลุมผ้า',
         'สอบภาคปฏิบัติเมื่อจบหลักสูตร',
       ],
     },
-    prerequisites: { de: 'Keine Vorkenntnisse erforderlich.', th: 'ไม่ต้องมีพื้นฐานมาก่อน' },
+    prerequisites: KURZKURS_PREREQUISITES,
     certificate: {
       de: 'Zertifikat der Kosmetikschule Picha mit BfD-Siegel nach bestandener theoretischer und praktischer Prüfung.',
       th: 'ใบประกาศนียบัตรของ Kosmetikschule Picha ประทับตรา BfD เมื่อสอบผ่านทั้งภาคทฤษฎีและภาคปฏิบัติ',
@@ -73,22 +105,22 @@ export const PROGRAMS: readonly Program[] = [
           th: 'ไม่มีประสบการณ์มาก่อนเรียนได้ไหม',
         },
         a: {
-          de: 'Ja. Der Kurs beginnt bei der Anatomie und der Handhaltung. Sie üben den ganzen Tag unter Anleitung.',
-          th: 'เรียนได้ หลักสูตรเริ่มจากกายวิภาคและการวางมือ แล้วฝึกจริงตลอดทั้งวันโดยมีครูดูแล',
+          de: 'Nein — der Kurstag ist Weiterbildung und setzt Massage-Grundlagen voraus. Ohne Grundlagen passt die Klassische Massage besser: Sie legt das Fundament für alle Kurzkurse.',
+          th: 'คอร์สนี้เหมาะกับคนที่มีพื้นฐานอยู่แล้ว เพราะเป็นคอร์สต่อยอด (Weiterbildung) ถ้ายังไม่มีพื้นฐานเลย แนะนำเริ่มที่นวดสวีดิชพื้นฐาน (Klassische Massage) ซึ่งวางรากฐานให้คอร์สอื่น ๆ ทั้งหมด',
         },
       },
       {
         q: { de: 'In welcher Sprache wird unterrichtet?', th: 'สอนเป็นภาษาอะไร' },
         a: {
           de: 'Auf Deutsch und Thailändisch. Fragen können Sie in beiden Sprachen stellen.',
-          th: 'สอนทั้งภาษาเยอรมันและภาษาไทย ถามได้ทั้งสองภาษา',
+          th: 'สอนทั้งภาษาเยอรมันและภาษาไทย ระหว่างเรียนถามได้ทั้งสองภาษาเลย',
         },
       },
       {
         q: { de: 'Was soll ich mitbringen?', th: 'ต้องเตรียมอะไรมาบ้าง' },
         a: {
           de: 'Bequeme Arbeitskleidung, flache Schuhe, kurze saubere Fingernägel und ein Handtuch. Alles Weitere stellt die Schule.',
-          th: 'ชุดที่เคลื่อนไหวสะดวก รองเท้าพื้นราบ ตัดเล็บสั้นและสะอาด และผ้าเช็ดตัวหนึ่งผืน ที่เหลือโรงเรียนเตรียมให้',
+          th: 'ชุดที่เคลื่อนไหวสะดวก รองเท้าพื้นราบ ตัดเล็บสั้นให้สะอาด และผ้าเช็ดตัวหนึ่งผืน นอกนั้นโรงเรียนเตรียมให้หมด',
         },
       },
       {
@@ -98,7 +130,7 @@ export const PROGRAMS: readonly Program[] = [
         },
         a: {
           de: 'Das Zertifikat belegt die erfolgreiche Kursteilnahme. Ob und in welcher Form Sie selbstständig arbeiten dürfen, richtet sich nach den gewerberechtlichen Vorgaben an Ihrem Standort.',
-          th: 'ใบประกาศเป็นหลักฐานว่าผ่านการอบรมแล้ว ส่วนจะเปิดกิจการเองได้ในรูปแบบใด ขึ้นอยู่กับข้อกำหนดทางการค้าในพื้นที่ของคุณ',
+          th: 'ใบประกาศใบนี้ยืนยันว่าคุณผ่านการอบรมครบถ้วน ส่วนจะเปิดกิจการเองในรูปแบบไหนได้บ้าง ขึ้นอยู่กับข้อกำหนดทางการค้าในพื้นที่ของคุณ',
         },
       },
     ],
@@ -114,12 +146,13 @@ export const PROGRAMS: readonly Program[] = [
     category: 'kurzkurs',
     bodyAreas: ['arme-beine', 'ganzkoerper'],
     price: 399,
+    priceNote: VAT_NOTE,
     durationDays: 1,
     durationLabel: { de: '1 Tag · 09:00–17:00', th: '1 วัน · 09:00–17:00 น.' },
     languages: ['de', 'th'],
     audience: {
       de: 'Für Praktizierende, die zwei nachgefragte Techniken kombinieren und ihr Behandlungsangebot erweitern möchten.',
-      th: 'เหมาะกับผู้ที่นวดอยู่แล้ว และอยากรวมสองเทคนิคที่ลูกค้าต้องการเข้าไว้ในบริการเดียว',
+      th: 'เหมาะกับคนที่นวดเป็นอยู่แล้ว อยากรวมสองเทคนิคที่ลูกค้าถามหาไว้ในบริการเดียว',
     },
     outcomes: {
       de: [
@@ -129,10 +162,10 @@ export const PROGRAMS: readonly Program[] = [
         'Hautreaktionen einordnen und dokumentieren',
       ],
       th: [
-        'เข้าใจเส้นทางและทิศทางของระบบน้ำเหลืองในร่างกาย',
-        'ควบคุมน้ำหนักมือในการนวดระบายน้ำเหลืองได้อย่างถูกต้อง',
-        'วางแก้วครอบ เคลื่อนแก้ว และถอนแก้วได้อย่างปลอดภัย',
-        'อ่านปฏิกิริยาของผิวหนังและบันทึกผลได้',
+        'เห็นเส้นทางและทิศทางของระบบน้ำเหลืองในร่างกายอย่างชัดเจน',
+        'คุมน้ำหนักมือในการนวดระบายน้ำเหลืองได้ถูกต้องพอดี',
+        'วาง เคลื่อน และถอนแก้วครอบได้อย่างปลอดภัย',
+        'อ่านปฏิกิริยาของผิวหนังออกและบันทึกผลได้',
       ],
     },
     curriculum: {
@@ -146,15 +179,12 @@ export const PROGRAMS: readonly Program[] = [
       th: [
         'พื้นฐานระบบน้ำเหลือง',
         'ท่ามือและลำดับการระบายน้ำเหลือง',
-        'การครอบแก้วแบบอยู่กับที่และแบบเคลื่อนที่',
-        'การนวดผสมบริเวณขา แขน และหลัง',
-        'ข้อห้ามและการดูแลหลังการนวด',
+        'ครอบแก้วแบบอยู่กับที่และแบบเคลื่อนที่',
+        'นวดรวมบริเวณขา แขน และหลัง',
+        'ข้อห้ามและการดูแลหลังนวด',
       ],
     },
-    prerequisites: {
-      de: 'Keine Vorkenntnisse erforderlich, Grundkenntnisse in Massage sind hilfreich.',
-      th: 'ไม่ต้องมีพื้นฐาน แต่ถ้าเคยนวดมาก่อนจะเรียนได้ง่ายขึ้น',
-    },
+    prerequisites: KURZKURS_PREREQUISITES,
     certificate: {
       de: 'Zertifikat der Kosmetikschule Picha mit BfD-Siegel.',
       th: 'ใบประกาศนียบัตรของ Kosmetikschule Picha ประทับตรา BfD',
@@ -165,22 +195,86 @@ export const PROGRAMS: readonly Program[] = [
     },
   },
   {
+    // Client instruction (2026-08): Head-Spa-Angebot, gedacht als neue
+    // Einnahmequelle für Thai-Massage-Studios. CLIENT-VERIFY: Preis, Dauer und
+    // ein eigenes Foto — die Schule hat Material dafür, es muss noch geliefert
+    // werden. Bis dahin bleibt der Eintrag bewusst typografisch (kein Bild in
+    // PROGRAM_IMAGE).
+    id: 'head-spa',
+    slug: 'head-spa',
+    title: { de: 'Head Spa', th: 'เฮดสปา (Head Spa)' },
+    subtitle: {
+      de: 'Das japanische Kopfhaut-Ritual — die neue Leistung, mit der ein Thai-Studio sein Programm erweitert',
+      th: 'ทรีตเมนต์หนังศีรษะแบบญี่ปุ่นครบทุกขั้นตอน — เมนูใหม่ที่ช่วยต่อยอดรายได้ให้ร้านนวดไทย',
+    },
+    category: 'kurzkurs',
+    // The course the school wants to grow (client instruction 2026-08).
+    flag: 'neu',
+    bodyAreas: ['kopf-gesicht'],
+    price: 349, // CLIENT-VERIFY: Preis
+    priceNote: VAT_NOTE,
+    durationDays: 1, // CLIENT-VERIFY: Dauer
+    durationLabel: { de: '1 Tag · 09:00–17:00', th: '1 วัน · 09:00–17:00 น.' },
+    languages: ['de', 'th'],
+    audience: {
+      de: 'Für Inhaberinnen und Teams von Thai-Massage-Studios und Kosmetikpraxen, die Head Spa als eigenes Angebot aufbauen wollen.',
+      th: 'เหมาะกับเจ้าของและทีมงานร้านนวดไทย-ร้านความงาม ที่อยากเปิดเมนูเฮดสปาเป็นของตัวเอง',
+    },
+    outcomes: {
+      de: [
+        'Kopfhaut und Haarzustand einschätzen und das passende Ritual wählen',
+        'Die vollständige Head-Spa-Sequenz vom Ankommen bis zur Massage sicher durchführen',
+        'Kopf, Nacken und Schultern in einen entspannenden Ablauf bringen',
+        'Das Angebot im eigenen Studio kalkulieren und präsentieren',
+      ],
+      th: [
+        'ประเมินสภาพหนังศีรษะและเส้นผม แล้วเลือกขั้นตอนที่เหมาะกับลูกค้าแต่ละคน',
+        'ทำทรีตเมนต์เฮดสปาครบตั้งแต่ขั้นตอนต้อนรับจนถึงการนวด',
+        'เรียงการนวดศีรษะ คอ และไหล่ให้เป็นจังหวะผ่อนคลายต่อเนื่อง',
+        'คิดราคาและเสนอขายเมนูเฮดสปาในร้านของตัวเองได้',
+      ],
+    },
+    curriculum: {
+      de: [
+        'Anatomie von Kopfhaut und Haar',
+        'Analyse, Reinigung und Peeling der Kopfhaut',
+        'Massagesequenz Kopf, Nacken und Schultern',
+        'Produktkunde und Aufbau eines 60-Minuten-Rituals',
+        'Kontraindikationen und Hygiene am Arbeitsplatz',
+      ],
+      th: [
+        'กายวิภาคของหนังศีรษะและเส้นผม',
+        'การวิเคราะห์ ทำความสะอาด และผลัดเซลล์หนังศีรษะ',
+        'ลำดับการนวดศีรษะ คอ และไหล่',
+        'ความรู้เรื่องผลิตภัณฑ์ และการวางทรีตเมนต์ 60 นาที',
+        'ข้อห้าม และสุขอนามัยของพื้นที่ทำงาน',
+      ],
+    },
+    prerequisites: KURZKURS_PREREQUISITES,
+    // CLIENT-VERIFY: BfD-Siegel für Head Spa
+    certificate: {
+      de: 'Zertifikat der Kosmetikschule Picha mit BfD-Siegel.',
+      th: 'ใบประกาศนียบัตรของ Kosmetikschule Picha ประทับตรา BfD',
+    },
+  },
+  {
     id: 'wirbelsaeule',
     slug: 'wirbelsaeule-massage',
     title: { de: 'Wirbelsäule-Massage', th: 'นวดจัดกระดูกสันหลัง' },
     subtitle: {
       de: 'Arbeit entlang der Wirbelsäule, vom Becken bis zum Nacken',
-      th: 'ทำงานตลอดแนวกระดูกสันหลัง ตั้งแต่เชิงกรานถึงต้นคอ',
+      th: 'ทำงานตลอดแนวกระดูกสันหลัง ตั้งแต่เชิงกรานไปจนถึงต้นคอ',
     },
     category: 'kurzkurs',
     bodyAreas: ['ruecken'],
     price: 269,
+    priceNote: VAT_NOTE,
     durationDays: 1,
     durationLabel: { de: '1 Tag · 09:00–17:00', th: '1 วัน · 09:00–17:00 น.' },
     languages: ['de', 'th'],
     audience: {
       de: 'Für Massagepraktizierende, die gezielt am Rücken arbeiten wollen.',
-      th: 'เหมาะกับผู้ที่นวดอยู่แล้วและอยากทำงานเจาะจงที่หลัง',
+      th: 'เหมาะกับคนที่นวดอยู่แล้ว อยากทำงานเจาะลึกเฉพาะบริเวณหลัง',
     },
     outcomes: {
       de: [
@@ -189,9 +283,9 @@ export const PROGRAMS: readonly Program[] = [
         'Eine sichere Sequenz vom unteren Rücken bis zum Nacken durchführen',
       ],
       th: [
-        'คลำและแยกแนวกระดูกสันหลังแต่ละช่วงได้',
-        'นวดกล้ามเนื้อสองข้างกระดูกสันหลังได้ตรงจุดและนุ่มนวล',
-        'ทำขั้นตอนตั้งแต่หลังส่วนล่างจนถึงต้นคอได้อย่างปลอดภัย',
+        'คลำและแยกกระดูกสันหลังออกทีละช่วงได้',
+        'นวดกล้ามเนื้อสองข้างกระดูกสันหลังให้ตรงจุดและนุ่มนวล',
+        'ทำขั้นตอนครบตั้งแต่หลังส่วนล่างถึงต้นคอได้อย่างปลอดภัย',
       ],
     },
     curriculum: {
@@ -208,7 +302,7 @@ export const PROGRAMS: readonly Program[] = [
         'ขอบเขตของการนวด และกรณีที่ต้องส่งพบแพทย์',
       ],
     },
-    prerequisites: { de: 'Keine Vorkenntnisse erforderlich.', th: 'ไม่ต้องมีพื้นฐานมาก่อน' },
+    prerequisites: KURZKURS_PREREQUISITES,
     certificate: {
       de: 'Zertifikat der Kosmetikschule Picha mit BfD-Siegel.',
       th: 'ใบประกาศนียบัตรของ Kosmetikschule Picha ประทับตรา BfD',
@@ -220,17 +314,18 @@ export const PROGRAMS: readonly Program[] = [
     title: { de: 'Sport- oder Thai-Yoga-Massage', th: 'นวดสปอร์ต หรือ นวดไทยโยคะ' },
     subtitle: {
       de: 'Kräftige Arbeit am Muskel oder geführte Dehnung am ganzen Körper',
-      th: 'ลงน้ำหนักที่กล้ามเนื้อ หรือยืดเหยียดทั้งตัวแบบมีคนช่วย',
+      th: 'ลงน้ำหนักจัดเต็มที่กล้ามเนื้อ หรือยืดเหยียดทั้งตัวแบบมีคนช่วยดึง',
     },
     category: 'kurzkurs',
     bodyAreas: ['ganzkoerper', 'arme-beine'],
     price: 269,
+    priceNote: VAT_NOTE,
     durationDays: 1,
     durationLabel: { de: '1 Tag · 09:00–17:00', th: '1 วัน · 09:00–17:00 น.' },
     languages: ['de', 'th'],
     audience: {
       de: 'Für alle, die entweder sportlich beanspruchte Muskulatur oder Beweglichkeit im Ganzkörperablauf bearbeiten wollen. Die Richtung wählen Sie bei der Anmeldung.',
-      th: 'เหมาะกับผู้ที่อยากดูแลกล้ามเนื้อของคนออกกำลังกาย หรืออยากเพิ่มความยืดหยุ่นทั้งตัว เลือกสายที่ต้องการตอนสมัคร',
+      th: 'เหมาะกับคนที่อยากดูแลกล้ามเนื้อของสายออกกำลังกาย หรืออยากเพิ่มความยืดหยุ่นทั้งตัว เลือกสายที่ใช่ได้ตอนสมัคร',
     },
     outcomes: {
       de: [
@@ -239,9 +334,9 @@ export const PROGRAMS: readonly Program[] = [
         'Geführte Dehnungen in einen Ablauf bringen',
       ],
       th: [
-        'ประเมินกลุ่มกล้ามเนื้อตามลักษณะการใช้งาน',
-        'ใช้ท่ามือที่ลงน้ำหนักมากได้อย่างปลอดภัย ไม่ทำร้ายตัวเองและลูกค้า',
-        'เรียงท่ายืดเหยียดให้เป็นขั้นตอนต่อเนื่อง',
+        'ประเมินกลุ่มกล้ามเนื้อจากการใช้งานหนักได้',
+        'ใช้ท่ามือที่ลงน้ำหนักมากได้อย่างปลอดภัย ไม่หักโหมจนตัวเองหรือลูกค้าเจ็บ',
+        'เรียงท่ายืดเหยียดให้ต่อเนื่องเป็นชุดเดียวกันได้',
       ],
     },
     curriculum: {
@@ -256,7 +351,7 @@ export const PROGRAMS: readonly Program[] = [
         'ท่าทางของผู้นวดเองและการถนอมข้อต่อ',
       ],
     },
-    prerequisites: { de: 'Keine Vorkenntnisse erforderlich.', th: 'ไม่ต้องมีพื้นฐานมาก่อน' },
+    prerequisites: KURZKURS_PREREQUISITES,
     certificate: {
       de: 'Zertifikat der Kosmetikschule Picha mit BfD-Siegel.',
       th: 'ใบประกาศนียบัตรของ Kosmetikschule Picha ประทับตรา BfD',
@@ -268,17 +363,18 @@ export const PROGRAMS: readonly Program[] = [
     title: { de: 'Fußmassage & Spa', th: 'นวดเท้าพร้อมสปาเท้า' },
     subtitle: {
       de: 'Reflexzonen am Fuß und eine vollständige Spa-Behandlung',
-      th: 'จุดสะท้อนบนฝ่าเท้า พร้อมขั้นตอนสปาเท้าครบชุด',
+      th: 'กดจุดสะท้อนบนฝ่าเท้า พร้อมสปาเท้าครบทุกขั้นตอน',
     },
     category: 'kurzkurs',
     bodyAreas: ['fuesse'],
     price: 269,
+    priceNote: VAT_NOTE,
     durationDays: 1,
     durationLabel: { de: '1 Tag · 09:00–17:00', th: '1 วัน · 09:00–17:00 น.' },
     languages: ['de', 'th'],
     audience: {
       de: 'Für Studios, die eine kurze, gut planbare Behandlung mit hoher Nachfrage anbieten möchten.',
-      th: 'เหมาะกับร้านที่อยากมีบริการสั้น จัดคิวง่าย และลูกค้าต้องการสูง',
+      th: 'เหมาะกับร้านที่อยากมีบริการระยะสั้น รับคิวง่าย และเป็นที่ต้องการของลูกค้าตลอด',
     },
     outcomes: {
       de: [
@@ -287,9 +383,9 @@ export const PROGRAMS: readonly Program[] = [
         'Arbeitsplatz und Material hygienisch vorbereiten',
       ],
       th: [
-        'หาจุดสะท้อนและจุดกดบนเท้าได้แม่นยำ',
+        'หาจุดสะท้อนและจุดกดบนเท้าได้แม่น',
         'ทำสปาเท้าครบขั้นตอน ทั้งแช่เท้า ขัดผิว มาส์ก และนวด',
-        'เตรียมพื้นที่ทำงานและอุปกรณ์ให้ถูกสุขอนามัย',
+        'จัดพื้นที่ทำงานและอุปกรณ์ให้สะอาดถูกสุขอนามัย',
       ],
     },
     curriculum: {
@@ -306,7 +402,7 @@ export const PROGRAMS: readonly Program[] = [
         'สุขอนามัยและการดูแลอุปกรณ์',
       ],
     },
-    prerequisites: { de: 'Keine Vorkenntnisse erforderlich.', th: 'ไม่ต้องมีพื้นฐานมาก่อน' },
+    prerequisites: KURZKURS_PREREQUISITES,
     certificate: {
       de: 'Zertifikat der Kosmetikschule Picha mit BfD-Siegel.',
       th: 'ใบประกาศนียบัตรของ Kosmetikschule Picha ประทับตรา BfD',
@@ -318,17 +414,18 @@ export const PROGRAMS: readonly Program[] = [
     title: { de: 'Schwangerschaftsmassage', th: 'นวดสตรีมีครรภ์' },
     subtitle: {
       de: 'Sichere Lagerung und angepasste Griffe in der Schwangerschaft',
-      th: 'การจัดท่าที่ปลอดภัยและท่ามือที่ปรับให้เหมาะกับคนท้อง',
+      th: 'จัดท่าอย่างปลอดภัย ปรับท่ามือให้เหมาะกับคนท้อง',
     },
     category: 'kurzkurs',
     bodyAreas: ['ganzkoerper', 'ruecken'],
     price: 269,
+    priceNote: VAT_NOTE,
     durationDays: 1,
     durationLabel: { de: '1 Tag · 09:00–17:00', th: '1 วัน · 09:00–17:00 น.' },
     languages: ['de', 'th'],
     audience: {
       de: 'Für Praktizierende, die Schwangere verantwortungsvoll behandeln möchten.',
-      th: 'เหมาะกับผู้ที่ต้องการดูแลลูกค้าตั้งครรภ์อย่างรับผิดชอบ',
+      th: 'เหมาะกับคนที่อยากดูแลลูกค้าช่วงตั้งครรภ์อย่างรับผิดชอบ',
     },
     outcomes: {
       de: [
@@ -337,9 +434,9 @@ export const PROGRAMS: readonly Program[] = [
         'Zonen und Situationen erkennen, in denen nicht behandelt wird',
       ],
       th: [
-        'จัดท่านอนตะแคงด้วยหมอนได้อย่างปลอดภัย',
-        'ปรับท่ามือ น้ำหนัก และระยะเวลาให้เหมาะกับอายุครรภ์',
-        'รู้บริเวณและสถานการณ์ที่ห้ามนวด',
+        'จัดท่านอนตะแคงพร้อมหมอนรองได้อย่างปลอดภัย',
+        'ปรับท่ามือ น้ำหนัก และระยะเวลาให้เข้ากับอายุครรภ์',
+        'รู้ว่าบริเวณไหน สถานการณ์ไหนห้ามนวด',
       ],
     },
     curriculum: {
@@ -350,16 +447,13 @@ export const PROGRAMS: readonly Program[] = [
         'Kontraindikationen und Rücksprache mit der ärztlichen Betreuung',
       ],
       th: [
-        'การเปลี่ยนแปลงของร่างกายระหว่างตั้งครรภ์',
+        'การเปลี่ยนแปลงของร่างกายช่วงตั้งครรภ์',
         'การจัดท่าและการคลุมผ้า',
         'หลัง ขา ไหล่ และเท้า',
         'ข้อห้าม และการปรึกษาแพทย์ผู้ดูแลครรภ์',
       ],
     },
-    prerequisites: {
-      de: 'Grundkenntnisse in Massage werden empfohlen.',
-      th: 'แนะนำให้มีพื้นฐานการนวดมาก่อน',
-    },
+    prerequisites: KURZKURS_PREREQUISITES,
     certificate: {
       de: 'Zertifikat der Kosmetikschule Picha mit BfD-Siegel.',
       th: 'ใบประกาศนียบัตรของ Kosmetikschule Picha ประทับตรา BfD',
@@ -376,12 +470,13 @@ export const PROGRAMS: readonly Program[] = [
     category: 'kurzkurs',
     bodyAreas: ['kopf-gesicht'],
     price: 399,
+    priceNote: VAT_NOTE,
     durationDays: 1,
     durationLabel: { de: '1 Tag · 09:00–17:00', th: '1 วัน · 09:00–17:00 น.' },
     languages: ['de', 'th'],
     audience: {
       de: 'Für Kosmetikstudios, die eine sichtbare, wiederholbare Gesichtsbehandlung anbieten.',
-      th: 'เหมาะกับร้านความงามที่อยากมีทรีตเมนต์หน้าที่เห็นผลและทำซ้ำได้',
+      th: 'เหมาะกับร้านความงามที่อยากมีทรีตเมนต์หน้าที่เห็นผลชัดและทำซ้ำได้',
     },
     outcomes: {
       de: [
@@ -391,8 +486,8 @@ export const PROGRAMS: readonly Program[] = [
       ],
       th: [
         'บอกชื่อกล้ามเนื้อใบหน้าและทิศทางการดึงของแต่ละมัดได้',
-        'ทำท่ายกกระชับได้ถูกทิศทางและถูกลำดับ',
-        'ระบายน้ำเหลืองบนใบหน้าด้วยน้ำหนักที่เบามากอย่างถูกต้อง',
+        'วางท่ายกกระชับให้ถูกทิศ ถูกลำดับ',
+        'ระบายน้ำเหลืองบนใบหน้าด้วยน้ำหนักที่เบาพอดีอย่างถูกต้อง',
       ],
     },
     curriculum: {
@@ -406,10 +501,10 @@ export const PROGRAMS: readonly Program[] = [
         'กายวิภาคใบหน้าและลำคอ',
         'ท่ายกกระชับและลำดับขั้นตอน',
         'เส้นทางน้ำเหลืองบนใบหน้า',
-        'การจัดทรีตเมนต์ 60 นาที',
+        'การวางทรีตเมนต์ 60 นาที',
       ],
     },
-    prerequisites: { de: 'Keine Vorkenntnisse erforderlich.', th: 'ไม่ต้องมีพื้นฐานมาก่อน' },
+    prerequisites: KURZKURS_PREREQUISITES,
     certificate: {
       de: 'Zertifikat der Kosmetikschule Picha mit BfD-Siegel.',
       th: 'ใบประกาศนียบัตรของ Kosmetikschule Picha ประทับตรา BfD',
@@ -421,17 +516,18 @@ export const PROGRAMS: readonly Program[] = [
     title: { de: 'Gua-Sha-Massage', th: 'นวดกัวซา' },
     subtitle: {
       de: 'Arbeit mit dem Schabewerkzeug an Gesicht, Nacken und Rücken',
-      th: 'ใช้แผ่นขูดกัวซาบริเวณใบหน้า ต้นคอ และหลัง',
+      th: 'ฝึกใช้แผ่นขูดกัวซาที่ใบหน้า ต้นคอ และหลัง',
     },
     category: 'kurzkurs',
     bodyAreas: ['kopf-gesicht', 'nacken-schulter'],
     price: 269,
+    priceNote: VAT_NOTE,
     durationDays: 1,
     durationLabel: { de: '1 Tag · 09:00–17:00', th: '1 วัน · 09:00–17:00 น.' },
     languages: ['de', 'th'],
     audience: {
       de: 'Für Praktizierende, die eine werkzeuggeführte Technik sauber erlernen wollen.',
-      th: 'เหมาะกับผู้ที่อยากเรียนเทคนิคการใช้อุปกรณ์ให้ถูกวิธี',
+      th: 'เหมาะกับคนที่อยากเรียนเทคนิคการใช้อุปกรณ์ให้ถูกวิธีตั้งแต่ต้น',
     },
     outcomes: {
       de: [
@@ -440,8 +536,8 @@ export const PROGRAMS: readonly Program[] = [
         'Hautreaktionen richtig einordnen und der Kundin erklären',
       ],
       th: [
-        'จับและลากแผ่นกัวซาได้ถูกองศาและถูกน้ำหนัก',
-        'ลากตามทิศทางที่ถูกต้องทั้งใบหน้า ต้นคอ และหลัง',
+        'จับและลากแผ่นกัวซาให้ถูกองศา ถูกน้ำหนัก',
+        'ลากตามทิศที่ถูกต้องครบทั้งใบหน้า ต้นคอ และหลัง',
         'อธิบายรอยแดงและปฏิกิริยาของผิวให้ลูกค้าเข้าใจได้',
       ],
     },
@@ -453,13 +549,13 @@ export const PROGRAMS: readonly Program[] = [
         'Reaktionen, Nachsorge und Hygiene',
       ],
       th: [
-        'ชนิดของอุปกรณ์และการดูแลรักษา',
-        'องศา น้ำหนัก และความยาวของการลาก',
+        'รู้จักอุปกรณ์แต่ละชนิดและการดูแลรักษา',
+        'องศา น้ำหนัก และความยาวของเส้นที่ลาก',
         'ขั้นตอนสำหรับใบหน้าและสำหรับหลัง',
         'ปฏิกิริยาหลังทำ การดูแลต่อ และสุขอนามัย',
       ],
     },
-    prerequisites: { de: 'Keine Vorkenntnisse erforderlich.', th: 'ไม่ต้องมีพื้นฐานมาก่อน' },
+    prerequisites: KURZKURS_PREREQUISITES,
     certificate: {
       de: 'Zertifikat der Kosmetikschule Picha mit BfD-Siegel.',
       th: 'ใบประกาศนียบัตรของ Kosmetikschule Picha ประทับตรา BfD',
@@ -471,18 +567,21 @@ export const PROGRAMS: readonly Program[] = [
     title: { de: 'Klassische Massage', th: 'นวดสวีดิชพื้นฐาน' },
     subtitle: {
       de: 'Die schwedische Grundausbildung — das Fundament für alles Weitere',
-      th: 'หลักสูตรพื้นฐานแบบสวีดิช รากฐานของทุกเทคนิคที่เหลือ',
+      th: 'คอร์สพื้นฐานแบบสวีดิช รากฐานของทุกเทคนิคที่จะตามมา',
     },
     category: 'ausbildung',
+    // The school's recommended start: the foundation every kurzkurs builds on.
+    flag: 'einstieg',
     bodyAreas: ['ganzkoerper', 'ruecken', 'arme-beine'],
     price: 550,
+    priceNote: VAT_NOTE,
     durationDays: 2,
     // CLIENT-VERIFY: exakte Kurstage
     durationLabel: { de: 'Mehrtägig · 09:00–17:00', th: 'หลายวัน · 09:00–17:00 น.' },
     languages: ['de', 'th'],
     audience: {
       de: 'Für Einsteigerinnen und Einsteiger, die eine belastbare Grundlage für den Beruf aufbauen möchten.',
-      th: 'เหมาะกับผู้เริ่มต้นที่ต้องการวางพื้นฐานให้แน่นก่อนทำเป็นอาชีพ',
+      th: 'เหมาะกับมือใหม่ที่อยากปูพื้นฐานให้แน่นก่อนทำเป็นอาชีพ',
     },
     outcomes: {
       de: [
@@ -493,9 +592,9 @@ export const PROGRAMS: readonly Program[] = [
       ],
       th: [
         'ทำท่ามือพื้นฐานทั้งห้าแบบได้อย่างมั่นใจ',
-        'ออกแบบการนวดทั้งตัวให้เป็นลำดับขั้นตอน',
-        'ทำงานถูกหลักสรีระและถนอมข้อต่อของตัวเอง',
-        'ซักประวัติลูกค้าและบันทึกผลการนวดได้',
+        'วางขั้นตอนการนวดทั้งตัวให้เป็นระบบ',
+        'ทำงานถูกหลักสรีระ ถนอมข้อต่อของตัวเองไว้ด้วย',
+        'ซักประวัติลูกค้าและบันทึกผลการนวดเป็น',
       ],
     },
     curriculum: {
@@ -526,17 +625,18 @@ export const PROGRAMS: readonly Program[] = [
     title: { de: 'Kosmetiker/in', th: 'หลักสูตรความงาม 3 วัน' },
     subtitle: {
       de: 'Die Beauty-Ausbildung in drei Tagen — mit sieben Einzelzertifikaten',
-      th: 'หลักสูตรความงามเรียน 3 วัน รับใบประกาศ 7 ใบ',
+      th: 'เรียนความงามแบบเข้มข้น 3 วัน รับใบประกาศถึง 7 ใบ',
     },
     category: 'ausbildung',
     bodyAreas: ['kopf-gesicht', 'praxis'],
     price: 899,
+    priceNote: VAT_NOTE,
     durationDays: 3,
     durationLabel: { de: '3 Tage · 09:00–17:00', th: '3 วัน · 09:00–17:00 น.' },
     languages: ['de', 'th'],
     audience: {
       de: 'Für Quereinsteigerinnen und Quereinsteiger sowie für Studios, die ihr Leistungsangebot verbreitern.',
-      th: 'เหมาะกับผู้เปลี่ยนสายอาชีพ และร้านที่อยากขยายบริการให้ครอบคลุมขึ้น',
+      th: 'เหมาะกับคนเปลี่ยนสายอาชีพ และร้านที่อยากขยายเมนูให้ครบขึ้น',
     },
     outcomes: {
       de: [
@@ -546,10 +646,10 @@ export const PROGRAMS: readonly Program[] = [
         'Kundinnen und Kunden fachlich beraten',
       ],
       th: [
-        'วิเคราะห์ประเภทและสภาพผิวได้',
-        'ทำทรีตเมนต์ใบหน้าได้ครบทั้งขั้นตอน',
+        'วิเคราะห์ประเภทและสภาพผิวของลูกค้าได้',
+        'ทำทรีตเมนต์ใบหน้าได้ครบทุกขั้นตอน',
         'ใช้เครื่องมือและสารบำรุงได้อย่างปลอดภัย',
-        'ให้คำแนะนำลูกค้าได้อย่างมืออาชีพ',
+        'ให้คำแนะนำลูกค้าได้แบบมืออาชีพ',
       ],
     },
     curriculum: {
@@ -581,18 +681,19 @@ export const PROGRAMS: readonly Program[] = [
     title: { de: 'Fußpflege', th: 'หลักสูตรดูแลเท้า' },
     subtitle: {
       de: 'Professionelle Fußpflege — ausbaubar Richtung med. Fußpflege',
-      th: 'ดูแลเท้าระดับมืออาชีพ ต่อยอดเป็น Med. Fußpflege ได้',
+      th: 'ดูแลเท้าระดับมืออาชีพ ต่อยอดไปทาง Med. Fußpflege ได้',
     },
     category: 'ausbildung',
     bodyAreas: ['fuesse', 'praxis'],
     price: 855,
+    priceNote: VAT_NOTE,
     durationDays: 3,
     // CLIENT-VERIFY: exakte Kurstage
     durationLabel: { de: 'Mehrtägig · 09:00–17:00', th: 'หลายวัน · 09:00–17:00 น.' },
     languages: ['de', 'th'],
     audience: {
       de: 'Für alle, die Fußpflege als eigenständige Dienstleistung anbieten und später weiter qualifizieren möchten.',
-      th: 'เหมาะกับผู้ที่อยากเปิดบริการดูแลเท้าเป็นงานหลัก และต่อยอดวุฒิได้ในอนาคต',
+      th: 'เหมาะกับคนที่อยากทำงานดูแลเท้าเป็นบริการหลัก และวางแผนต่อยอดวุฒิในอนาคต',
     },
     outcomes: {
       de: [
@@ -602,10 +703,10 @@ export const PROGRAMS: readonly Program[] = [
         'Grenzen zur medizinischen Fußpflege einhalten',
       ],
       th: [
-        'ตรวจสภาพเท้าและสังเกตความผิดปกติได้',
-        'ตัดแต่งเล็บและกำจัดหนังแข็งได้อย่างถูกวิธี',
-        'ใช้ ทำความสะอาด และฆ่าเชื้ออุปกรณ์ได้อย่างปลอดภัย',
-        'รู้ขอบเขตระหว่างงานดูแลเท้าทั่วไปกับงานทางการแพทย์',
+        'ตรวจสภาพเท้าและอ่านความผิดปกติได้',
+        'ตัดแต่งเล็บและกำจัดหนังแข็งได้ถูกวิธี',
+        'ใช้ ล้าง และฆ่าเชื้ออุปกรณ์ได้อย่างปลอดภัย',
+        'รู้ชัดว่าจุดไหนคืองานดูแลเท้า จุดไหนต้องส่งหาหมอ',
       ],
     },
     curriculum: {
@@ -634,12 +735,12 @@ export const PROGRAMS: readonly Program[] = [
     title: { de: 'Hygienekurs', th: 'หลักสูตรสุขอนามัยสำหรับเจ้าของร้าน' },
     subtitle: {
       de: 'Der Sachkundenachweis, den jedes Massage- und Kosmetikstudio braucht',
-      th: 'ใบรับรองความรู้ด้านสุขอนามัยที่ร้านนวดและร้านความงามทุกร้านต้องมี',
+      th: 'ใบรับรองความรู้ด้านสุขอนามัย ที่ร้านนวดและร้านความงามทุกร้านต้องมี',
     },
     category: 'betrieb',
     bodyAreas: ['praxis'],
     price: 250,
-    priceNote: { de: 'zzgl. 19 % MwSt.', th: 'ยังไม่รวมภาษี 19%' },
+    priceNote: VAT_NOTE,
     durationDays: 1,
     durationLabel: { de: '8 Unterrichtsstunden', th: 'อบรม 8 ชั่วโมง' },
     languages: ['de', 'th'],
@@ -655,10 +756,10 @@ export const PROGRAMS: readonly Program[] = [
         'Die Sachkenntnis in der Kenntnisprüfung nachweisen',
       ],
       th: [
-        'จัดทำแผนสุขอนามัยสำหรับร้านของตัวเองได้',
-        'ทำความสะอาด ฆ่าเชื้อ และสเตอริไลซ์อุปกรณ์ได้ถูกต้อง',
-        'นำข้อกำหนดทางกฎหมายด้านสุขอนามัยมาใช้จริงได้',
-        'สอบผ่านการวัดความรู้เพื่อยืนยันความสามารถ',
+        'เขียนแผนสุขอนามัยของร้านตัวเองได้',
+        'ล้าง ฆ่าเชื้อ และสเตอริไลซ์อุปกรณ์ได้ถูกต้องตามหลัก',
+        'เอาข้อกำหนดทางกฎหมายด้านสุขอนามัยไปใช้จริงกับร้านได้',
+        'สอบวัดความรู้ผ่าน เพื่อยืนยันความพร้อมของร้าน',
       ],
     },
     curriculum: {
@@ -678,15 +779,15 @@ export const PROGRAMS: readonly Program[] = [
         'พื้นฐานทางกฎหมาย',
         'แผนสุขอนามัย',
         'การเตรียมอุปกรณ์',
-        'การทำความสะอาดและฆ่าเชื้ออุปกรณ์',
+        'การล้างและฆ่าเชื้ออุปกรณ์',
         'การสเตอริไลซ์และการจัดเก็บ',
-        'การสอบวัดความรู้',
+        'สอบวัดความรู้',
       ],
     },
     prerequisites: { de: 'Keine Vorkenntnisse erforderlich.', th: 'ไม่ต้องมีพื้นฐานมาก่อน' },
     certificate: {
       de: 'Zertifikat über den Lehrgang zur Erlangung der Sachkenntnis, ärztlich gezeichnet durch Prof. Dr. med. Bernd Wüsten. Ausgabe direkt am Kurstag.',
-      th: 'ใบประกาศนียบัตรรับรองความรู้ ลงนามโดยแพทย์ Prof. Dr. med. Bernd Wüsten รับได้ในวันเรียนเลย',
+      th: 'ใบประกาศนียบัตรรับรองความรู้ ลงนามโดยแพทย์ Prof. Dr. med. Bernd Wüsten รับได้เลยในวันเรียน',
     },
   },
   {
@@ -700,13 +801,13 @@ export const PROGRAMS: readonly Program[] = [
     category: 'ausbildung',
     bodyAreas: ['haende-naegel'],
     price: 750,
-    priceNote: { de: 'zzgl. 19 % MwSt.', th: 'ยังไม่รวมภาษี 19%' },
+    priceNote: VAT_NOTE,
     durationDays: 2,
     durationLabel: { de: '2 Tage · 09:00–17:00', th: '2 วัน · 09:00–17:00 น.' },
     languages: ['de', 'th'],
     audience: {
       de: 'Für Einsteigerinnen und Einsteiger ohne Vorkenntnisse und für Nageldesignerinnen, die ihre Technik systematisch nacharbeiten wollen.',
-      th: 'เหมาะสำหรับผู้เริ่มต้น ไม่มีพื้นฐาน และผู้ที่ต้องการพัฒนาทักษะการทำเล็บให้เป็นระบบ',
+      th: 'เหมาะกับมือใหม่ที่ยังไม่มีพื้นฐาน และช่างเล็บที่อยากเก็บเทคนิคให้เป็นระบบ',
     },
     outcomes: {
       de: [
@@ -718,10 +819,10 @@ export const PROGRAMS: readonly Program[] = [
       ],
       th: [
         'เตรียมหน้าเล็บตามมาตรฐานร้าน และวางขั้นตอนก่อนลงเจลได้ถูกลำดับ',
-        'แยกความต่างของ Cleanser, Dehydrator, Primer และ Base Gel และเลือกใช้ได้ตรงงาน',
-        'ใช้เครื่องเจียร์ได้อย่างมั่นใจ โดยไม่ทำให้หน้าเล็บเสียหาย',
-        'วางโครง Overlay ให้แข็งแรง และตะไบทรงเล็บให้สมดุล',
-        'ถอดเจลได้อย่างถูกวิธี ไม่ทำร้ายแผ่นเล็บ',
+        'แยกความต่างของ Cleanser, Dehydrator, Primer และ Base Gel ออก และเลือกใช้ให้ตรงงาน',
+        'คุมเครื่องเจียร์ได้มั่นใจ โดยไม่ทำหน้าเล็บจริงเสียหาย',
+        'วางโครง Overlay ให้แข็งแรงอยู่ทน และตะไบทรงเล็บให้สมดุล',
+        'ถอดเจลได้ถูกวิธี ไม่ทำร้ายแผ่นเล็บ',
       ],
     },
     curriculum: {
@@ -740,22 +841,22 @@ export const PROGRAMS: readonly Program[] = [
       ],
       th: [
         'การเตรียมหน้าเล็บแบบมาตรฐาน Salon Prep',
-        'การเลือกและใช้ผลิตภัณฑ์สำหรับเตรียมหน้าเล็บ Cleanser • Dehydrator • Primer • Base Gel',
+        'รู้จักและใช้ผลิตภัณฑ์เตรียมหน้าเล็บ Cleanser • Dehydrator • Primer • Base Gel',
         'การใช้เครื่องเจียร์ E-File อย่างถูกวิธี',
-        'การเตรียมและทำความสะอาดหนังรอบเล็บ',
+        'เตรียมและทำความสะอาดหนังรอบเล็บ',
         'เทคนิค Russian Manikure',
         'การเสริมและปรับโครงสร้างหน้าเล็บ',
-        'เทคนิคการทาสีเจลให้เรียบ สวย และติดทน',
+        'เทคนิคทาสีเจลให้เรียบ สวย และติดทน',
         'การวาง Overlay ให้แข็งแรงและดูเป็นธรรมชาติ',
         'การตะไบทรงเล็บให้สวยสมดุล',
-        'การถอด Gel อย่างถูกวิธี ลดความเสียหายต่อหน้าเล็บ',
-        'ฝึกปฏิบัติจริง พร้อมคำแนะนำและแก้ไขเทคนิคแบบตัวต่อตัว',
+        'วิธีถอด Gel ที่ถูกต้อง ไม่ทำร้ายหน้าเล็บ',
+        'ฝึกปฏิบัติจริง พร้อมคำแนะนำและแก้เทคนิคแบบตัวต่อตัว',
       ],
     },
     prerequisites: { de: 'Keine Vorkenntnisse erforderlich.', th: 'ไม่ต้องมีพื้นฐานมาก่อน' },
     certificate: {
       de: 'Zwei Zertifikate: eines der Kosmetikschule Picha und eines mit BfD-Siegel.',
-      th: 'ใบประกาศนียบัตร 2 ใบ จากโรงเรียน S.Picha และแบบประทับตรา BfD',
+      th: 'ใบประกาศนียบัตร 2 ใบ ใบหนึ่งจาก Kosmetikschule Picha และอีกใบประทับตรา BfD',
     },
     included: {
       de: ['Kursunterlagen', 'Produkte und Materialien für beide Kurstage', 'Zwei Zertifikate'],
@@ -769,7 +870,7 @@ export const PROGRAMS: readonly Program[] = [
         },
         a: {
           de: 'Ja. Tag eins beginnt bei der Produktkunde und der Vorbereitung des Naturnagels. Sie arbeiten an beiden Tagen am Modell und werden einzeln korrigiert.',
-          th: 'เรียนได้ วันแรกเริ่มจากความรู้เรื่องผลิตภัณฑ์และการเตรียมหน้าเล็บ คุณจะได้ฝึกกับแบบจริงทั้งสองวัน และมีครูแก้เทคนิคให้แบบตัวต่อตัว',
+          th: 'ได้เลย วันแรกเริ่มจากความรู้เรื่องผลิตภัณฑ์และการเตรียมหน้าเล็บ คุณจะได้ฝึกกับแบบจริงทั้งสองวัน และมีครูคอยแก้เทคนิคให้แบบตัวต่อตัว',
         },
       },
       {
@@ -779,7 +880,7 @@ export const PROGRAMS: readonly Program[] = [
         },
         a: {
           de: 'Nein. Produkte und Materialien für beide Kurstage sind im Preis enthalten. Wer mit dem eigenen Gerät arbeiten möchte, darf es mitbringen.',
-          th: 'ไม่ต้อง ผลิตภัณฑ์และอุปกรณ์ที่ใช้ทั้งสองวันรวมอยู่ในค่าเรียนแล้ว ถ้าอยากใช้เครื่องของตัวเองก็นำมาได้',
+          th: 'ไม่ต้องค่ะ ผลิตภัณฑ์และอุปกรณ์ที่ใช้ทั้งสองวันรวมอยู่ในค่าเรียนแล้ว แต่ถ้าถนัดใช้เครื่องของตัวเองก็พกมาได้',
         },
       },
       {
@@ -789,7 +890,7 @@ export const PROGRAMS: readonly Program[] = [
         },
         a: {
           de: 'Das Zertifikat belegt die erfolgreiche Kursteilnahme. Ob und in welcher Form Sie selbstständig arbeiten dürfen, richtet sich nach den gewerberechtlichen Vorgaben an Ihrem Standort.',
-          th: 'ใบประกาศเป็นหลักฐานว่าผ่านการอบรมแล้ว ส่วนจะเปิดกิจการเองได้ในรูปแบบใด ขึ้นอยู่กับข้อกำหนดทางการค้าในพื้นที่ของคุณ',
+          th: 'ใบประกาศใบนี้ยืนยันว่าคุณผ่านการอบรมครบถ้วน ส่วนจะเปิดกิจการเองในรูปแบบไหนได้บ้าง ขึ้นอยู่กับข้อกำหนดทางการค้าในพื้นที่ของคุณ',
         },
       },
     ],
@@ -802,7 +903,7 @@ export const PROGRAM_BY_SLUG = new Map(PROGRAMS.map((p) => [p.slug, p]));
 export const FEATURED_PROGRAM_ID = 'office-syndrom';
 
 export const CATEGORY_LABEL: Record<ProgramCategory, Record<Locale, string>> = {
-  kurzkurs: { de: 'Kurzkurs', th: 'หลักสูตรเร่งรัด' },
+  kurzkurs: { de: 'Kurzkurs', th: 'คอร์สสั้น' },
   ausbildung: { de: 'Ausbildung', th: 'หลักสูตรวิชาชีพ' },
   betrieb: { de: 'Für Betriebe', th: 'สำหรับเจ้าของกิจการ' },
 };

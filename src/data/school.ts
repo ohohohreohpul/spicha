@@ -12,7 +12,7 @@ export const SCHOOL = {
   name: 'Kosmetikschule Picha',
   legalLine: {
     de: 'Anerkannte Kosmetikschule Picha',
-    th: 'โรงเรียนสอนวิชาชีพความงาม Picha ที่ได้รับการรับรอง',
+    th: 'Kosmetikschule Picha โรงเรียนสอนความงามที่ได้รับการรับรองอย่างเป็นทางการ',
   } satisfies LocalizedText,
   locationName: { de: 'Standort Ahrensburg', th: 'สาขา Ahrensburg' } satisfies LocalizedText,
   street: 'Manhagener Allee 45',
@@ -34,7 +34,7 @@ export const RECOGNITION = {
   /** Stated on the school's own material — German wording kept verbatim. */
   bfd: {
     de: 'Vom Bundesberufsverband der Fachkosmetiker/innen in Deutschland e.V. (BfD) anerkannte Kosmetikschule',
-    th: 'โรงเรียนสอนวิชาชีพความงามที่ได้รับการรับรองจากสมาคมวิชาชีพความงามแห่งเยอรมนี Bundesberufsverband der Fachkosmetiker/innen in Deutschland e.V. (BfD)',
+    th: 'โรงเรียนสอนวิชาชีพความงามที่ได้รับการรับรองจาก สมาคมวิชาชีพความงามแห่งประเทศเยอรมนี Bundesberufsverband der Fachkosmetiker/innen in Deutschland e.V. (BfD)',
   } satisfies LocalizedText,
   bfdShort: {
     de: 'BfD — anerkannte Kosmetikschule',
@@ -42,7 +42,7 @@ export const RECOGNITION = {
   } satisfies LocalizedText,
   bfdDetail: {
     de: 'Vom Bundesberufsverband der Fachkosmetiker/innen in Deutschland e.V.',
-    th: 'โดยสมาคมวิชาชีพความงามแห่งเยอรมนี (BfD)',
+    th: 'ได้รับการรับรองจากสมาคมวิชาชีพความงามแห่งประเทศเยอรมนี (BfD)',
   } satisfies LocalizedText,
   hygieneCertifier: 'Prof. Dr. med. Bernd Wüsten',
 } as const;
@@ -58,9 +58,9 @@ export const FOUNDER = {
       'Ausbildungsbefugnis, Regierungspräsidium Darmstadt',
     ],
     th: [
-      'Kosmetikerin ที่สอบผ่านการสอบระดับรัฐของเยอรมนี',
+      'Kosmetikerin ผู้ผ่านการสอบระดับรัฐของเยอรมนี',
       'ครูผู้สอนที่ได้รับอนุญาตในสาขา Kosmetik และ Wellness',
-      'ใบอนุญาตสอนวิชาชีพจาก Regierungspräsidium Darmstadt',
+      'ถือใบอนุญาตสอนวิชาชีพจาก Regierungspräsidium Darmstadt',
     ],
   },
   timeline: [
@@ -68,7 +68,7 @@ export const FOUNDER = {
       year: '1983',
       text: {
         de: 'Krankenpflegeschule in Uttaradit, Thailand',
-        th: 'วิทยาลัยพยาบาล จังหวัดอุตรดิตถ์ ประเทศไทย',
+        th: 'เรียนพยาบาลที่วิทยาลัยพยาบาล จ.อุตรดิตถ์ ประเทศไทย',
       } satisfies LocalizedText,
     },
     {
@@ -96,7 +96,7 @@ export const FOUNDER = {
       year: '2005',
       text: {
         de: 'SP-Kosmetik Schulung Frankfurt: Wellness, Kosmetik, Fußpflege, Massage',
-        th: 'SP-Kosmetik Schulung Frankfurt สอน Wellness, Kosmetik, Fußpflege และ Massage',
+        th: 'SP-Kosmetik Schulung Frankfurt เปิดสอน Wellness, Kosmetik, Fußpflege และ Massage',
       } satisfies LocalizedText,
     },
     {
@@ -117,7 +117,7 @@ export const FOUNDER = {
       year: '2024', // CLIENT-VERIFY: Eröffnungsjahr
       text: {
         de: 'Standort 3: Ahrensburg bei Hamburg',
-        th: 'สาขาที่ 3: Ahrensburg ใกล้เมือง Hamburg',
+        th: 'เปิดสาขาที่ 3: Ahrensburg ใกล้ Hamburg',
       } satisfies LocalizedText,
     },
   ],

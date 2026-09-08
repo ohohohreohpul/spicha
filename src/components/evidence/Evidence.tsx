@@ -1,57 +1,52 @@
 import Image from 'next/image';
-import { CountUp } from '@/components/motion/CountUp';
-import { ParallaxMedia } from '@/components/motion/ParallaxMedia';
-import { Reveal } from '@/components/motion/Reveal';
-import type { Locale } from '@/i18n/config';
+import { FadeIn, FadeInLi, StaggerList } from '@/components/ui/fade-in';
+import { PROGRAMS } from '@/data/programs';
 import type { UiDictionary } from '@/i18n/ui';
 
-const FACT_VALUES = ['1997', '12', '3', '8'] as const;
+// PROGRAMS.length drives the course count — it had drifted stale twice by
+// 2026-08, so it is derived here and never hand-written again.
+const FACT_VALUES = ['1997', String(PROGRAMS.length), '3', '8'] as const;
 
-/** 1997 is a year, not a quantity — counting up to it would read as a gimmick. */
-const isQuantity = (value: string) => value !== '1997';
-
-export function Evidence({ t, locale }: { t: UiDictionary; locale: Locale }) {
+/** The proof, as it stands: four numbers and the school's own poster. */
+export function Evidence({ t }: { t: UiDictionary }) {
   return (
-    <div className="mt-[var(--space-block)] grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
+    <div className="grid gap-10 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-16">
       <div>
-        <dl className="border-t border-ink/15">
+        <StaggerList className="grid grid-cols-2 gap-8">
           {FACT_VALUES.map((value, index) => (
-            <Reveal key={value} delay={index * 0.07}>
-              <div className="flex items-baseline gap-6 border-b border-hairline py-6">
-                <dt className="numeric w-20 shrink-0 font-display text-3xl text-teal">
-                  {isQuantity(value) ? <CountUp value={Number(value)} locale={locale} /> : value}
-                </dt>
-                <dd className="text-sm leading-relaxed text-ink-muted">
-                  {t.evidence.facts[index]}
-                </dd>
-              </div>
-            </Reveal>
+            <FadeInLi key={t.evidence.facts[index]}>
+              <p className="numeric font-serif text-3xl tracking-tight sm:text-4xl">{value}</p>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                {t.evidence.facts[index]}
+              </p>
+            </FadeInLi>
           ))}
-        </dl>
-
-        <p className="mt-8 max-w-[46ch] text-sm leading-relaxed text-ink-muted">
-          {t.evidence.note}
-        </p>
+        </StaggerList>
+        <FadeIn>
+          <p className="mt-10 max-w-[60ch] leading-relaxed text-muted-foreground">
+            {t.evidence.note}
+          </p>
+        </FadeIn>
       </div>
 
-      <div>
-        <Reveal>
-          <figure>
-            <ParallaxMedia className="relative aspect-3/4 bg-porcelain-deep sm:aspect-4/5">
-              <Image
-                src="/img/evidence-poster.jpg"
-                alt={t.evidence.posterAlt}
-                fill
-                sizes="(max-width: 1024px) 92vw, 52vw"
-                className="object-cover object-top"
-              />
-            </ParallaxMedia>
-            <figcaption className="mt-3 max-w-[56ch] text-xs leading-relaxed text-ink-muted">
-              {t.evidence.caption}
-            </figcaption>
-          </figure>
-        </Reveal>
-      </div>
+      <FadeIn>
+        <figure>
+          {/* Client-supplied document imagery is never cropped (house rule) —
+              it renders at its own aspect ratio with its own margins. */}
+          <div className="rounded-lg bg-paper p-4 shadow-sm outline outline-black/5">
+            <Image
+              src="/img/evidence-poster.jpg"
+              alt={t.evidence.posterAlt}
+              width={1076}
+              height={1521}
+              className="h-auto w-full rounded-md"
+            />
+          </div>
+          <figcaption className="mt-3 text-xs leading-relaxed text-muted-foreground">
+            {t.evidence.caption}
+          </figcaption>
+        </figure>
+      </FadeIn>
     </div>
   );
 }

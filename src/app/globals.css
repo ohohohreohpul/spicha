@@ -2,9 +2,8 @@
 
 /* ------------------------------------------------------------------ *
  * Design tokens — "Kosmetikschule Picha"
- * Direction: editorial school of tactile craft. Porcelain paper, ink
- * type, one deep-teal anchor. Gold is reserved for certification.
- * Red is reserved for pressure points and limited availability.
+ * Direction (2026-09 rebuild): calm product clarity on porcelain. One
+ * background, one ink, one teal. Gold is certification, red is scarcity.
  * ------------------------------------------------------------------ */
 @theme {
   --color-porcelain: #f6f3ec;
@@ -20,53 +19,51 @@
   --color-hairline: #d8d2c4;
 
   --font-display: var(--font-fraunces), 'Iowan Old Style', Georgia, serif;
+  --font-serif: var(--font-fraunces), 'Iowan Old Style', Georgia, serif;
   --font-sans: var(--font-noto-thai), ui-sans-serif, system-ui, sans-serif;
 
-  --text-hero: clamp(2.5rem, 1.1rem + 4.3vw, 5.25rem);
-  --text-section: clamp(2rem, 1.1rem + 3.2vw, 3.75rem);
-  --text-lead: clamp(1.0625rem, 1rem + 0.4vw, 1.3125rem);
-
-  --spacing-section: clamp(4.5rem, 3rem + 6vw, 10rem);
-}
-
-:root {
-  /* Vertical rhythm. Every gap in the page comes from one of these four, so
-     the spacing between a heading and its content cannot drift from the
-     spacing inside the content. Before this they were all a flat 48px, which
-     read as cramped next to the long measure of the headings. */
-  --space-block: clamp(3rem, 2rem + 2.6vw, 5rem);
-  --space-row: clamp(1.875rem, 1.4rem + 1.5vw, 2.875rem);
-  --space-row-lg: clamp(2.5rem, 1.8rem + 2.2vw, 4rem);
-  --space-group: clamp(3.75rem, 2.5rem + 3.4vw, 6.5rem);
-}
-
-:root {
-  --dur-1: 120ms;
+  /* Small transition tokens used by the body-map finder. */
   --dur-2: 180ms;
   --dur-3: 240ms;
-  --dur-4: 300ms;
-  --dur-5: 500ms;
-  --dur-illustrative: 900ms;
-
-  --ease-out-quad: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --ease-out-quart: cubic-bezier(0.165, 0.84, 0.44, 1);
-  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
-  --ease-in-out-cubic: cubic-bezier(0.645, 0.045, 0.355, 1);
-  --ease-in-out-quart: cubic-bezier(0.77, 0, 0.175, 1);
+}
 
-  --header-height: 4.5rem;
+/* ------------------------------------------------------------------ *
+ * shadcn semantic-token bridge. Components pasted from shadcn registries
+ * (hero-08, avatar, button) speak background/foreground/muted/primary…;
+ * they resolve onto the house palette here. Never introduce a semantic
+ * color that has no house equivalent.
+ * ------------------------------------------------------------------ */
+@theme {
+  --color-background: var(--color-porcelain);
+  --color-foreground: var(--color-ink);
+  --color-card: var(--color-paper);
+  --color-card-foreground: var(--color-ink);
+  --color-muted: var(--color-porcelain-deep);
+  --color-muted-foreground: var(--color-ink-muted);
+  --color-primary: var(--color-teal);
+  --color-primary-foreground: var(--color-paper);
+  --color-secondary: var(--color-porcelain-deep);
+  --color-secondary-foreground: var(--color-ink);
+  --color-accent: var(--color-porcelain-deep);
+  --color-accent-foreground: var(--color-teal-deep);
+  --color-destructive: var(--color-pressure);
+  --color-destructive-foreground: var(--color-paper);
+  --color-border: var(--color-hairline);
+  --color-input: var(--color-hairline);
+  --color-ring: var(--color-teal);
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: calc(var(--header-height) + 1rem);
+    scroll-padding-top: 6rem;
     -webkit-text-size-adjust: 100%;
   }
 
   body {
-    background-color: var(--color-porcelain);
-    color: var(--color-ink);
+    background-color: var(--color-background);
+    color: var(--color-foreground);
     font-family: var(--font-sans);
     font-synthesis-weight: none;
     text-rendering: optimizeLegibility;
@@ -94,9 +91,9 @@
   h1,
   h2,
   h3 {
-    font-family: var(--font-display);
+    font-family: var(--font-serif);
     font-weight: 400;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
     text-wrap: balance;
   }
 
@@ -106,37 +103,6 @@
 }
 
 @layer components {
-  .shell {
-    width: 100%;
-    max-width: 88rem;
-    margin-inline: auto;
-    padding-inline: 1.25rem;
-  }
-
-  @media (min-width: 768px) {
-    .shell {
-      padding-inline: 2.5rem;
-    }
-  }
-
-  @media (min-width: 1280px) {
-    .shell {
-      padding-inline: 4rem;
-    }
-  }
-
-  .kicker {
-    font-size: 0.6875rem;
-    font-weight: 600;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--color-teal);
-  }
-
-  .hairline {
-    border-top: 1px solid var(--color-hairline);
-  }
-
   .numeric {
     font-variant-numeric: tabular-nums;
     font-feature-settings: 'tnum' 1;
@@ -151,31 +117,21 @@
  * leading for its ascenders and tone marks.
  * These rules sit outside @layer so they win over Tailwind utilities.
  * ------------------------------------------------------------------ */
-html[lang='th'] {
-  /* Thai has no capital height and no descender-free baseline to sit on, so
-     the same pixel size reads larger and denser than the Latin cut. Display
-     sizes come down to compensate. */
-  --text-hero: clamp(2.15rem, 1.2rem + 3.2vw, 4rem);
-  --text-section: clamp(1.75rem, 1.15rem + 2.2vw, 2.9rem);
-}
-
 html[lang='th'] h1,
 html[lang='th'] h2,
 html[lang='th'] h3,
-html[lang='th'] .font-display {
+html[lang='th'] h4,
+html[lang='th'] .font-display,
+html[lang='th'] .font-serif {
   font-family: var(--font-sans);
   font-weight: 600;
   letter-spacing: 0;
 }
 
-/* Leading has to clear the tone marks and ascenders, but the room they need
-   does not scale with the type size. A flat 1.35 gave the hero 113px line
-   boxes around 84px glyphs, which is what opened those gaps between lines. */
-/* The descendant selectors are load-bearing. `:lang(th)` in the base layer
- * sets 1.85 on *every* Thai element, and SplitText wraps each line of a
- * heading in generated divs — which match that rule and win over the leading
- * inherited from the heading. Without the `*` the headings keep 1.85 and the
- * lines drift apart no matter what is set on h1. */
+/* Flat leading clears tone marks without giant gaps between lines.
+ * The descendant selectors are load-bearing: `:lang(th)` sets 1.85 on
+ * every Thai element, and wrap-balancer/split helpers clone content into
+ * generated wrappers that would otherwise inherit the body leading. */
 html[lang='th'] h1,
 html[lang='th'] h1 * {
   line-height: 1.24;
@@ -188,95 +144,20 @@ html[lang='th'] h2 * {
 
 html[lang='th'] h3,
 html[lang='th'] h3 *,
-html[lang='th'] .font-display {
+html[lang='th'] h4,
+html[lang='th'] h4 *,
+html[lang='th'] .font-display,
+html[lang='th'] .font-serif {
   line-height: 1.34;
 }
 
-html[lang='th'] .italic,
-html[lang='th'] h1 .italic,
-html[lang='th'] h2 .italic {
+html[lang='th'] .italic {
   font-style: normal;
 }
 
-/* Grain — fixed, pointer-events-none, never inside a scrolling container. */
-.grain::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  pointer-events: none;
-  opacity: 0.038;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
 /* ------------------------------------------------------------------ *
- * Cursor-lit surfaces.
- * Spotlight publishes --mx/--my from the pointer; these rules read them at
- * paint time. The glow lives on a pseudo-element so the card's own contents
- * never get a compositor layer of their own.
- * ------------------------------------------------------------------ */
-.spotlight {
-  --mx: 50%;
-  --my: 50%;
-  position: relative;
-  isolation: isolate;
-}
-
-.spotlight::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  z-index: -1;
-  border-radius: inherit;
-  opacity: 0;
-  transition: opacity var(--dur-4) var(--ease-out-quart);
-  background: radial-gradient(
-    16rem circle at var(--mx) var(--my),
-    color-mix(in oklab, var(--color-teal) 34%, transparent),
-    transparent 68%
-  );
-}
-
-@media (hover: hover) {
-  .spotlight:hover::before {
-    opacity: 1;
-  }
-}
-
-/* Hover fill that enters from the edge the pointer crossed. */
-.wipe-hover {
-  position: relative;
-  overflow: hidden;
-}
-
-.wipe-hover::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background: var(--color-porcelain-deep);
-  transform: scaleY(0);
-  transform-origin: bottom;
-  transition: transform var(--dur-4) var(--ease-out-quart);
-}
-
-@media (hover: hover) {
-  .wipe-hover:hover::after {
-    transform: scaleY(1);
-  }
-}
-
-.wipe-hover > * {
-  position: relative;
-  z-index: 1;
-}
-
-/* ------------------------------------------------------------------ *
- * Pulse on the selected pressure point.
- * Transform and opacity only, so it stays on the compositor and costs
- * nothing while it loops. Pure CSS on purpose — a perpetual JS tween here
- * would re-render the finder on every frame.
+ * Pulse on the selected pressure point (body-map finder).
+ * Transform and opacity only, so it stays on the compositor.
  * ------------------------------------------------------------------ */
 @keyframes pressure-pulse {
   0% {
@@ -294,19 +175,7 @@ html[lang='th'] h2 .italic {
 }
 
 .pulse-ring {
-  animation: pressure-pulse 2.4s var(--ease-out-quart) infinite;
-}
-
-/* Pressure paths draw themselves when their section enters the viewport. */
-.pressure-path path {
-  stroke-dasharray: var(--path-length, 800);
-  stroke-dashoffset: var(--path-length, 800);
-  transition: stroke-dashoffset 1400ms var(--ease-out-expo);
-  transition-delay: var(--path-delay, 0ms);
-}
-
-.pressure-path[data-visible='true'] path {
-  stroke-dashoffset: 0;
+  animation: pressure-pulse 2.4s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -321,15 +190,6 @@ html[lang='th'] h2 .italic {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
-  }
-
-  .pressure-path path {
-    stroke-dashoffset: 0;
-  }
-
-  .spotlight::before,
-  .wipe-hover::after {
-    display: none;
   }
 
   .pulse-ring {

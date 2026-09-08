@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/hero-08-utils/button';
 import { PROGRAMS } from '@/data/programs';
 import { SCHOOL } from '@/data/school';
 import type { Locale } from '@/i18n/config';
@@ -42,11 +42,18 @@ export function InquiryForm({
   const [errors, setErrors] = useState<Errors>({});
 
   // Pick up "#anfrage?kurs=…&termin=…" from every course link on the page.
+  // The query in the fragment defeats the browser's id lookup, so the native
+  // scroll-to-anchor never happens — scroll explicitly once the form has the
+  // selection. `scroll-behavior: smooth` and its reduced-motion override are
+  // set on the document, so no behavior option is needed here.
   useEffect(() => {
     const apply = () => {
       const { kurs, termin } = readHashParams();
       if (kurs) setProgramSlug(kurs);
       if (termin) setSessionId(termin);
+      if (window.location.hash.startsWith('#anfrage')) {
+        document.getElementById('anfrage')?.scrollIntoView({ block: 'start' });
+      }
     };
     apply();
     window.addEventListener('hashchange', apply);
@@ -98,8 +105,8 @@ export function InquiryForm({
 
   if (status === 'sent') {
     return (
-      <div role="status" className="border-t-2 border-teal bg-paper p-8">
-        <h3 className="font-display text-2xl leading-tight">{t.form.sentTitle}</h3>
+      <div role="status" className="rounded-lg border-teal/40 border bg-paper p-8 shadow-sm">
+        <h3 className="font-serif text-2xl leading-tight tracking-tight">{t.form.sentTitle}</h3>
         <p className="mt-3 max-w-[48ch] leading-relaxed text-ink-muted">{t.form.sentBody}</p>
         <button
           type="button"
@@ -112,9 +119,18 @@ export function InquiryForm({
     );
   }
 
+  // method/action are the no-JS path: a native submit POSTs to the endpoint
+  // (which already consumes FormData) instead of GET-encoding personal data
+  // into the URL. The JS path still prevents default and POSTs via fetch.
   return (
-    <form onSubmit={handleSubmit} noValidate className="border-t-2 border-ink bg-paper p-6 sm:p-8">
-      <h3 className="font-display text-2xl leading-tight">{t.form.title}</h3>
+    <form
+      method="post"
+      action="/api/anfrage"
+      onSubmit={handleSubmit}
+      noValidate
+      className="rounded-lg bg-paper p-6 shadow-sm outline outline-black/5 sm:p-8"
+    >
+      <h3 className="font-serif text-2xl leading-tight tracking-tight">{t.form.title}</h3>
       <p className="mt-2 max-w-[46ch] text-sm leading-relaxed text-ink-muted">{t.form.intro}</p>
 
       {Object.keys(errors).length > 0 ? (
@@ -139,7 +155,7 @@ export function InquiryForm({
             type="text"
             autoComplete="name"
             aria-invalid={Boolean(errors.name)}
-            className="min-h-11 w-full border border-hairline bg-porcelain px-4 text-sm"
+            className="min-h-11 w-full rounded-md border border-input bg-background px-4 text-sm"
           />
         </Field>
 
@@ -149,7 +165,7 @@ export function InquiryForm({
             name="phone"
             type="tel"
             autoComplete="tel"
-            className="min-h-11 w-full border border-hairline bg-porcelain px-4 text-sm"
+            className="min-h-11 w-full rounded-md border border-input bg-background px-4 text-sm"
           />
         </Field>
 
@@ -165,7 +181,7 @@ export function InquiryForm({
             type="email"
             autoComplete="email"
             aria-invalid={Boolean(errors.contact)}
-            className="min-h-11 w-full border border-hairline bg-porcelain px-4 text-sm"
+            className="min-h-11 w-full rounded-md border border-input bg-background px-4 text-sm"
           />
         </Field>
 
@@ -179,7 +195,7 @@ export function InquiryForm({
               setSessionId('');
             }}
             aria-invalid={Boolean(errors.program)}
-            className="min-h-11 w-full border border-hairline bg-porcelain px-4 text-sm"
+            className="min-h-11 w-full rounded-md border border-input bg-background px-4 text-sm"
           >
             <option value="">{t.form.choose}</option>
             {PROGRAMS.map((program) => (
@@ -196,7 +212,7 @@ export function InquiryForm({
             name="session"
             value={sessionId}
             onChange={(event) => setSessionId(event.target.value)}
-            className="min-h-11 w-full border border-hairline bg-porcelain px-4 text-sm"
+            className="min-h-11 w-full rounded-md border border-input bg-background px-4 text-sm"
           >
             <option value="">{t.form.noSession}</option>
             {sessionsForProgram.map((session) => (
@@ -218,7 +234,7 @@ export function InquiryForm({
                 className={`min-h-11 rounded-full border px-4 text-sm transition-colors duration-150 ${
                   reason === item
                     ? 'border-teal bg-teal text-paper'
-                    : 'border-hairline text-ink hover:border-teal hover:text-teal'
+                    : 'border-border text-ink hover:border-teal hover:text-teal'
                 }`}
               >
                 {item}
@@ -238,27 +254,40 @@ export function InquiryForm({
             id="message"
             name="message"
             rows={4}
-            className="w-full border border-hairline bg-porcelain px-4 py-3 text-sm"
+            className="w-full rounded-md border border-input bg-background px-4 py-3 text-sm"
           />
         </Field>
 
         <Field label={t.form.replyLanguage} htmlFor="language" className="sm:col-span-2">
           <div className="flex gap-2">
-            {['Deutsch', 'ไทย'].map((option) => (
-              <label
-                key={option}
-                className="flex min-h-11 cursor-pointer items-center gap-2 rounded-full border border-hairline px-4 text-sm has-checked:border-teal has-checked:text-teal"
-              >
-                <input
-                  type="radio"
-                  name="language"
-                  value={option}
-                  defaultChecked={locale === 'th' ? option === 'ไทย' : option === 'Deutsch'}
-                  className="accent-[var(--color-teal)]"
-                />
-                <span className={option === 'ไทย' ? 'thai' : undefined}>{option}</span>
-              </label>
-            ))}
+            {['Deutsch', 'ไทย'].map((option) => {
+              // Submitted values stay stable; the visible label follows the
+              // page's language (client feedback: no mixed scripts on the
+              // German page).
+              const label =
+                option === 'ไทย'
+                  ? locale === 'de'
+                    ? 'Thailändisch'
+                    : 'ไทย'
+                  : locale === 'th'
+                    ? 'ภาษาเยอรมัน'
+                    : 'Deutsch';
+              return (
+                <label
+                  key={option}
+                  className="flex min-h-11 cursor-pointer items-center gap-2 rounded-full border border-border px-4 text-sm has-checked:border-teal has-checked:text-teal"
+                >
+                  <input
+                    type="radio"
+                    name="language"
+                    value={option}
+                    defaultChecked={locale === 'th' ? option === 'ไทย' : option === 'Deutsch'}
+                    className="accent-[var(--color-teal)]"
+                  />
+                  <span className={label === 'ไทย' ? 'thai' : undefined}>{label}</span>
+                </label>
+              );
+            })}
           </div>
         </Field>
       </div>

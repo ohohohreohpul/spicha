@@ -14,11 +14,11 @@ export const BODY_AREAS: readonly BodyAreaMeta[] = [
     label: { de: 'Kopf und Gesicht', th: 'ศีรษะและใบหน้า' },
     complaint: {
       de: 'Spannungskopfschmerz, müde Gesichtszüge, Lymphstau',
-      th: 'ปวดหัวจากความตึง ใบหน้าดูโทรม น้ำเหลืองคั่ง',
+      th: 'ปวดหัวจากความตึง หน้าดูโทรม น้ำเหลืองคั่ง',
     },
     description: {
       de: 'Feine Arbeit mit wenig Druck. Sie lernen Zugrichtungen der Gesichtsmuskulatur, Lymphwege und die Führung des Gua-Sha-Werkzeugs.',
-      th: 'งานละเอียดที่ใช้น้ำหนักเบา คุณจะได้เรียนทิศทางการดึงของกล้ามเนื้อใบหน้า เส้นทางน้ำเหลือง และการใช้แผ่นกัวซา',
+      th: 'งานละเอียดที่ใช้น้ำหนักเบามาก คุณจะได้เรียนทิศการดึงของกล้ามเนื้อหน้า เส้นทางน้ำเหลือง และการลากแผ่นกัวซาให้ถูกวิธี',
     },
   },
   {
@@ -26,11 +26,11 @@ export const BODY_AREAS: readonly BodyAreaMeta[] = [
     label: { de: 'Nacken und Schultern', th: 'คอและบ่า' },
     complaint: {
       de: 'Bildschirmarbeit, Migräne, harter Schultergürtel',
-      th: 'นั่งหน้าจอนาน ไมเกรน บ่าแข็งเป็นก้อน',
+      th: 'นั่งทำงานหน้าจอนาน ไมเกรน บ่าแข็งเป็นก้อน',
     },
     description: {
       de: 'Der meistgefragte Bereich in deutschen Studios. Hier arbeiten Sie mit Triggerpunkten, Druckrichtung und Behandlung im Sitzen.',
-      th: 'บริเวณที่ลูกค้าในเยอรมนีขอมากที่สุด ที่นี่คุณจะได้ทำงานกับจุดกดเจ็บ ทิศทางการลงน้ำหนัก และการนวดในท่านั่ง',
+      th: 'บริเวณที่ลูกค้าในเยอรมนีถามหามากที่สุด ได้ฝึกกับจุดกดเจ็บ ทิศการลงน้ำหนัก และการนวดในท่านั่ง',
     },
   },
   {
@@ -42,7 +42,7 @@ export const BODY_AREAS: readonly BodyAreaMeta[] = [
     },
     description: {
       de: 'Vom Becken bis zum Nacken. Sie lernen zu ertasten, den Druck aufzubauen und zu wissen, wo eine Massage endet und die ärztliche Abklärung beginnt.',
-      th: 'ตั้งแต่เชิงกรานถึงต้นคอ คุณจะได้ฝึกคลำ ฝึกเพิ่มน้ำหนักมือ และรู้ว่าการนวดจบตรงไหน และเมื่อไรต้องส่งพบแพทย์',
+      th: 'ตั้งแต่เชิงกรานไปจนต้นคอ ฝึกคลำให้ชำนาญ ฝึกเพิ่มน้ำหนักมือ และรู้ชัดว่าจุดไหนคืองานของช่างนวด จุดไหนต้องส่งหาหมอ',
     },
   },
   {
@@ -50,11 +50,11 @@ export const BODY_AREAS: readonly BodyAreaMeta[] = [
     label: { de: 'Arme, Beine, Kreislauf', th: 'แขน ขา และการไหลเวียน' },
     complaint: {
       de: 'Schwere Beine, Wassereinlagerung, überlastete Muskulatur',
-      th: 'ขาหนัก บวมน้ำ กล้ามเนื้อทำงานหนักเกินไป',
+      th: 'ขาหนักอึ้ง บวมน้ำ กล้ามเนื้อถูกใช้งานหนักเกิน',
     },
     description: {
       de: 'Lymphfluss und Muskelarbeit an den Extremitäten, mit manueller Drainage, Schröpfen und kräftigen Sportgriffen.',
-      th: 'การไหลเวียนน้ำเหลืองและงานกล้ามเนื้อที่แขนขา ทั้งการระบายน้ำเหลืองด้วยมือ การครอบแก้ว และท่านวดสปอร์ตที่ลงน้ำหนักมาก',
+      th: 'งานน้ำเหลืองและงานกล้ามเนื้อที่แขนขา ทั้งระบายน้ำเหลืองด้วยมือ ครอบแก้ว และท่านวดสปอร์ตที่ลงน้ำหนักจัดเต็ม',
     },
   },
   {
@@ -66,7 +66,7 @@ export const BODY_AREAS: readonly BodyAreaMeta[] = [
     },
     description: {
       de: 'Vollständige Abläufe mit Anfang, Mitte und Ende. Hier entsteht das Zeitgefühl, das eine Behandlung professionell macht.',
-      th: 'ขั้นตอนเต็มรูปแบบที่มีทั้งเปิด กลาง และปิด ตรงนี้เองที่คุณจะได้จังหวะเวลา ซึ่งเป็นสิ่งที่ทำให้การนวดดูเป็นมืออาชีพ',
+      th: 'ขั้นตอนเต็มรูปแบบที่มีเปิด มีกลาง และมีปิด — ความรู้สึกเรื่องจังหวะเวลาที่ได้จากตรงนี้ คือสิ่งที่ทำให้งานนวดดูเป็นมืออาชีพ',
     },
   },
   {
@@ -78,7 +78,7 @@ export const BODY_AREAS: readonly BodyAreaMeta[] = [
     },
     description: {
       de: 'Zwei Wege ab hier: die Fußmassage mit Spa-Ablauf und die professionelle Fußpflege als eigenständiger Beruf.',
-      th: 'จากจุดนี้แยกเป็นสองทาง คือนวดเท้าพร้อมสปา และงานดูแลเท้าระดับวิชาชีพซึ่งเป็นอาชีพในตัวเอง',
+      th: 'จากจุดนี้แยกเป็นสองเส้นทาง คือนวดเท้าพร้อมสปาเท้า กับงานดูแลเท้าระดับวิชาชีพที่เป็นอาชีพได้ในตัวเอง',
     },
   },
   {
@@ -90,7 +90,7 @@ export const BODY_AREAS: readonly BodyAreaMeta[] = [
     },
     description: {
       de: 'Arbeit auf wenigen Quadratzentimetern. Vorbereitung des Naturnagels, Führung der Fräse und ein Aufbau, der Wochen hält statt Tage.',
-      th: 'งานบนพื้นที่เพียงไม่กี่ตารางเซนติเมตร ตั้งแต่การเตรียมหน้าเล็บ การใช้เครื่องเจียร์ ไปจนถึงการวางโครงที่อยู่ได้เป็นสัปดาห์ ไม่ใช่แค่วันสองวัน',
+      th: 'งานบนพื้นที่ไม่กี่ตารางเซนติเมตร ตั้งแต่เตรียมเล็บจริง คุมเครื่องเจียร์ ไปจนวางโครงที่อยู่ทนเป็นสัปดาห์ ไม่ใช่แค่วันสองวัน',
     },
   },
   {
@@ -98,11 +98,11 @@ export const BODY_AREAS: readonly BodyAreaMeta[] = [
     label: { de: 'Betrieb und Berufspraxis', th: 'การบริหารร้านและการประกอบวิชาชีพ' },
     complaint: {
       de: 'Hygiene, Nachweise, Studioführung',
-      th: 'สุขอนามัย เอกสารรับรอง การดูแลร้าน',
+      th: 'สุขอนามัย เอกสารรับรอง การบริหารร้าน',
     },
     description: {
       de: 'Kein Körperbereich, aber der Bereich, an dem Betriebe scheitern: Hygieneplan, Instrumentenaufbereitung und der Sachkundenachweis.',
-      th: 'ไม่ใช่ส่วนของร่างกาย แต่เป็นเรื่องที่ทำให้หลายร้านสะดุด ได้แก่ แผนสุขอนามัย การเตรียมอุปกรณ์ และใบรับรองความรู้',
+      th: 'ไม่ใช่จุดบนร่างกาย แต่เป็นจุดที่ทำให้หลายร้านสะดุด — แผนสุขอนามัย การเตรียมอุปกรณ์ให้ปลอดเชื้อ และใบรับรองความรู้',
     },
   },
 ] as const;

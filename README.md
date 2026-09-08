@@ -13,17 +13,18 @@ npm run build
 
 | Abschnitt | Komponente |
 |---|---|
-| 01 Hero „The Working Hand" | `components/hero/` |
-| 02 Anerkennung | `components/trust/` |
-| 03 Kursfinder über den Körper | `components/finder/` |
-| 04 Live-Terminplan | `components/schedule/` |
-| 05 Kurskatalog | `components/catalog/` |
-| 06 Beispielkurs im Detail | `components/featured/` |
-| 07 Der Kurstag | `components/learn/` |
-| 08 Nach dem Kurs | `components/outcomes/` |
-| 09 Die Schule | `components/people/` |
-| 10 Belege | `components/evidence/` |
-| 11 Anfahrt, FAQ, Anfrage | `components/contact/` |
+| Hero (hero-08 Sprache: Serif, Foto-Karten, CTA) | `components/ui/hero-08` |
+| Anerkennung | `components/trust/` |
+| Wegweiser (Situation → erster Kurs → Lernweg → 3-Fragen-Guide) | `components/orientation/` + `components/catalog/CourseGuide` |
+| Kurskatalog mit Level-Badges und Empfehlungs-Flags | `components/catalog/CourseGrid` |
+| Kursfinder über den Körper | `components/finder/` |
+| Live-Terminplan | `components/schedule/` |
+| Beispielkurs im Detail | `components/featured/` |
+| Der Kurstag | `components/learn/` |
+| Nach dem Kurs | `components/outcomes/` |
+| Die Schule | `components/people/` |
+| Belege | `components/evidence/` |
+| Anfahrt, FAQ, Anfrage | `components/contact/` |
 
 ## Inhalte
 
@@ -32,7 +33,8 @@ Nichts ist erfunden. Was noch bestätigt werden muss, steht in
 [docs/CLIENT-VERIFY.md](docs/CLIENT-VERIFY.md) und ist im Code mit `CLIENT-VERIFY`
 markiert.
 
-- `src/data/programs.ts` — die zwölf Kurse, dauerhaft
+- `src/data/programs.ts` — die vierzehn Kurse, dauerhaft
+- `src/data/program-images.ts` — Kursfotos, geteilt zwischen Katalog und Wegweiser
 - `src/data/sessions.ts` — Termine, Demonstrationsdaten
 - `src/data/school.ts` — Adresse, Anerkennung, Werdegang der Schulleiterin
 - `src/data/faq.ts`, `src/data/body-areas.ts`
@@ -47,14 +49,13 @@ geplante Weg von Google Calendar über WhatsApp bis zur Veröffentlichung steht 
 
 ## Gestaltung
 
-Ein Editorial-System, kein Karten-Raster: Haarlinien statt Boxen, asymmetrische
-Spalten, Fraunces für Überschriften und Noto Sans Thai für beide Schriftsysteme.
-Farbe trägt Bedeutung — Petrol führt, Gold steht ausschließlich für Zertifizierung,
-Rot ausschließlich für Druckpunkte und knappe Plätze.
-
-Bewegung nur an drei Stellen: die Bildfolge im Hero, der Kursfinder und die
-Terminübergänge. Alles andere ist ruhig. `prefers-reduced-motion` schaltet die
-Bildfolge auf ein Standbild und alle Übergänge ab.
+Ruhige Produktseite auf Porzellan (Rebuild 2026-09): Fraunces-Serif in
+Gesprächsgröße, Noto Sans Thai für beide Schriftsysteme, Fotos in leicht
+gerundeten Karten, eine Bewegungssprache (`components/ui/fade-in.tsx`).
+Farbe trägt Bedeutung — Petrol führt, Gold steht ausschließlich für
+Zertifizierung, Rot ausschließlich für knappe Plätze und Fehler.
+Details: [DESIGN.md](DESIGN.md), Bewegung: [docs/MOTION.md](docs/MOTION.md).
+Der Demo-Ursprung des Hero bleibt unter `/demo-hero08` (noindex).
 
 ## Barrierefreiheit
 

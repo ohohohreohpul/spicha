@@ -15,11 +15,24 @@ kann die Markierung entfallen. Widerspricht sie, wird der Text geändert.
 | Hygienekurs | „Lehrgang zur Erlangung der Sachkenntnis", ärztlich gezeichnet von Prof. Dr. med. Bernd Wüsten | Musterzertifikat | Rechtsgrundlage und aktuelle Ärztin/Arzt bestätigen |
 | Kosmetiker/in | „Sieben Einzelzertifikate" | Preisliste („รับประกาศ 7 ใบ") | Genaue Bezeichnung der sieben Zertifikate |
 
+## Änderungen aus dem Feedback 2026-08 — bitte mitbestätigen
+
+- **Preise überall „zzgl. 19 % MwSt." / „ยังไม่รวม VAT 19%"** (zuvor nur bei zwei Kursen).
+  Gilt die Netto-Angabe für *alle* Kurse, auch die Ausbildungen?
+- **Kurzkurse gelten jetzt als Weiterbildung mit Grundkenntnis-Voraussetzung** — inklusive
+  Office-Syndrom (dessen FAQ zuvor „keine Vorerfahrung nötig" sagte). Stimmt das für jede
+  Eintags-Fortbildung, oder gibt es Ausnahmen?
+- **Head Spa** ist als neuer Kurzkurs eingepflegt (349 €, 1 Tag — **Platzhalterwerte**).
+  Fehlen noch: finaler Preis, Dauer, BfD-Siegel ja/nein, eigenes Foto, erster Termin.
+- **Abschnitt 09 heißt jetzt „Von Uttaradit nach Deutschland" / „จากอุตรดิตถ์ สู่เยอรมัน"** —
+  den Originalwortlaut bitte gegenprüfen (Schreibweise อุตรดิตถ์ / เยอรมัน folgt dem
+  vorhandenen Sprachgebrauch der Seite, nicht dem Diktat).
+
 ## Betriebliche Angaben
 
 | Thema | Aktueller Stand | Zu klären |
 |---|---|---|
-| Preise | 269 € / 399 € / 550 € / 855 € / 899 € / 250 € + MwSt. | Aktuell? MwSt.-Behandlung je Kurs |
+| Preise | 269 € / 349 € / 399 € / 550 € / 855 € / 899 € / 250 € + MwSt. | Aktuell? MwSt.-Behandlung je Kurs |
 | Kursdauer | Klassische Massage und Fußpflege stehen als „mehrtägig" | Exakte Anzahl Kurstage |
 | Kapazität | Demo-Werte 8–14 Plätze | Reale Gruppengrößen je Kurs |
 | Termine | `src/data/sessions.ts` ist eine Demonstration | Durch die Google-Calendar-Anbindung ersetzen |

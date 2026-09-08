@@ -7,9 +7,9 @@ ist noch einzuholen.**
 
 | Datei | Quelle | Verwendung |
 |---|---|---|
-| `img/school-team.jpg` | IMG_2473 | Abschnitt 09, Schulleitung |
-| `img/founder-1983.jpg` | IMG_2478 | Abschnitt 09, Archivbild 1983 |
-| `img/evidence-poster.jpg` | IMG_2471 | Abschnitt 10, Belege |
+| `img/school-team.jpg` | IMG_2473 | Abschnitt „Schule", Schulleitung |
+| `img/founder-1983.jpg` | IMG_2478 | Abschnitt „Schule", Archivbild 1983 |
+| `img/evidence-poster.jpg` | IMG_2471 | Abschnitt „Belege" |
 
 ## Logo
 
@@ -60,11 +60,11 @@ Platzhalter, bis eigene Fotos aus dem Unterricht vorliegen.
 | Datei | Motiv |
 |---|---|
 | `img/body-map.jpg` | Körperfigur für den Kursfinder |
-| `img/t-office.jpg` | Office-Syndrom-Massage |
+| `img/t-office.jpg` | Office-Syndrom-Massage, plus Wegweiser-Persona „Ich arbeite schon im Studio" |
 | `img/t-cupping.jpg` | Schröpfen |
 | `img/t-facial.jpg` | Facial Lifting |
 | `img/t-foot.jpg` | Fußmassage und Spa |
-| `img/t-fusspflege.jpg` | Fußpflege |
+| `img/t-fusspflege.jpg` | Fußpflege, plus Wegweiser-Persona „Ich plane ein eigenes Studio" |
 
 ### Bildsprache
 
@@ -97,4 +97,5 @@ eines Zertifikats wird die freigegebene Vorlage der Schule montiert.
 Die Clips liegen als H.264 vor, auf 1600 px Breite skaliert, CRF 27, `+faststart`,
 ohne Tonspur (rund 0,4–0,6 MB je Clip). Die Startbilder (`poster-*.jpg`) sind das
 jeweils erste Bild des Clips und werden angezeigt, solange das Video lädt oder wenn
-Autoplay unterbunden ist.
+Autoplay unterbunden ist. `poster-02.jpg` zieht zusätzlich als Standbild der
+Wegweiser-Persona „Ich fange ganz neu an" mit.
