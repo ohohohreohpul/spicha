@@ -1,7 +1,5 @@
 import { CourseGuide } from '@/components/catalog/CourseGuide';
-import type { NextDates } from '@/components/catalog/CourseGrid';
 import { PersonaPanel } from '@/components/orientation/PersonaPanel';
-import { PathStrip } from '@/components/orientation/PathStrip';
 import { FadeIn, StaggerList } from '@/components/ui/fade-in';
 import { Button } from '@/components/ui/hero-08-utils/button';
 import { PROGRAMS } from '@/data/programs';
@@ -21,15 +19,7 @@ import { fill, type UiDictionary } from '@/i18n/ui';
  *
  * Visual language since the 2026-09 rebuild: calm cards, quiet labels.
  */
-export function Wegweiser({
-  nextDates,
-  t,
-  locale,
-}: {
-  nextDates: NextDates;
-  t: UiDictionary;
-  locale: Locale;
-}) {
+export function Wegweiser({ t, locale }: { t: UiDictionary; locale: Locale }) {
   return (
     <div>
       <FadeIn>
@@ -37,17 +27,15 @@ export function Wegweiser({
       </FadeIn>
       <StaggerList className="mt-6 grid gap-5 lg:grid-cols-3">
         {t.wegweiser.personas.map((persona) => (
-          <PersonaPanel key={persona.id} persona={persona} t={t} locale={locale} />
+          <PersonaPanel key={persona.id} persona={persona} locale={locale} />
         ))}
       </StaggerList>
-
-      <PathStrip t={t} />
 
       <div className="mt-16 sm:mt-20">
         <FadeIn>
           <p className="text-sm font-semibold text-teal">{t.wegweiser.guideTitle}</p>
         </FadeIn>
-        <CourseGuide nextDates={nextDates} t={t} locale={locale} />
+        <CourseGuide t={t} locale={locale} />
         <FadeIn className="mt-4">
           <a
             href={`#${SECTION_IDS.catalog}`}

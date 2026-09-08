@@ -74,42 +74,22 @@ function CourseCard({
           <h3 className="font-serif text-xl leading-tight tracking-tight transition-colors duration-150 group-hover:text-teal">
             {program.title[locale]}
           </h3>
-          {locale === 'de' ? (
-            <p className="thai mt-0.5 text-sm text-muted-foreground" lang="th">
-              {program.title.th}
-            </p>
-          ) : null}
-          <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
+          {/* One line of "what is this", one line of "can I take it + what
+              does it cost + when" — the full fact set lives in Termine and
+              the inquiry flow (density feedback 2026-09-08, Ro-studios
+              direction: one fact per surface). */}
+          <p className="mt-1.5 line-clamp-1 text-sm text-muted-foreground">
             {program.subtitle[locale]}
           </p>
 
-          <dl className="numeric mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-border pt-3 text-sm text-muted-foreground">
-            <div>
-              <dt className="sr-only">{t.nextCourse.time}</dt>
-              <dd>{program.durationLabel[locale]}</dd>
-            </div>
-            <div className="ml-auto text-right">
-              <dt className="sr-only">{t.nextCourse.price}</dt>
-              <dd className="font-semibold text-foreground">
-                {program.price} €
-                {program.priceNote ? (
-                  <span className="block text-xs font-normal text-muted-foreground">
-                    {program.priceNote[locale]}
-                  </span>
-                ) : null}
-              </dd>
-            </div>
-          </dl>
-
-          <div className="mt-3">
+          <div className="mt-4 flex items-center justify-between gap-3 border-t border-border pt-3">
             <LevelBadge program={program} t={t} />
+            <span className="numeric text-sm font-semibold">{program.price} €</span>
           </div>
 
-          <div className="mt-auto flex items-center justify-between gap-3 pt-4">
-            <p className="numeric text-xs text-teal">
-              {next
-                ? `${fill(t.catalog.nextTerm, { date: next.dateLabel })} · ${next.availabilityLabel}`
-                : t.catalog.noTerm}
+          <div className="mt-auto flex items-center justify-between gap-3 pt-3">
+            <p className="numeric text-xs text-muted-foreground">
+              {next ? fill(t.catalog.nextTerm, { date: next.dateLabel }) : t.catalog.noTerm}
             </p>
             <span className="inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-teal">
               {t.catalog.requestCourse}
@@ -172,9 +152,12 @@ export function CourseGrid({
         <h3 className="font-serif text-xl leading-tight tracking-tight sm:text-2xl">
           {group.title}
         </h3>
-        <p className="max-w-[52ch] text-sm leading-relaxed text-muted-foreground">
-          {group.description}
-        </p>
+        <div className="max-w-[52ch]">
+          <p className="text-sm leading-relaxed text-muted-foreground">{group.description}</p>
+          {/* VAT stated once per section, not on every card (density
+              feedback 2026-09-08). The Termine rows carry it per price. */}
+          <p className="mt-1 text-xs text-muted-foreground/80">{t.catalog.vatOnce}</p>
+        </div>
       </div>
 
       <StaggerList className="mt-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">

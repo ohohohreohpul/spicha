@@ -64,7 +64,7 @@ export function LocationFaq({
         <div className="mt-12">
           <p className="text-sm font-semibold text-teal">{t.contact.faq}</p>
           <div className="mt-4 border-t border-border">
-            {FAQS.map((entry) => (
+            {FAQS.slice(0, 6).map((entry) => (
               <details key={entry.q.de} className="group border-b border-border">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-4 text-base font-medium marker:hidden">
                   {entry.q[locale]}

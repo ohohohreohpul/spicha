@@ -25,9 +25,9 @@ export function LevelBadge({ program, t }: { program: Program; t: UiDictionary }
 }
 
 const FLAG_STYLE: Record<ProgramFlag, string> = {
-  einstieg: 'border-teal/40 bg-teal/10 text-teal-deep',
-  neu: 'border-aqua/50 bg-aqua/15 text-teal-deep',
-  beliebt: 'border-ink/25 bg-paper text-ink',
+  einstieg: 'text-teal-deep',
+  neu: 'text-teal-deep',
+  beliebt: 'text-ink',
 };
 
 /**
@@ -45,8 +45,10 @@ export function FlagRibbon({
   locale: Locale;
 }) {
   return (
+    // Solid paper chip: ribbons sit on photos and dark monogram tiles in the
+    // catalog, where translucent tints were illegible.
     <span
-      className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[0.6875rem] font-semibold uppercase tracking-[0.1em] ${FLAG_STYLE[flag]} ${
+      className={`inline-flex items-center gap-2 rounded-full border border-hairline/60 bg-paper/95 px-3 py-1 text-[0.6875rem] font-semibold uppercase tracking-[0.1em] shadow-sm ${FLAG_STYLE[flag]} ${
         locale === 'th' ? 'normal-case tracking-normal' : ''
       }`}
     >

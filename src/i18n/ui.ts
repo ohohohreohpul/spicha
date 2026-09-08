@@ -102,7 +102,7 @@ export const UI = {
         titleA: 'Die nächsten',
         titleAccent: 'Kurstage',
         titleB: '',
-        lead: 'Jeder Termin zeigt Datum, Zeit, Sprache, Gebühr und freie Plätze. Die Liste wird direkt aus dem Kalender der Schulleitung gepflegt.',
+        lead: 'Jeder Termin zeigt Datum, Zeit und Gebühr, und ob noch Plätze frei sind. Die Liste wird direkt aus dem Kalender der Schulleitung gepflegt.',
       },
       catalog: {
         index: '04',
@@ -288,6 +288,8 @@ export const UI = {
       requestCourse: 'Kurs anfragen',
       nextTerm: 'Ab {date}',
       noTerm: 'Termin auf Anfrage',
+      details: 'Details',
+      vatOnce: 'Alle Preise zzgl. 19 % MwSt.',
       guide: {
         kicker: 'Kurs-Wegweiser',
         title: 'Drei Fragen, ein passender Kurs',
@@ -604,7 +606,7 @@ export const UI = {
         titleA: 'วันเรียน',
         titleAccent: 'ที่กำลังมาถึง',
         titleB: '',
-        lead: 'ทุกรอบบอกครบ ทั้งวันที่ เวลา ภาษาที่สอน ค่าเรียน และที่นั่งว่าง อัปเดตตรงจากปฏิทินของครูผู้สอน',
+        lead: 'ทุกรอบบอกวันที่ เวลา ค่าเรียน และที่นั่งว่าง อัปเดตตรงจากปฏิทินของครูผู้สอน',
       },
       catalog: {
         index: '04',
@@ -787,6 +789,8 @@ export const UI = {
       requestCourse: 'สอบถามหลักสูตรนี้',
       nextTerm: 'เริ่ม {date}',
       noTerm: 'สอบถามรอบเรียนได้เลย',
+      details: 'ดูรายละเอียด',
+      vatOnce: 'ราคาทั้งหมดยังไม่รวม VAT 19%',
       guide: {
         kicker: 'ตัวช่วยเลือกหลักสูตร',
         title: 'ตอบ 3 คำถาม เจอหลักสูตรที่ใช่',

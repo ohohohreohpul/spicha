@@ -1,9 +1,8 @@
 import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
-import { FlagRibbon, LevelBadge } from '@/components/catalog/ProgramBadges';
 import { FadeInLi } from '@/components/ui/fade-in';
 import { PROGRAM_BY_ID } from '@/data/programs';
-import { SECTION_IDS, type Locale } from '@/i18n/config';
+import type { Locale } from '@/i18n/config';
 import type { UiDictionary } from '@/i18n/ui';
 
 /** Panel photography: real school material, keyed by persona id. */
@@ -22,11 +21,9 @@ type Persona = UiDictionary['wegweiser']['personas'][number];
  */
 export function PersonaPanel({
   persona,
-  t,
   locale,
 }: {
   persona: Persona;
-  t: UiDictionary;
   locale: Locale;
 }) {
   const image = PERSONA_IMAGE[persona.id];
@@ -58,35 +55,29 @@ export function PersonaPanel({
               if (!program) return null;
               return (
                 <li key={entry.id}>
+                  {/* One decisive fact per surface (client feedback
+                      2026-09-08): the persona row names the course and the
+                      entry price — duration, dates and badges live where the
+                      decision happens, in catalog and Termine. */}
                   <a
-                    href={`#${SECTION_IDS.contact}?kurs=${program.slug}`}
-                    className="group -mx-2 block rounded-md px-2 py-2.5 transition-colors duration-150 hover:bg-muted"
+                    href={`#kurs-${program.slug}`}
+                    className="group -mx-2 flex items-baseline justify-between gap-3 rounded-md px-2 py-2.5 transition-colors duration-150 hover:bg-muted"
                   >
-                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5">
-                      <span className="inline-flex items-center gap-1.5 font-medium transition-colors duration-150 group-hover:text-teal">
-                        {program.title[locale]}
-                        <ArrowRight
-                          aria-hidden
-                          className="size-3.5 opacity-0 transition-opacity duration-150 group-hover:opacity-100"
-                        />
-                      </span>
-                      {program.flag ? <FlagRibbon flag={program.flag} t={t} locale={locale} /> : null}
+                    <span className="inline-flex items-center gap-1.5 font-medium transition-colors duration-150 group-hover:text-teal">
+                      {program.title[locale]}
                       {entry.tag ? (
-                        <span className="text-xs text-muted-foreground">{entry.tag}</span>
+                        <span className="text-xs font-normal text-muted-foreground">
+                          {entry.tag}
+                        </span>
                       ) : null}
-                    </div>
-                    <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
-                      <span className="numeric">{program.durationLabel[locale]}</span>
-                      <span className="numeric font-semibold text-foreground">
-                        {program.price} €
-                        {program.priceNote ? (
-                          <span className="ml-1 font-normal text-muted-foreground">
-                            {program.priceNote[locale]}
-                          </span>
-                        ) : null}
-                      </span>
-                      <LevelBadge program={program} t={t} />
-                    </div>
+                      <ArrowRight
+                        aria-hidden
+                        className="size-3.5 opacity-0 transition-opacity duration-150 group-hover:opacity-100"
+                      />
+                    </span>
+                    <span className="numeric shrink-0 text-sm font-semibold">
+                      {program.price} €
+                    </span>
                   </a>
                 </li>
               );

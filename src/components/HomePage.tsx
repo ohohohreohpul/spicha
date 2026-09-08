@@ -70,7 +70,7 @@ export function HomePage({ locale }: { locale: Locale }) {
             title={joinTitle(t.sections.orientation)}
             lead={t.sections.orientation.lead}
           />
-          <Wegweiser nextDates={nextDates} t={t} locale={locale} />
+          <Wegweiser t={t} locale={locale} />
         </Section>
 
         <Section id={SECTION_IDS.catalog} labelledBy="kurse-titel">

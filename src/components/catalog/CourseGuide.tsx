@@ -2,12 +2,10 @@
 
 import { useMemo, useState } from 'react';
 import { FlagRibbon, LevelBadge } from '@/components/catalog/ProgramBadges';
-import type { NextDates } from '@/components/catalog/CourseGrid';
 import { FadeIn } from '@/components/ui/fade-in';
-import { BODY_AREA_BY_ID } from '@/data/body-areas';
 import { PROGRAMS } from '@/data/programs';
-import { SECTION_IDS, type Locale } from '@/i18n/config';
-import { fill, type UiDictionary } from '@/i18n/ui';
+import type { Locale } from '@/i18n/config';
+import type { UiDictionary } from '@/i18n/ui';
 import type { Program, ProgramCategory } from '@/lib/types';
 
 /**
@@ -35,11 +33,9 @@ function flagRank(program: Program): number {
 }
 
 export function CourseGuide({
-  nextDates,
   t,
   locale,
 }: {
-  nextDates: NextDates;
   t: UiDictionary;
   locale: Locale;
 }) {
@@ -122,54 +118,35 @@ export function CourseGuide({
             ) : null}
 
             <ul className="mt-6 space-y-3">
-              {matches.map((program) => {
-                const areas = program.bodyAreas
-                  .map((id) => BODY_AREA_BY_ID.get(id)?.label[locale])
-                  .filter(Boolean)
-                  .join(' · ');
-                const next = nextDates[program.id];
-                return (
-                  <li key={program.id}>
-                    <a
-                      href={`#${SECTION_IDS.contact}?kurs=${program.slug}`}
-                      className="group block rounded-md border border-border bg-background px-5 py-4 transition-colors duration-150 hover:border-teal"
-                    >
-                      <div className="flex flex-wrap items-center gap-2">
+              {matches.map((program) => (
+                <li key={program.id}>
+                  {/* One job per surface: the guide answers "which course can
+                      I take" — name, level, recommendation, price. Dates and
+                      detail live in Katalog and Termine. */}
+                  <a
+                    href={`#kurs-${program.slug}`}
+                    className="group flex items-center justify-between gap-4 rounded-md border border-border bg-background px-5 py-4 transition-colors duration-150 hover:border-teal"
+                  >
+                    <span className="min-w-0">
+                      <span className="flex flex-wrap items-center gap-2">
                         <LevelBadge program={program} t={t} />
                         {program.flag ? (
                           <FlagRibbon flag={program.flag} t={t} locale={locale} />
                         ) : null}
-                      </div>
-                      <div className="mt-2.5 flex items-baseline justify-between gap-4">
-                        <span className="font-serif text-xl leading-tight tracking-tight transition-colors duration-150 group-hover:text-teal">
-                          {program.title[locale]}
-                        </span>
-                        <span className="numeric shrink-0 text-right text-sm font-semibold">
-                          {program.price} €
-                          {program.priceNote ? (
-                            <span className="block text-xs font-normal text-muted-foreground">
-                              {program.priceNote[locale]}
-                            </span>
-                          ) : null}
-                        </span>
-                      </div>
-                      <p className="mt-1 text-sm text-muted-foreground">
-                        {program.durationLabel[locale]}
-                        {areas ? ` · ${areas}` : ''}
-                      </p>
-                      {next ? (
-                        <p className="numeric mt-1.5 text-xs text-teal">
-                          {fill(t.catalog.nextTerm, { date: next.dateLabel })} ·{' '}
-                          {next.availabilityLabel}
-                        </p>
-                      ) : null}
-                      <p className="mt-2 text-sm font-semibold text-teal underline underline-offset-4">
-                        {guide.request}
-                      </p>
-                    </a>
-                  </li>
-                );
-              })}
+                      </span>
+                      <span className="mt-1.5 block truncate font-serif text-xl leading-tight tracking-tight transition-colors duration-150 group-hover:text-teal">
+                        {program.title[locale]}
+                      </span>
+                    </span>
+                    <span className="numeric shrink-0 text-right">
+                      <span className="block text-base font-semibold">{program.price} €</span>
+                      <span className="mt-0.5 block text-xs font-semibold text-teal underline underline-offset-4">
+                        {t.catalog.details}
+                      </span>
+                    </span>
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

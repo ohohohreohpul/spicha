@@ -1,7 +1,7 @@
 import { AvailabilityBadge } from '@/components/ui/Availability';
 import { Button } from '@/components/ui/hero-08-utils/button';
 import type { Locale } from '@/i18n/config';
-import { fill, type UiDictionary } from '@/i18n/ui';
+import type { UiDictionary } from '@/i18n/ui';
 import { isBookable } from '@/lib/schedule';
 import type { SessionView } from '@/lib/types';
 
@@ -57,16 +57,16 @@ export function ScheduleRow({
           ) : null}
         </div>
 
-        {/* Separator ticks hide under sm: the wrapped meta row would orphan a
-            tick at the end of a line — gaps alone carry the mobile rhythm. */}
-        <dl className="numeric mt-3 flex flex-wrap items-center gap-x-5 gap-y-1.5 text-sm text-muted-foreground">
+        {/* One meta line: date and time. Weekday name carries the calendar
+            reading; no separators, no language tick for the bilingual default
+            (density feedback 2026-09-08). */}
+        <dl className="numeric mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
           <div className="flex gap-1.5">
             <dt className="sr-only">{t.nextCourse.date}</dt>
             <dd>
               {session.weekdayLabel}, {session.dateLabel}
             </dd>
           </div>
-          <span aria-hidden className="hidden h-3 w-px bg-border sm:block" />
           <div>
             <dt className="sr-only">{t.nextCourse.time}</dt>
             <dd>
@@ -74,13 +74,10 @@ export function ScheduleRow({
             </dd>
           </div>
           {singleLanguage ? (
-            <>
-              <span aria-hidden className="hidden h-3 w-px bg-border sm:block" />
-              <div>
-                <dt className="sr-only">{t.nextCourse.language}</dt>
-                <dd className={locale === 'th' ? 'thai' : undefined}>{session.languageLabel}</dd>
-              </div>
-            </>
+            <div>
+              <dt className="sr-only">{t.nextCourse.language}</dt>
+              <dd className={locale === 'th' ? 'thai' : undefined}>{session.languageLabel}</dd>
+            </div>
           ) : null}
         </dl>
 
@@ -92,23 +89,17 @@ export function ScheduleRow({
       </div>
 
       <div className="col-start-2 flex flex-col items-start gap-2 md:col-start-3 md:items-end md:self-center">
-        <p className="numeric text-sm font-semibold">{session.priceLabel}</p>
-        {!cancelled && session.capacity > 0 ? (
-          <p className="numeric text-xs text-muted-foreground">
-            {fill(t.schedule.placesOf, {
-              free: session.placesRemaining,
-              total: session.capacity,
-            })}
-          </p>
-        ) : null}
         {cancelled ? (
           <span className="text-sm text-muted-foreground">{t.schedule.noSeat}</span>
         ) : (
-          <Button asChild variant="outline" size="sm">
-            <a href={`#anfrage?kurs=${session.programSlug}&termin=${session.id}`}>
-              {isBookable(session.status) ? t.schedule.request : t.schedule.waitlist}
-            </a>
-          </Button>
+          <>
+            <p className="numeric text-sm font-semibold">{session.priceLabel}</p>
+            <Button asChild variant="outline" size="sm">
+              <a href={`#anfrage?kurs=${session.programSlug}&termin=${session.id}`}>
+                {isBookable(session.status) ? t.schedule.request : t.schedule.waitlist}
+              </a>
+            </Button>
+          </>
         )}
       </div>
     </article>
