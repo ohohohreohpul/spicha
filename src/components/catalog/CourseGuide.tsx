@@ -22,7 +22,7 @@ const CATEGORY_BY_ZIEL: Record<string, ProgramCategory> = {
   betrieb: 'betrieb',
 };
 
-const MAX_RESULTS = 4;
+const MAX_RESULTS = 2;
 
 /** Stated recommendations lead the shortlist. */
 function flagRank(program: Program): number {
@@ -41,6 +41,7 @@ export function CourseGuide({
 }) {
   const [answers, setAnswers] = useState<Readonly<Record<string, string>>>({});
   const guide = t.catalog.guide;
+  const complete = guide.steps.every((step) => answers[step.id]);
 
   const { matches, dropHint } = useMemo(() => {
     const category = answers.ziel ? CATEGORY_BY_ZIEL[answers.ziel] : undefined;
@@ -111,20 +112,29 @@ export function CourseGuide({
           <div aria-live="polite" className="border-t border-border pt-6 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
             <p className="text-sm font-semibold text-teal">{guide.resultLabel}</p>
 
-            {dropHint ? (
+            {complete && dropHint ? (
               <p className="mt-4 border-l-2 border-gold/60 pl-3 text-sm leading-relaxed text-muted-foreground">
                 {guide.basisHint}
               </p>
             ) : null}
 
+            {!complete ? (
+              <p className="mt-6 max-w-[38ch] text-lg leading-relaxed text-muted-foreground">
+                {locale === 'de' ? 'Erzählen Sie uns kurz von Ihrem Ziel. Ihre Empfehlung erscheint, sobald Sie alle drei Fragen beantwortet haben.' : 'บอกเป้าหมายของคุณสักนิด เมื่อตอบครบสามข้อ เราจะแสดงหลักสูตรที่เหมาะกับคุณ'}
+              </p>
+            ) : matches.length === 0 ? (
+              <p className="mt-6 text-sm leading-relaxed">
+                {locale === 'de' ? 'Für diese Auswahl gibt es keinen passenden Kurs. Ändern Sie eine Antwort oder lassen Sie sich persönlich beraten.' : 'ยังไม่มีหลักสูตรที่ตรงกับตัวเลือกนี้ ลองเปลี่ยนคำตอบ หรือปรึกษาครูโดยตรง'}
+              </p>
+            ) : null}
             <ul className="mt-6 space-y-3">
-              {matches.map((program) => (
+              {(complete ? matches : []).map((program) => (
                 <li key={program.id}>
                   {/* One job per surface: the guide answers "which course can
                       I take" — name, level, recommendation, price. Dates and
                       detail live in Katalog and Termine. */}
                   <a
-                    href={`#kurs-${program.slug}`}
+                    href={`#anfrage?kurs=${program.slug}`}
                     className="group flex items-center justify-between gap-4 rounded-md border border-border bg-background px-5 py-4 transition-colors duration-150 hover:border-teal"
                   >
                     <span className="min-w-0">
@@ -141,7 +151,7 @@ export function CourseGuide({
                     <span className="numeric shrink-0 text-right">
                       <span className="block text-base font-semibold">{program.price} €</span>
                       <span className="mt-0.5 block text-xs font-semibold text-teal underline underline-offset-4">
-                        {t.catalog.details}
+                        {t.catalog.requestCourse}
                       </span>
                     </span>
                   </a>

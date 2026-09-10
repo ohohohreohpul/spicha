@@ -14,22 +14,12 @@ import { TrustStrip } from '@/components/trust/TrustStrip';
 import { Section, SectionHead, joinTitle } from '@/components/ui/section-head';
 import { SECTION_IDS, type Locale } from '@/i18n/config';
 import { getUi } from '@/i18n/ui';
-import { getNextSession, getSchedule } from '@/lib/schedule';
+import { getSchedule } from '@/lib/schedule';
 
-/**
- * The whole one-page experience, rendered once per language.
- * Section anchors are identical in both, so links survive a language switch.
- *
- * 2026-09 rebuild: calm layout, hero-08 language, film hero on top.
- * Course discovery is consolidated to exactly two sections (client feedback
- * 2026-09-08): Wegweiser (orientation + guide) → Katalog (full record) → then
- * Termine. The body-map finder and the featured-course deep dive stay in the
- * repo, unmounted (`components/finder/`, `components/featured/`).
- */
+/** Story first, followed by guided discovery and a catalog with optional dates. */
 export function HomePage({ locale }: { locale: Locale }) {
   const t = getUi(locale);
   const schedule = getSchedule(locale);
-  const nextSession = getNextSession(schedule);
 
   // Catalog cards show the next bookable appearance per course — first
   // non-cancelled entry wins, the payload arrives chronologically sorted.
@@ -51,47 +41,9 @@ export function HomePage({ locale }: { locale: Locale }) {
       <main id="inhalt">
         <div id="top" />
 
-        {/* Restored film hero (2026-09): "The Working Hand" returns on top of
-            the calm rebuild — everything below it stays quiet. */}
-        <Hero
-          nextSession={nextSession}
-          syncedAtLabel={schedule.syncedAtLabel}
-          stale={schedule.stale}
-          t={t}
-          locale={locale}
-        />
+        <Hero t={t} locale={locale} />
 
         <TrustStrip t={t} locale={locale} />
-
-        <Section id={SECTION_IDS.orientation} labelledBy="wegweiser-titel">
-          <SectionHead
-            id="wegweiser-titel"
-            label={t.sections.orientation.kicker}
-            title={joinTitle(t.sections.orientation)}
-            lead={t.sections.orientation.lead}
-          />
-          <Wegweiser t={t} locale={locale} />
-        </Section>
-
-        <Section id={SECTION_IDS.catalog} labelledBy="kurse-titel">
-          <SectionHead
-            id="kurse-titel"
-            label={t.sections.catalog.kicker}
-            title={joinTitle(t.sections.catalog)}
-            lead={t.sections.catalog.lead}
-          />
-          <CourseGrid nextDates={nextDates} t={t} locale={locale} />
-        </Section>
-
-        <Section id={SECTION_IDS.schedule} labelledBy="termine-titel" className="bg-muted/60">
-          <SectionHead
-            id="termine-titel"
-            label={t.sections.schedule.kicker}
-            title={joinTitle(t.sections.schedule)}
-            lead={t.sections.schedule.lead}
-          />
-          <Schedule initial={schedule} t={t} locale={locale} />
-        </Section>
 
         <Section id={SECTION_IDS.learn} labelledBy="lernen-titel">
           <SectionHead
@@ -132,6 +84,35 @@ export function HomePage({ locale }: { locale: Locale }) {
           />
           <Evidence t={t} />
         </Section>
+
+        <Section id={SECTION_IDS.orientation} labelledBy="wegweiser-titel">
+          <SectionHead
+            id="wegweiser-titel"
+            label={t.sections.orientation.kicker}
+            title={joinTitle(t.sections.orientation)}
+            lead={t.sections.orientation.lead}
+          />
+          <Wegweiser t={t} locale={locale} />
+        </Section>
+
+        <Section id={SECTION_IDS.catalog} labelledBy="kurse-titel">
+          <SectionHead
+            id="kurse-titel"
+            label={t.sections.catalog.kicker}
+            title={joinTitle(t.sections.catalog)}
+            lead={t.sections.catalog.lead}
+          />
+          <CourseGrid nextDates={nextDates} t={t} locale={locale} />
+          <details id={SECTION_IDS.schedule} className="group mt-12 scroll-mt-24 border-y border-border py-6">
+            <summary className="cursor-pointer text-lg font-semibold text-teal">
+              {t.hero.ctaSecondary}
+            </summary>
+            <div className="pt-6">
+              <Schedule initial={schedule} t={t} locale={locale} />
+            </div>
+          </details>
+        </Section>
+
 
         <Section id={SECTION_IDS.contact} labelledBy="anfrage-titel">
           <SectionHead

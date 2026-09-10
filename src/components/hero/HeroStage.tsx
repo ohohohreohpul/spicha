@@ -2,9 +2,12 @@
 
 import { useEffect, useRef, type ReactNode } from 'react';
 import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
 import { MOTION_OK } from '@/lib/motion';
 import { whenVisible } from '@/lib/when-visible';
+
+gsap.registerPlugin(ScrollTrigger, SplitText);
 
 const q = (root: HTMLElement, name: string) =>
   root.querySelector<HTMLElement>(`[data-hero="${name}"]`);

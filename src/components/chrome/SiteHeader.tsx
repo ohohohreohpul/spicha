@@ -18,7 +18,7 @@ export function SiteHeader({ t, locale }: { t: UiDictionary; locale: Locale }) {
   const mobileNavRef = useRef<HTMLDivElement>(null);
 
   const nav = [
-    { href: `#${SECTION_IDS.orientation}`, label: t.nav.finder },
+    { href: `#${SECTION_IDS.learn}`, label: t.nav.learn },
     { href: `#${SECTION_IDS.catalog}`, label: t.nav.catalog },
     { href: `#${SECTION_IDS.schedule}`, label: t.nav.schedule },
     { href: `#${SECTION_IDS.school}`, label: t.nav.school },

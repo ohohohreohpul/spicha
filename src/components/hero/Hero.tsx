@@ -1,11 +1,9 @@
 import { HeroStage } from '@/components/hero/HeroStage';
 import { HeroVideoSequence, type Clip } from '@/components/hero/HeroVideoSequence';
 import { Magnetic } from '@/components/motion/Magnetic';
-import { NextCourseModule } from '@/components/hero/NextCourseModule';
 import { SCHOOL } from '@/data/school';
 import { SECTION_IDS, type Locale } from '@/i18n/config';
 import type { UiDictionary } from '@/i18n/ui';
-import type { SessionView } from '@/lib/types';
 
 const CLIP_ALT: Record<Locale, readonly string[]> = {
   de: [
@@ -47,15 +45,9 @@ function clips(locale: Locale): readonly Clip[] {
  * the contrast rather than a side-by-side split.
  */
 export function Hero({
-  nextSession,
-  syncedAtLabel,
-  stale,
   t,
   locale,
 }: {
-  nextSession?: SessionView;
-  syncedAtLabel: string;
-  stale: boolean;
   t: UiDictionary;
   locale: Locale;
 }) {
@@ -127,7 +119,7 @@ export function Hero({
               <Magnetic target="[data-magnet]">
                 <a
                   data-hero="cta"
-                  href={`#${SECTION_IDS.finder}`}
+                  href={`#${SECTION_IDS.orientation}`}
                   className="group inline-flex min-h-12 items-center rounded-full bg-porcelain px-7 text-sm font-semibold text-ink transition-[background-color,transform] duration-[var(--dur-1)] ease-[var(--ease-out-quad)] hover:bg-white active:scale-[0.98]"
                 >
                   <span data-magnet className="inline-flex items-center gap-3">
@@ -143,23 +135,21 @@ export function Hero({
               </Magnetic>
               <a
                 data-hero="cta"
-                href={`#${SECTION_IDS.schedule}`}
+                href={`#${SECTION_IDS.learn}`}
                 className="inline-flex min-h-12 items-center rounded-full border border-porcelain/35 px-7 text-sm font-semibold text-porcelain transition-[background-color,border-color,transform] duration-150 hover:border-porcelain hover:bg-porcelain/10 active:scale-[0.98]"
               >
-                {t.hero.ctaSecondary}
+                {t.nav.learn}
               </a>
             </div>
           </div>
 
-          {/* Live module as a glass panel on the film. */}
-          <div data-hero="panel">
-            <NextCourseModule
-              session={nextSession}
-              syncedAtLabel={syncedAtLabel}
-              stale={stale}
-              t={t}
-              onFilm
-            />
+          <div data-hero="panel" className="rounded-lg border border-porcelain/20 bg-porcelain/10 p-7 text-porcelain backdrop-blur-md">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-aqua">{t.hero.promiseLabel}</p>
+            <h2 className="mt-4 font-serif text-3xl leading-tight">{t.hero.promiseTitle}</h2>
+            <p className="mt-4 text-sm leading-relaxed text-porcelain/75">{t.hero.promiseText}</p>
+            <a href={`#${SECTION_IDS.school}`} className="mt-6 inline-flex min-h-11 items-center gap-3 text-sm font-semibold hover:text-aqua">
+              {t.nav.school} <span aria-hidden>→</span>
+            </a>
           </div>
         </div>
 

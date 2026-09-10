@@ -1,40 +1,14 @@
 import { CourseGuide } from '@/components/catalog/CourseGuide';
-import { PersonaPanel } from '@/components/orientation/PersonaPanel';
-import { FadeIn, StaggerList } from '@/components/ui/fade-in';
+import { FadeIn } from '@/components/ui/fade-in';
 import { Button } from '@/components/ui/hero-08-utils/button';
 import { PROGRAMS } from '@/data/programs';
 import { SECTION_IDS, type Locale } from '@/i18n/config';
 import { fill, type UiDictionary } from '@/i18n/ui';
 
-/**
- * The orientation section — the page's answer to "I have no idea what to
- * study" (client feedback 2026-09). Three layers, in order:
- *
- * 1. Persona panels: three life situations, each ending in a named first
- *    course with price, duration and a direct inquiry link.
- * 2. The learning path: foundation → techniques → studio, so the
- *    prerequisite structure is visible instead of hidden in a FAQ.
- * 3. The three-question guide for anyone still undecided, closing with a
- *    personal-recommendation band that routes the remainder to the form.
- *
- * Visual language since the 2026-09 rebuild: calm cards, quiet labels.
- */
 export function Wegweiser({ t, locale }: { t: UiDictionary; locale: Locale }) {
   return (
     <div>
-      <FadeIn>
-        <p className="text-sm font-semibold text-teal">{t.wegweiser.personaKicker}</p>
-      </FadeIn>
-      <StaggerList className="mt-6 grid gap-5 lg:grid-cols-3">
-        {t.wegweiser.personas.map((persona) => (
-          <PersonaPanel key={persona.id} persona={persona} locale={locale} />
-        ))}
-      </StaggerList>
-
-      <div className="mt-16 sm:mt-20">
-        <FadeIn>
-          <p className="text-sm font-semibold text-teal">{t.wegweiser.guideTitle}</p>
-        </FadeIn>
+      <div id={SECTION_IDS.finder} className="scroll-mt-24">
         <CourseGuide t={t} locale={locale} />
         <FadeIn className="mt-4">
           <a
